@@ -9,9 +9,11 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "axis-api": "github:gobelins-axis/axis-api",
     "core-js": "^3.25.3",
     "nuxt": "^2.15.8",
     "three": "^0.145.0",
+    "tweakpane": "^3.1.0",
     "vue": "^2.7.10",
     "vue-server-renderer": "^2.7.10",
     "vue-template-compiler": "^2.7.10"
