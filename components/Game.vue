@@ -1,14 +1,11 @@
 <template>
   <div>
     <div
-      class="baby-container absolute left-1/2 top-1/2 z-[1] pointer-events-all"
-      style="width: 100%; height: 100%; transform: translate3d(-50%, -50%, 0)"
+      class="canvas-container"
     >
       <canvas
         id="_canvas1"
         ref="canvas1"
-        class="absolute"
-        style="width: 100vw; height: 100vh"
       ></canvas>
     </div>
 
@@ -40,6 +37,19 @@ export default {
 </script>
 
 <style>
+.canvas-container {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate3d(-50%, -50%, 0);
+  z-index: 1;
+  pointer-events: all;
+  width: 100%; height: 100%;
+}
+canvas {
+  position: absolute;
+  width: 100vw; height: 100vh;
+}
 .loader {
   border: 5px solid #f3f3f3;
   border-top: 5px solid #000000;
