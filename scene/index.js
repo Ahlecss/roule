@@ -8,6 +8,7 @@ import {
 import { Camera } from './Camera.js'
 import { World } from './world/index.js'
 import { Beat } from './Beat.js'
+import { Users } from './user/index.js'
 
 export class Game {
   constructor() {
@@ -22,6 +23,7 @@ export class Game {
     this.setBeat()
     this.setWorld()
     this.setEvents()
+    this.setUser()
     this.update()
   }
 
@@ -74,9 +76,16 @@ export class Game {
         window.innerWidth,
         window.innerHeight
       )
+      this.camera.resize()
     })
 
-    this.camera.resize()
+  }
+
+  setUser() {
+    this.user = new Users({
+      beat: this.beat,
+      clock: this.clock
+    })
   }
 
   update() {

@@ -7,13 +7,13 @@
   
 <script>
 import Axis from "axis-api";
-  
+
 export default {
     data() {
         return {
-            player1Position : { x: 0, y: 0 },
-            player2Position : { x: 0, y: 0 },
-            gamepadEmulator : Axis.createGamepadEmulator(0)
+            player1Position: { x: 0, y: 0 },
+            player2Position: { x: 0, y: 0 },
+            gamepadEmulator: Axis.createGamepadEmulator(0)
         }
     },
     mounted() {
@@ -97,7 +97,7 @@ export default {
             this.player2Position = { x: e.position.x, y: e.position.y }
         },
         buttonChangeColor(button, color) {
-            console.log(button.key+button.id+" changed color to "+color)
+            // console.log(button.key+button.id+" changed color to "+color)
             // button.setLedColor(color);     
         }
     },

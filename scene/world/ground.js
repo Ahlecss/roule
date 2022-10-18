@@ -10,13 +10,9 @@ export class Ground {
         this.beat = options.beat
         this.container = new Object3D()
         this.radius = 4
-        this.height = 7
+        this.height = 20
         this.setGround()
-<<<<<<< HEAD
-=======
-        // hello this is ground
-        // yes it's ground
->>>>>>> 59e14ff94ab2857a3ea55de4ef9e4b384df84cfc
+        this.container.position.z = -5
     }
 
     setGround() {
