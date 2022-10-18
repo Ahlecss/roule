@@ -1,10 +1,12 @@
 <template>
-  <Events/>
-  <HUD/>
+  <div class="interface">
+    <Events/>
+    <HUD/>
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'IndexPage'
+  name: 'Interface'
 }
 </script>
