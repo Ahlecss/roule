@@ -26,11 +26,9 @@ export default class App {
     this.setConfig()
     this.setRenderer()
     this.setCamera()
-    if (this.elementApp.id === '_canvas1') {
-      this.setWorld()
-    } else {
-      this.setBackgroundShader()
-    }
+    this.setWorld()
+    console.log('hrerejs')
+
   }
   setCanvas(canvas = this.renderer?.canvas) {
     this.canvas = canvas
@@ -69,8 +67,6 @@ export default class App {
     this.time.on('tick', () => {
       this.debug && this.fpsGraph.begin()
 
-      this.camera.camera.controls.update()
-
       this.renderer.render(this.scene, this.camera.camera)
 
       this.debug && this.fpsGraph.end()
@@ -97,8 +93,6 @@ export default class App {
     })
     // Add camera to scene
     this.scene.add(this.camera.container)
-
-    this.camera.camera.controls.saveState()
   }
   setWorld() {
     // Create world instance
@@ -109,8 +103,6 @@ export default class App {
     })
     // Add world to scene
     this.scene.add(this.world.container)
-
-    this.camera.camera.add(this.world.light.container)
   }
 
 

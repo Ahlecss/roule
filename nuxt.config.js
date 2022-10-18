@@ -41,5 +41,23 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-  }
+    loaders: {
+      vue: {
+        prettify: false,
+      },
+    },
+    // transpile: ['three'],
+    extend(config) {
+      config.module.rules.push({
+        test: /\.(glsl|vs|fs|frag|vert)$/,
+        exclude: /node_modules/,
+        use: ['raw-loader', 'glslify-loader'],
+      })
+      config.module.rules.push({
+        test: /\.(fbx|glb|obj|3ds|gltf|tif)$/,
+        exclude: /node_modules/,
+        use: ['file-loader'],
+      })
+    },
+  },
 }

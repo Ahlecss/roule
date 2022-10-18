@@ -14,7 +14,6 @@ export default class Camera {
 
     this.setCamera()
     this.setPosition()
-    this.setOrbitControls()
 
     if (this.debug) {
       this.debugFolder = this.debug.addFolder({
