@@ -9,6 +9,7 @@ import { Camera } from './Camera.js'
 import { World } from './world/index.js'
 import { Beat } from './Beat.js'
 import { Users } from './user/index.js'
+import { GameManager } from './GameManager.js'
 
 export class Game {
   constructor() {
@@ -24,6 +25,7 @@ export class Game {
     this.setWorld()
     this.setEvents()
     this.setUser()
+    this.setGameManager()
     this.update()
   }
 
@@ -70,6 +72,14 @@ export class Game {
     })
   }
 
+  setGameManager() {
+    this.GameManager = new GameManager({
+      world: this.world,
+      clock: this.clock,
+      camera: this.camera
+    })
+  }
+
   setEvents() {
     window.addEventListener('resize', () => {
       this.renderer.setSize(
@@ -90,7 +100,7 @@ export class Game {
 
   update() {
     requestAnimationFrame(this.update.bind(this))
-    let delta = this.clock.getDelta()
+    let delta = this.clock.getDelta() * this.GameManager.speed
     this.world.update(delta)
     this.beat.update()
     this.renderer.render(this.scene, this.camera.camera)

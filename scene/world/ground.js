@@ -5,16 +5,22 @@ import {
     Object3D
 } from "three"
 
+import { SpriteElement } from './SpriteElement.js'
+
 export class Ground {
     constructor(options) {
         this.beat = options.beat
         this.container = new Object3D()
         this.radius = 4
         this.height = 20
-        this.setGround()
+        this.sprites = []
+        this.init()
         this.container.position.z = -5
     }
-
+    init() {
+        this.setGround()
+        this.initEvents()
+    }
     setGround() {
         this.ground = new Mesh(
             new CylinderGeometry(this.radius, this.radius, this.height, 64),
@@ -54,6 +60,30 @@ export class Ground {
         this.container.add(this.ground)
         this.container.rotateZ(Math.PI / 2)
         this.container.position.y = -this.radius
+    }
+    initEvents() {
+        document.addEventListener('keydown', (e) => {
+            console.log(e)
+            if (e.code === 'KeyD') {
+                this.setSprite('player1')
+            }
+            else if (e.code === 'KeyF') {
+                this.setSprite('player2')
+            }
+        })
+    }
+    setSprite(player) {
+        const sprite = new SpriteElement({
+            beat: this.beat,
+            player
+        })
+        this.sprites.push(sprite)
+        this.container.add(sprite.container)
+        setTimeout(() => {
+            console.log('ici')
+            this.sprites.pop()
+            this.container.remove(sprite.container)
+        }, 500)
     }
 
     update(delta) {
