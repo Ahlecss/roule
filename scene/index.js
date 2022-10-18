@@ -5,7 +5,7 @@ import {
   WebGLRenderer,
 } from 'three'
 
-import { Camera } from './camera.js'
+import { Camera } from './Camera.js'
 import { World } from './world.js'
 import { Beat } from './beat.js'
 
@@ -14,6 +14,7 @@ export class Game {
   }
 
   init(options) {
+    console.log('init game')
     this.canvas = options.canvas
     this.setRenderer()
     this.setCamera()

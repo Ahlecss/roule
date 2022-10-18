@@ -4,18 +4,12 @@
             <canvas id="_canvas" ref="canvas"></canvas>
         </div>
 
-        <div class="loader"></div>
     </div>
 </template>
 
 <script>
 
 export default {
-    data() {
-        return {
-            isLoading: false,
-        }
-    },
 
     mounted() {
         this.$game.init({
