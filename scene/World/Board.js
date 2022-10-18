@@ -3,9 +3,9 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 let boardURL = require('../../assets/models/board.glb')
 
 export class Board {
-  constructor() {
+  constructor(options) {
     // Options
-
+    this.beat = options.beat
     // Set up
     this.container = new Object3D()
     this.container.name = 'Board'
@@ -49,17 +49,11 @@ export class Board {
       return n1 * (x -= 2.625 / d1) * x + 0.984375;
     }
   }
-  setMovement() {
-    this.time.on('tick', () => {
-      this.board.children[0].rotation.y -= 0.01 * this.time.delta
-      this.board.children[3].rotation.y += 0.01 * this.time.delta
-      if (this.board.position.y > 3) {
-        this.board.position.y -= this.easeInBounce(this.time.delta / 1000)
-      } else if (this.board.position.y < -1) {
-        this.board.position.y += this.easeInBounce(this.time.delta / 1000)
-        console.log(this.easeInBounce(this.time.delta / 1000))
+  update(delta) {
+    // this.board.children[0].rotation.y -= 0.01 * delta
+    // this.board.children[3].rotation.y += 0.01 * delta
 
-      }
-    })
+    this.container.position.y = Math.sin(this.beat.getBeat() * 2 * Math.PI)
   }
+
 }

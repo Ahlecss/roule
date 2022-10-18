@@ -1,6 +1,6 @@
 import { Object3D } from "three"
-import { Ground } from "./world/ground.js"
-import { Board } from "./world/board.js"
+import { Ground } from "./World/ground.js"
+import { Board } from "./World/board.js"
 
 export class World {
     constructor(options) {
@@ -18,11 +18,14 @@ export class World {
     }
 
     setBoard() {
-        this.board = new Board()
+        this.board = new Board({
+            beat: this.beat
+        })
         this.container.add(this.board.container)
     }
 
     update(delta) {
         this.ground.update(delta)
+        this.board.update(delta)
     }
 }

@@ -6,8 +6,8 @@ import {
 } from 'three'
 
 import { Camera } from './Camera.js'
-import { World } from './world.js'
-import { Beat } from './beat.js'
+import { World } from './World.js'
+import { Beat } from './Beat.js'
 
 export class Game {
   constructor() {

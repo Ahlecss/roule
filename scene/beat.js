@@ -1,7 +1,7 @@
 export class Beat {
     constructor(options) {
         this.clock = options.clock
-        this.bpm = 97
+        this.bpm = 100
     }
 
     getBeat() {
