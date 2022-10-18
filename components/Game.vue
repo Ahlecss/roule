@@ -21,7 +21,6 @@ export default {
     }
   },
   mounted() {
-    console.log(this.$scene)
     this.$scene.setCanvas(this.$refs.canvas1)
     this.$scene.init()
     this.update()

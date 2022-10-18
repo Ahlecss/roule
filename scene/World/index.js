@@ -47,7 +47,6 @@ export default class World {
     this.cube = new Cube({
       time: this.time,
     })
-    console.log('here')
     this.container.add(this.cube.container)
   }
 }

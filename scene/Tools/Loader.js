@@ -131,12 +131,10 @@ export default class Loader extends EventEmitter {
       true,
       /\.(glb|gltf|fbx)$/
     )
-    console.log(modelsContext)
     modelsContext.keys().forEach((key) => {
       const newKey = `${key}`.substring(2)
       // eslint-disable-next-line
       const modelSrc = require('../../assets/models/' + newKey)
-      console.log(modelSrc)
       this.ressourcesList.push({
         name: key.substring(
           2,
@@ -215,7 +213,6 @@ export default class Loader extends EventEmitter {
   }
   loadRessources(ressources) {
     ressources.forEach((ressource) => {
-      console.log(ressource)
       this.total++
       const ressourceExtension =
         ressource.src.substring(

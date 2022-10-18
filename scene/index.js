@@ -27,7 +27,6 @@ export default class App {
     this.setRenderer()
     this.setCamera()
     this.setWorld()
-    console.log('hrerejs')
 
   }
   setCanvas(canvas = this.renderer?.canvas) {
