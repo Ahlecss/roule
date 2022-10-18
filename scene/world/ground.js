@@ -13,6 +13,7 @@ export class Ground {
         this.height = 7
         this.setGround()
         // hello this is ground
+        // yes it's ground
     }
 
     setGround() {
