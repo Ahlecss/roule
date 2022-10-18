@@ -20,12 +20,12 @@ export class Game {
     this.canvas = options.canvas
     this.setRenderer()
     this.setCamera()
+    this.setGameManager()
     this.setClock()
     this.setBeat()
     this.setWorld()
     this.setEvents()
     this.setUser()
-    this.setGameManager()
     this.update()
   }
 
@@ -68,16 +68,13 @@ export class Game {
 
   setBeat() {
     this.beat = new Beat({
-      clock: this.clock
+      clock: this.clock,
+      gameManager: this.gameManager
     })
   }
 
   setGameManager() {
-    this.GameManager = new GameManager({
-      world: this.world,
-      clock: this.clock,
-      camera: this.camera
-    })
+    this.gameManager = new GameManager()
   }
 
   setEvents() {
@@ -100,7 +97,7 @@ export class Game {
 
   update() {
     requestAnimationFrame(this.update.bind(this))
-    let delta = this.clock.getDelta() * this.GameManager.speed
+    let delta = this.clock.getDelta() * this.gameManager.speed
     this.world.update(delta)
     this.beat.update()
     this.renderer.render(this.scene, this.camera.camera)

@@ -1,7 +1,9 @@
 export class Beat {
     constructor(options) {
         this.clock = options.clock
-        this.bpm = 111
+        console.log(options)
+        this.gameManager = options.gameManager
+        this.bpm = 111 * this.gameManager.speed
     }
 
     getBeat() {
