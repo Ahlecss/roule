@@ -1,135 +1,88 @@
-import { Scene, sRGBEncoding, WebGLRenderer } from 'three'
+import {
+  Clock,
+  Scene,
+  sRGBEncoding,
+  WebGLRenderer,
+} from 'three'
 
+import { Camera } from './camera.js'
+import { World } from './world.js'
+import { Beat } from './beat.js'
 
-import { Pane } from 'tweakpane'
-
-import Sizes from './Tools/Sizes'
-import Time from './Tools/Time'
-import Loader from './Tools/Loader'
-
-import Camera from './Camera'
-import World from './World'
-
-export default class App {
-  constructor(options) {
-    // Set options
-    this.debug = false
-    this.time = new Time()
-    this.sizes = new Sizes()
-    this.assets = new Loader()
+export class Game {
+  constructor() {
   }
+
   init(options) {
-    if (this.canvas) {
-      this.elementApp = this.canvas
-    }
-    // Set up
-    this.setConfig()
+    this.canvas = options.canvas
     this.setRenderer()
     this.setCamera()
-    if (this.elementApp.id === '_canvas1') {
-      this.setWorld()
-    } else {
-      this.setBackgroundShader()
-    }
+    this.setClock()
+    this.setBeat()
+    this.setWorld()
+    this.setEvents()
+    this.update()
   }
-  setCanvas(canvas = this.renderer?.canvas) {
-    this.canvas = canvas
-  }
+
   setRenderer() {
-    // Set scene
     this.scene = new Scene()
-    // Set renderer
+
     this.renderer = new WebGLRenderer({
-      canvas: this.elementApp,
-      alpha: true,
+      canvas: this.canvas,
       antialias: true,
-      powerPreference: 'high-performance',
     })
-    // this.elementApp.append(this.renderer.domElement)
+    this.renderer.clearColor(0x000000)
+
     this.renderer.outputEncoding = sRGBEncoding
-    // this.renderer.gammaFactor = 2.2
-    // Set background color
-    this.renderer.setClearColor(0x000000, 0)
-    // Set renderer pixel ratio & sizes
     this.renderer.setPixelRatio(window.devicePixelRatio)
 
     this.renderer.setSize(
-      this.elementApp.parentNode.offsetWidth,
-      this.elementApp.parentNode.offsetHeight
+      window.innerWidth,
+      window.innerHeight
     )
 
-    // Resize renderer on resize event
-    this.sizes.on('resize', () => {
+  }
+  setCamera() {
+    this.camera = new Camera()
+    this.scene.add(this.camera.camera)
+  }
+
+  setClock() {
+
+    this.clock = new Clock({
+      autoStart: true
+    })
+  }
+
+  setWorld() {
+    this.world = new World({
+      beat: this.beat
+    })
+    this.scene.add(this.world.container)
+  }
+
+  setBeat() {
+    this.beat = new Beat({
+      clock: this.clock
+    })
+  }
+
+  setEvents() {
+    window.addEventListener('resize', () => {
       this.renderer.setSize(
-        this.elementApp.parentNode.offsetWidth,
-        this.elementApp.parentNode.offsetHeight
+        window.innerWidth,
+        window.innerHeight
       )
     })
 
-    this.time.on('tick', () => {
-      this.debug && this.fpsGraph.begin()
-
-      this.camera.camera.controls.update()
-
-      this.renderer.render(this.scene, this.camera.camera)
-
-      this.debug && this.fpsGraph.end()
-    })
-
-    if (this.debug) {
-      this.renderOnBlur = { activated: true }
-      const folder = this.debug.addFolder({
-        title: 'Renderer',
-        expanded: false,
-      })
-      folder.addInput(this.renderOnBlur, 'activated', {
-        label: 'Opti',
-      })
-    }
-  }
-  setCamera() {
-    // Create camera instance
-    this.camera = new Camera({
-      sizes: this.sizes,
-      renderer: this.renderer,
-      debug: this.debug,
-      parentNode: this.elementApp.parentNode,
-    })
-    // Add camera to scene
-    this.scene.add(this.camera.container)
-
-    this.camera.camera.controls.saveState()
-  }
-  setWorld() {
-    // Create world instance
-    this.world = new World({
-      time: this.time,
-      assets: this.assets,
-      debug: this.debug,
-    })
-    // Add world to scene
-    this.scene.add(this.world.container)
-
-    this.camera.camera.add(this.world.light.container)
+    this.camera.resize()
   }
 
-
-  setConfig() {
-    if (this.debug === true) {
-      this.debug = new Pane({
-        title: 'DEBUG',
-        expanded: true,
-      })
-      this.debug.containerElem_.classList.add('z-50')
-
-      this.debug.registerPlugin(EssentialsPlugin)
-      this.debug.registerPlugin(CamerakitPlugin)
-
-      this.fpsGraph = this.debug.addBlade({
-        view: 'fpsgraph',
-        label: 'FPS',
-        lineCount: 2,
-      })
-    }
+  update() {
+    requestAnimationFrame(this.update.bind(this))
+    let delta = this.clock.getDelta()
+    this.world.update(delta)
+    this.beat.update()
+    this.renderer.render(this.scene, this.camera.camera)
   }
 }
