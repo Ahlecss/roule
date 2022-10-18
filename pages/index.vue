@@ -1,5 +1,6 @@
 <template>
   <Events/>
+  <HUD/>
 </template>
 
 <script>
