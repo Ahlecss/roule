@@ -53,7 +53,7 @@ export class Board {
     // this.board.children[0].rotation.y -= 0.01 * delta
     // this.board.children[3].rotation.y += 0.01 * delta
 
-    this.container.scale.y = 1. + Math.sin(this.beat.getBeat() * 2 * Math.PI) * 0.2
+    // this.container.scale.y = 1. + Math.sin(this.beat.getBeat() * 2 * Math.PI) * 0.2
   }
 
 }
