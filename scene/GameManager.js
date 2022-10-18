@@ -2,8 +2,6 @@ import gsap from 'gsap'
 export class GameManager {
     constructor(options) {
 
-        this.speed = 1;
-
         this.init();
     }
 

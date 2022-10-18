@@ -18,12 +18,13 @@ export class Game {
   init(options) {
     console.log('init game')
     this.canvas = options.canvas
+    this.speed = 1
     this.setRenderer()
     this.setCamera()
-    this.setGameManager()
     this.setClock()
     this.setBeat()
     this.setWorld()
+    this.setGameManager()
     this.setEvents()
     this.setUser()
     this.update()
@@ -69,7 +70,7 @@ export class Game {
   setBeat() {
     this.beat = new Beat({
       clock: this.clock,
-      gameManager: this.gameManager
+      speed: this.speed
     })
   }
 
@@ -97,7 +98,7 @@ export class Game {
 
   update() {
     requestAnimationFrame(this.update.bind(this))
-    let delta = this.clock.getDelta() * this.gameManager.speed
+    let delta = this.clock.getDelta() * this.speed
     this.world.update(delta)
     this.beat.update()
     this.renderer.render(this.scene, this.camera.camera)
