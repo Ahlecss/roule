@@ -5,7 +5,7 @@
   
 <script>
 import Axis from "axis-api";
-  
+
 export default {
     data() {
         return {

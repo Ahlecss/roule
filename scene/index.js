@@ -8,6 +8,8 @@ import {
 import { Camera } from './Camera.js'
 import { World } from './world/index.js'
 import { Beat } from './Beat.js'
+import { Users } from './user/index.js'
+import { GameManager } from './GameManager.js'
 
 export class Game {
   constructor() {
@@ -16,12 +18,15 @@ export class Game {
   init(options) {
     console.log('init game')
     this.canvas = options.canvas
+    this.speed = 1
     this.setRenderer()
     this.setCamera()
     this.setClock()
     this.setBeat()
     this.setWorld()
+    this.setGameManager()
     this.setEvents()
+    this.setUser()
     this.update()
   }
 
@@ -64,8 +69,13 @@ export class Game {
 
   setBeat() {
     this.beat = new Beat({
-      clock: this.clock
+      clock: this.clock,
+      speed: this.speed
     })
+  }
+
+  setGameManager() {
+    this.gameManager = new GameManager()
   }
 
   setEvents() {
@@ -74,14 +84,21 @@ export class Game {
         window.innerWidth,
         window.innerHeight
       )
+      this.camera.resize()
     })
 
-    this.camera.resize()
+  }
+
+  setUser() {
+    this.user = new Users({
+      beat: this.beat,
+      clock: this.clock
+    })
   }
 
   update() {
     requestAnimationFrame(this.update.bind(this))
-    let delta = this.clock.getDelta()
+    let delta = this.clock.getDelta() * this.speed
     this.world.update(delta)
     this.beat.update()
     this.renderer.render(this.scene, this.camera.camera)

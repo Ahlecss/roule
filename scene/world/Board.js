@@ -27,10 +27,6 @@ export class Board {
       })
       element.material = material
     })
-
-    this.board.position.set(0, 1, -5)
-    this.board.rotation.set(0, - Math.PI / 2, 0)
-    this.container.add(this.board)
   }
   easeInBounce(x) {
     return 1 - this.easeOutBounce(1 - x);
@@ -50,10 +46,12 @@ export class Board {
     }
   }
   update(delta) {
-    // this.board.children[0].rotation.y -= 0.01 * delta
-    // this.board.children[3].rotation.y += 0.01 * delta
-
-    this.container.position.y = Math.sin(this.beat.getBeat() * 2 * Math.PI)
+    this.container.scale.y = 1. - this.easeInBack(Math.sin(this.beat.getBeat() * 2 * Math.PI) / 2 + 0.5) * 0.2
   }
+  easeInBack(x) {
+    const c1 = 1.70158;
+    const c3 = c1 + 1;
 
+    return c3 * x * x * x - c1 * x * x;
+  }
 }
