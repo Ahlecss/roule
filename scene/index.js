@@ -6,7 +6,7 @@ import {
 } from 'three'
 
 import { Camera } from './Camera.js'
-import { World } from './World.js'
+import { World } from './world/index.js'
 import { Beat } from './Beat.js'
 
 export class Game {

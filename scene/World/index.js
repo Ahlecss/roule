@@ -1,6 +1,6 @@
 import { Object3D } from "three"
-import { Ground } from "./World/ground.js"
-import { Board } from "./World/board.js"
+import { Ground } from "./ground.js"
+import { Board } from "./board.js"
 
 export class World {
     constructor(options) {

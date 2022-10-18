@@ -12,7 +12,6 @@ export class Ground {
         this.radius = 4
         this.height = 7
         this.setGround()
-        // hello this is ground
     }
 
     setGround() {
