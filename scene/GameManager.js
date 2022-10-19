@@ -42,6 +42,7 @@ export class GameManager {
     }
 
     theBeat() {
+        $nuxt.$emit('changeCurrentTitle', 'The Beat')
 
         // Lancer la musique
 
