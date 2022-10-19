@@ -19,7 +19,7 @@ export default {
     mounted() {
         this.registerKeys()
         this.initPlayers()
-        // this.manageGameExit()
+        this.manageGameExit()
     },
     methods: {
         initPlayers() {
@@ -59,32 +59,34 @@ export default {
             Axis.registerKeys("Enter", "w", 2); // keyboard key "Enter" to button "w" from group 2
             
             // Assign machine joysticks to controller ones
-            // Axis.joystick1.setGamepadEmulatorJoystick(this.gamepadEmulator, 0)
-            // Axis.joystick2.setGamepadEmulatorJoystick(this.gamepadEmulator, 1)
+            Axis.joystick1.setGamepadEmulatorJoystick(this.gamepadEmulator, 0)
+            Axis.joystick2.setGamepadEmulatorJoystick(this.gamepadEmulator, 1)
 
-            // const update = () => {
-            //     this.gamepadEmulator.update()
-            //     requestAnimationFrame(update)
-            // }
-            // update();
+            const update = () => {
+                this.gamepadEmulator.update()
+                requestAnimationFrame(update)
+            }
+            update();
         },
-        // manageGameExit() {
-        //     Axis.addEventListener("exit:attempted", this.exitAttemptedHandler)
-        //     Axis.addEventListener("exit:canceled", this.exitCanceledHandler)
-        //     Axis.addEventListener("exit:completed", this.exitCompletedHandler)
+        manageGameExit() {
+            Axis.addEventListener("exit:attempted", this.exitAttemptedHandler)
+            Axis.addEventListener("exit:canceled", this.exitCanceledHandler)
+            Axis.addEventListener("exit:completed", this.exitCompletedHandler)
 
-        //     document.addEventListener("keydown", (event) => {
-        //          if (event.keyCode === 80) {
-        //             this.exitCanceledHandler()
-        //         }
-        //     });
-        // },
-        // exitAttemptedHandler() {
-        //     this.$root.$emit('initPause')
-        // },
-        // exitCanceledHandler() {
-        //     this.$root.$emit('closePause')
-        // },
+            document.addEventListener("keydown", (event) => {
+                 if (event.key == "Control") {
+                    this.exitAttemptedHandler()
+                } else if (event.key == "²") {
+                    this.exitCanceledHandler()
+                }
+            });
+        },
+        exitAttemptedHandler() {
+            this.$root.$emit('initPause')
+        },
+        exitCanceledHandler() {
+            this.$root.$emit('closePause')
+        },
         player1KeydownHandler(e) {
             if(e.key = "a" && !this.player1isReady) {   
                 this.player1isReady = true
@@ -108,10 +110,12 @@ export default {
             console.log("Player 2 keyup button "+e.key)
         },
         player1JoystickMoveHandler(e) {
-            this.player1Position = { x: e.position.x, y: e.position.y }
+            this.player1Position.x = e.position.x
+            this.player1Position.y = e.position.y 
         },
         player2JoystickMoveHandler(e) {
-            this.player2Position = { x: e.position.x, y: e.position.y }
+            this.player2Position.x = e.position.x
+            this.player2Position.y = e.position.y 
         }
     },
 }

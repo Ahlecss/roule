@@ -4,12 +4,19 @@ export class GameManager {
         this.beat = options.beat
         this.camera = options.camera
         this.setSpeed = options.setSpeed
+        this.badges = []
 
         this.init();
     }
 
     init() {
         // this.theJump();
+    }
+
+    addBadge(badge) {
+        this.badges.push(badge)
+        //Update Alpha map inside board texture
+        console.log(this.badges)
     }
 
     theJump() {
@@ -28,7 +35,10 @@ export class GameManager {
 
         // mouvement skate si raté
         // Recommencer 5 secondes après
-        
+
+        // remove le jeu du GameManager
+        // si le jeu est réussi > addBadges
+        this.addBadge("jump")
     }
 
 
