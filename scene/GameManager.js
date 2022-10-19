@@ -15,8 +15,7 @@ export class GameManager {
 
     addBadge(badge) {
         this.badges.push(badge)
-        //Update Alpha map inside board texture
-        console.log(this.badges)
+        this.world.board.updateOverlayBadge(this.badges)
     }
 
     theJump() {
@@ -40,7 +39,5 @@ export class GameManager {
         // si le jeu est réussi > addBadges
         this.addBadge("jump")
     }
-
-
 
 }
