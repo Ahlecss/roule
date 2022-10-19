@@ -1,3 +1,4 @@
+
 export class GameManager {
     constructor(options) {
         this.world = options.world
@@ -9,7 +10,7 @@ export class GameManager {
     }
 
     init() {
-        // this.theJump();
+        this.theJump();
     }
 
     theJump() {
@@ -29,6 +30,8 @@ export class GameManager {
         // mouvement skate si raté
         // Recommencer 5 secondes après
 
+        // remove le jeu du GameManager
+        // si le jeu est réussi > addBadges
     }
 
 
