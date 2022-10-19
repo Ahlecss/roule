@@ -106,7 +106,7 @@ export class Game {
 
   update() {
     requestAnimationFrame(this.update.bind(this))
-    let delta = this.clock.getDelta() * this.speed
+    let delta = this.beat.getBeatDelta() * this.speed
     this.world.update(delta)
     this.beat.update()
     this.renderer.render(this.scene, this.camera.camera)

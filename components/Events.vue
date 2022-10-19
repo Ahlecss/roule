@@ -36,12 +36,10 @@ export default {
             });
 
             player1.addEventListener("joystick:move", this.player1JoystickMoveHandler)
-            player1.addEventListener("joystick:quickmove", this.player1JoystickMoveHandler)
             player1.addEventListener("keydown", this.player1KeydownHandler)
             player1.addEventListener("keyup", this.player1KeyupHandler)
             
             player2.addEventListener("joystick:move", this.player2JoystickMoveHandler)
-            player2.addEventListener("joystick:quickmove", this.player2JoystickMoveHandler)
             player2.addEventListener("keydown", this.player2KeydownHandler)
             player2.addEventListener("keyup", this.player2KeyupHandler)
         },
@@ -102,18 +100,20 @@ export default {
             }
         },
         player1KeyupHandler(e) {
+            this.$root.$emit('player1Button', '1', e.key)
             console.log("Player 1 keyup button "+e.key)
         },
         player2KeyupHandler(e) {
+            this.$root.$emit('player2Button', '2', e.key)
             console.log("Player 2 keyup button "+e.key)
         },
         player1JoystickMoveHandler(e) {
-            console.log(e.position)
-            this.player1Position = { x: e.position.x, y: e.position.y }
+            this.player1Position.x = e.position.x
+            this.player1Position.y = e.position.y 
         },
         player2JoystickMoveHandler(e) {
-            console.log(e.position)
-            this.player2Position = { x: e.position.x, y: e.position.y }
+            this.player2Position.x = e.position.x
+            this.player2Position.y = e.position.y 
         }
     },
 }

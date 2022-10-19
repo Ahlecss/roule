@@ -1,7 +1,7 @@
 <template>
   <div class="interface">
     <Events />
-    <Intro />
+    <!-- <Intro /> -->
     <Pause />
     <Game />
     <HUD />
@@ -10,8 +10,17 @@
 
 <script>
 import Game from '../components/Game.vue';
+import HUD from '../components/HUD.vue';
 export default {
   name: "Interface",
-  components: { Game }
+  components: { Game, HUD }
 }
 </script>
+
+<style>
+.interface {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}</style>
