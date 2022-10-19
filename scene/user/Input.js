@@ -24,7 +24,7 @@ export class Input {
             let deltaHit = this.clock.getElapsedTime() - this.lastHit
             let userBPM = 60 / deltaHit
             let deltaBPM = Math.abs(userBPM - this.beat.bpm)
-            // console.log(deltaBPM)
+
             this.lastHit = this.clock.getElapsedTime()
 
             if (deltaBPM < 20) {
