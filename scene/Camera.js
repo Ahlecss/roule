@@ -9,7 +9,8 @@ export class Camera {
     setCamera() {
         // Create camera instance
         this.camera = new PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.1, 100);
-        this.camera.position.y = 0.1;
+        this.camera.position.y = 0.4;
+        this.camera.position.z = 5
     }
 
     resize() {

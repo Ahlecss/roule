@@ -10,6 +10,7 @@ import { World } from './world/index.js'
 import { Beat } from './Beat.js'
 import { Users } from './user/index.js'
 import { GameManager } from './GameManager.js'
+import { PostProcessing } from './PostProcessing.js'
 
 export class Game {
   constructor() {
@@ -26,7 +27,8 @@ export class Game {
     this.setWorld()
     this.setGameManager()
     this.setEvents()
-    this.setUser()
+    this.setUsers()
+    this.setPostProcessing()
     this.update()
   }
 
@@ -97,10 +99,20 @@ export class Game {
     })
   }
 
-  setUser() {
+  setUsers() {
     this.user = new Users({
       beat: this.beat,
-      clock: this.clock
+      clock: this.clock,
+      world: this.world,
+    })
+  }
+
+  setPostProcessing() {
+    console.log(this.renderer)
+    this.postProcessing = new PostProcessing({
+      renderer: this.renderer,
+      camera: this.camera,
+      scene: this.scene
     })
   }
 
@@ -109,6 +121,7 @@ export class Game {
     let delta = this.beat.getBeatDelta() * this.speed
     this.world.update(delta)
     this.beat.update()
-    this.renderer.render(this.scene, this.camera.camera)
+    // this.renderer.render(this.scene, this.camera.camera)
+    this.postProcessing.update()
   }
 }

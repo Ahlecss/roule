@@ -29,39 +29,45 @@ export default {
   name: 'HUD',
   mounted() {
     this.$root.$on('player1Button',(player, key) => {
-      console.log(key)
       this.selectElement(player, key)
     })
     this.$root.$on('player2Button',(player, key) =>{
-      console.log(key)
       this.selectElement(player, key)
     })
+    this.timing = 60 / this.$game.user.leftUser.input.beat.bpm
+    setInterval(this.createWave, this.timing  * 1000)
   },
   methods: {
     selectElement(player, key) {
-      console.log(key)  
         if (typeof key === 'number') {
-          console.log('1')
           return;
         } else if(key === 'w') {
-          this.addDot(player, `p${player}-axis-bumper`)
-          console.log('2')
+          // this.addDot(player, `p${player}-axis-bumper`)
+          this.checkValidity(player, `p${player}-axis-bumper`)
           return;
         } else if(key === 'a' || key === 'x' || key === 'i' || key === 's'){
-          this.addDot(player, `p${player}-axis-${key}`)
-          console.log('3')
+          // this.addDot(player, `p${player}-axis-${key}`)
+          this.checkValidity(player, `p${player}-axis-${key}`)
           return;
         }
       },
+
+    checkValidity(player, id) {
+      const input = this.$game.user.leftUser.input.registerInput()
+      if(input.valid) {
+        this.addFull(player,id)
+      } else {
+        this.shake(player)
+        this.addDot(player,id)
+      }
+      },
     addDot(player, id) {
-      console.log(id)
       const button = document.getElementById(id)
       const rect = button.getBoundingClientRect()
       const posX = rect.left + (rect.width / 4)
       const posY = rect.top + (rect.height / 4)
 
       const dot = document.createElement('span')
-      console.log(posX, posY)
       dot.style.left =`${posX}px`;
       dot.style.top = `${posY}px`;
       if(player === '1') {
@@ -78,9 +84,54 @@ export default {
         dot.remove()
       }, 300)
     },
-    addFull() {
-
+    addFull(player, id) {
+      const button = document.getElementById(id)
+      button.classList.add('active')
+      setTimeout(() => {
+        button.classList.remove('active')
+      }, 300)
     },
+    shake(player) {
+      const controller = document.getElementById(`p${player}`)
+      controller.classList.add('shake')
+      setTimeout(() => {
+        controller.classList.remove('shake')
+      }, 900)
+    },
+    createWave() {
+      this.p1AxisA = document.getElementById('p1-axis-a')
+      this.p1Rect = this.p1AxisA.getBoundingClientRect()
+      this.p2AxisA = document.getElementById('p2-axis-a')
+      this.p2Rect = this.p2AxisA.getBoundingClientRect()
+      const wave = document.createElement('span')
+
+      this.leftPlayer = !this.leftPlayer
+
+      if(this.leftPlayer) {
+        var posX = this.p1Rect.left + (this.p1Rect.width / 4)
+        var posY = this.p1Rect.top + (this.p1Rect.height / 4)
+        wave.classList.add('p1-wave')
+      } else {
+        var posX = this.p2Rect.left + (this.p2Rect.width / 4)
+        var posY = this.p2Rect.top + (this.p2Rect.height / 4)
+        wave.classList.add('p2-wave')
+      }
+      wave.classList.add('wave')
+
+
+      this.timing = 60 / this.$game.user.leftUser.input.beat.bpm
+
+      wave.style.setProperty('--posX',`${posX}px`);
+      wave.style.setProperty('--posY', `${posY}px`);
+      wave.style.setProperty('--timing', `${this.timing}s`);
+      //if(player === '1') {
+      document.getElementById('controller').appendChild(wave)
+      //}
+
+      setTimeout(() => {
+        wave.remove()
+      }, this.timing * 2000)
+    }
   }
 }
 </script>
@@ -101,12 +152,12 @@ export default {
 #p1 {
   left: 5%;
   top: 90%;
-  transform: translate3d(-5%, -80%, 0);
+  transform: translate3d(-5%, -90%, 0);
 }
 #p2 {
   right: 5%;
   top: 90%;
-  transform: translate3d(-5%, -80%, 0);
+  transform: translate3d(-5%, -90%, 0);
 }
 
 path, svg{
@@ -117,12 +168,72 @@ path, svg{
   display: flex;
   position: absolute;
   border-radius: 25px;
-  background: blue;
+  background: #EC5E40;
   width: 20px;
   height: 20px;
 }
 .player2-dot {
-  background: red;
+  background: #FAC96F;
+}
+
+#p1 .active {
+  fill: #EC5E40;
+}
+#p2 .active {
+  fill: #FAC96F;
+}
+.shake {
+  animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+  backface-visibility: hidden;
+}
+
+.wave{
+  content: '';
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border: 5px solid #EC5E40;
+  border-radius: 100%;
+  left: calc(var(--posX) - 44px);
+  top: calc(var(--posY) - 44px);
+  transform-origin: center;
+  /* transform: translate3d(var(--posX), var(--posY), 0);*/
+  animation: wave var(--timing) linear forwards;
+}
+.p2-wave {
+  border: 5px solid #FAC96F;
+
+}
+
+@keyframes shake {
+  10%, 90% {
+    transform: translate3d(calc(-5% + -1px),  -90%, 0);
+  }
+  
+  20%, 80% {
+    transform: translate3d(calc(-5% + 2px),  -90%, 0);
+  }
+
+  30%, 50%, 70% {
+    transform: translate3d(calc(-5% + -4px),  -90%, 0);
+  }
+
+  40%, 60% {
+    transform: translate3d(calc(-5% + 4px),  -90%, 0);
+  }
+}
+
+@keyframes wave {
+  0% { 
+    transform: scale(1)
+  }
+  99% { 
+    transform: scale(0.40);
+    opacity: 1;
+  }
+  100% { 
+    opacity: 0;
+  }
 }
 
 </style>

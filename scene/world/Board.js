@@ -32,16 +32,17 @@ export class Board {
       })
       element.material = material
     })
+    this.container.position.z = 4
     this.setBoardOverlay()
   }
   setBoardOverlay() {
-    this.overlayGeometry = new PlaneGeometry( 2, 5 )
+    this.overlayGeometry = new PlaneGeometry(2, 5)
     this.maskMaterial = new ShaderMaterial({
       transparent: true,
       uniforms: {
-         activated: {type : "v2v", value : this.vecBadges},
-         stickerT : {value : this.stickersText},
-         stickerM : {value : this.stickersMask},
+        activated: { type: "v2v", value: this.vecBadges },
+        stickerT: { value: this.stickersText },
+        stickerM: { value: this.stickersMask },
       },
       vertexShader: `
       varying vec2 vUv;
@@ -75,14 +76,14 @@ export class Board {
       }
     `,
     })
-    
+
     new TextureLoader().load(stickers, (tex) => {
       this.maskMaterial.uniforms.stickerT.value = tex
     })
     new TextureLoader().load(stickersMask, (tex) => {
       this.maskMaterial.uniforms.stickerM.value = tex
     })
-    this.overlay = new Mesh( this.overlayGeometry, this.maskMaterial )
+    this.overlay = new Mesh(this.overlayGeometry, this.maskMaterial)
     this.overlay.name = "Overlay"
     this.overlay.rotation.x = Math.PI / 2
     this.overlay.position.y = 0.68
@@ -90,7 +91,7 @@ export class Board {
   }
   updateOverlayBadge(badges) {
     badges.map((badge) => {
-      switch(badge){
+      switch (badge) {
         case "beat":
           this.vecBadges.x = 1
           break;
@@ -122,30 +123,30 @@ export class Board {
   }
 
   skateJump() {
-    this.tl = gsap.timeline({delay: 1})
+    this.tl = gsap.timeline({ delay: 1 })
     console.log(this.beat)
     this.tl.progress(this.tl.progress)
 
     this.tl.to(this.container.position, {
-        y: - Math.PI / 8,
-        duration: 0.3
+      y: - Math.PI / 8,
+      duration: 0.3
     })
     this.tl.to(this.container.position, {
-        y:  Math.PI / 2,
-        duration: 0.4
+      y: Math.PI / 2,
+      duration: 0.4
     })
     this.tl.to(this.container.rotation, {
-        z: -Math.PI / 2,
-        duration: 1,
-        onComplete: () => {
-            this.speed = 0.2
-        }
+      z: -Math.PI / 2,
+      duration: 1,
+      onComplete: () => {
+        this.speed = 0.2
+      }
     }, '-=0.5')
     this.tl.to(this.container.rotation, {
-        z: -Math.PI ,
-        duration: 10,
+      z: -Math.PI,
+      duration: 10,
     }, '-=1')
-}
+  }
   update(delta) {
     this.container.scale.y = 1. - this.easeInBack(Math.sin(this.beat.getBeat() * 2 * Math.PI) / 2 + 0.5) * 0.2
   }

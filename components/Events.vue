@@ -89,7 +89,7 @@ export default {
             this.$root.$emit('closePause')
         },
         player1KeydownHandler(e) {
-            if(e.key = "a" && !this.player1isReady) {   
+            if(e.key = "a" && !this.player1isReady) {
                 this.player1isReady = true
                 this.$root.$emit('playerisReady',1)
             }

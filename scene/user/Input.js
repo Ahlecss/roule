@@ -1,22 +1,26 @@
 export class Input {
     constructor(options) {
+        this.playerIndex = options.playerIndex
         this.beat = options.beat
         this.clock = options.clock
+        this.world = options.world
         this.lastHit = undefined
         this.combo = 0
-        this.setEvents()
+        // this.setEvents()
     }
 
-    setEvents() {
-        window.addEventListener('keydown', (e) => {
+    registerInput() {
             let valid = this.inputIsValid()
             if (valid) {
                 this.combo++
+                this.world.sprites.createSprite(this.playerIndex)
             } else {
                 this.combo = 0
             }
-            console.log('combo: ' + this.combo)
-        })
+            return {
+                valid: valid, 
+                combo: this.combo
+            }
     }
 
     inputIsValid() {
