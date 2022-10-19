@@ -6,11 +6,10 @@ export class Input {
         this.world = options.world
         this.lastHit = undefined
         this.combo = 0
-        this.setEvents()
+        // this.setEvents()
     }
 
-    setEvents() {
-        window.addEventListener('keydown', (e) => {
+    registerInput() {
             let valid = this.inputIsValid()
             if (valid) {
                 this.combo++
@@ -18,8 +17,10 @@ export class Input {
             } else {
                 this.combo = 0
             }
-            console.log('combo: ' + this.combo)
-        })
+            return {
+                valid: valid, 
+                combo: this.combo
+            }
     }
 
     inputIsValid() {
