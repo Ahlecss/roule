@@ -10,8 +10,9 @@
 
 <script>
 import Game from '../components/Game.vue';
+import HUD from '../components/HUD.vue';
 export default {
   name: "Interface",
-  components: { Game }
+  components: { Game, HUD }
 }
 </script>
