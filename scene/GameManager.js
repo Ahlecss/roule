@@ -11,6 +11,7 @@ export class GameManager {
 
     init() {
         // this.theJump();
+        this.theBeat()
     }
 
     addBadge(badge) {
@@ -39,5 +40,20 @@ export class GameManager {
         // si le jeu est réussi > addBadges
         this.addBadge("jump")
     }
+
+    theBeat() {
+
+        // Lancer la musique
+
+        
+
+        // démarrer un rythme en même temps
+
+        // Si trop lent, trop rapide, ou trop déphasé, recommencer
+
+        // Créer les patterns visuel pour rester sur ce rythme
+    }
+
+
 
 }

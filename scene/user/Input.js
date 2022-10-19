@@ -4,19 +4,20 @@ export class Input {
         this.clock = options.clock
         this.lastHit = undefined
         this.combo = 0
-        this.setEvents()
+        // this.setEvents()
     }
 
-    setEvents() {
-        window.addEventListener('keydown', (e) => {
+    registerInput() {
             let valid = this.inputIsValid()
             if (valid) {
                 this.combo++
             } else {
                 this.combo = 0
             }
-            console.log('combo: ' + this.combo)
-        })
+            return {
+                valid: valid, 
+                combo: this.combo
+            }
     }
 
     inputIsValid() {

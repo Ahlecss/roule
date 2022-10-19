@@ -27,5 +27,6 @@ export class World {
     update(delta) {
         this.ground.update(delta)
         this.board.update(delta)
+        console.log(`🥰`)
     }
 }
