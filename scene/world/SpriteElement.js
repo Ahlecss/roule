@@ -21,7 +21,7 @@ export class SpriteElement {
   }
   initEvents() {
     document.addEventListener('keydown', (e) => {
-        console.log(e)
+        // console.log(e)
         if (e.code === 'KeyD') {
             this.showSprite('player1')
         }

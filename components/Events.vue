@@ -90,7 +90,7 @@ export default {
                 this.player1isReady = true
                 this.$root.$emit('playerisReady', "right")
             }
-            console.log("Player 1 keydown button "+e.key)
+            console.log("Player 1 keydown button "+e.code)
         },
         player2KeydownHandler(e) {
             if(e.key = "a" && !this.player2isReady) {   
@@ -100,9 +100,11 @@ export default {
             console.log("Player 2 keydown button "+e.key)
         },
         player1KeyupHandler(e) {
+            this.$root.$emit('player1Button', '1', e.key)
             console.log("Player 1 keyup button "+e.key)
         },
         player2KeyupHandler(e) {
+            this.$root.$emit('player2Button', '2', e.key)
             console.log("Player 2 keyup button "+e.key)
         },
         player1JoystickMoveHandler(e) {

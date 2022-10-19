@@ -1,6 +1,6 @@
 <!-- Please remove this file from your project -->
 <template>
-  <div class="controller">
+  <div class="controller" id="controller">
     <svg id="p1" width="303" height="127" viewBox="0 0 303 127" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path id='p1-axis-background' d="M110.778 0C89.4685 0 70.9969 12.0366 61.8992 29.6251C59.2604 34.7257 53.7782 37.7222 48.0097 37.3521C41.8883 36.9617 35.5828 37.8084 29.4614 40.0596C6.09067 48.6434 -5.83505 74.3899 2.82286 97.5606C11.4808 120.731 37.4443 132.555 60.8201 123.971C68.3632 121.198 74.7147 116.64 79.5679 110.956C83.3113 106.57 89.2997 104.862 94.8484 106.53C99.8907 108.046 105.24 108.857 110.778 108.857C122.049 108.857 132.528 105.49 141.242 99.7104C144.929 97.2666 149.552 96.5213 153.756 97.9206C156.635 98.8789 159.714 99.4011 162.92 99.4011C168.781 99.4011 174.232 97.6671 178.778 94.6909C182.42 92.3079 186.94 91.6691 191.113 92.9468C193.803 93.7732 196.662 94.2143 199.628 94.2143C205.944 94.2143 211.784 92.1964 216.535 88.7841C220.135 86.1933 224.727 85.2553 229.013 86.4316C231.462 87.1008 234.04 87.4608 236.704 87.4608C240.228 87.4608 243.603 86.8321 246.722 85.6863C250.819 84.1804 255.339 84.6418 259.093 86.8524C263.394 89.3824 268.416 90.8376 273.775 90.8376C290.145 90.8376 303.329 77.3154 302.582 60.9234C301.907 46.1083 289.664 34.1427 274.711 33.6712C270.789 33.5495 267.035 34.2035 263.593 35.4964C259.569 37.0073 255.089 36.4496 251.386 34.2694C247.085 31.7394 242.064 30.2843 236.704 30.2843C230.388 30.2843 224.548 32.3022 219.797 35.7144C216.197 38.3053 211.605 39.2433 207.319 38.0721C204.87 37.4028 202.292 37.0428 199.628 37.0428C193.767 37.0428 188.321 38.7768 183.77 41.753C180.175 44.1056 175.695 44.8256 171.583 43.5428C171.537 43.5276 171.491 43.5124 171.445 43.4972C167.093 42.1637 163.626 38.9442 161.979 34.7359C154.017 14.4095 134.098 0 110.778 0Z" fill="white"/>
       <path id='p1-axis-a' d="M162.552 86.8984C171.586 86.8984 178.91 79.575 178.91 70.541C178.91 61.5071 171.586 54.1836 162.552 54.1836C153.518 54.1836 146.195 61.5071 146.195 70.541C146.195 79.575 153.518 86.8984 162.552 86.8984Z" fill="#949494"/>
@@ -25,12 +25,68 @@
 </template>
 
 <script>
+
 export default {
-  name: 'HUD'
+  name: 'HUD',
+  mounted() {
+    this.$root.$on('player1Button',(player, key) => {
+      console.log(key)
+      this.selectElement(player, key)
+    })
+    this.$root.$on('player2Button',(player, key) =>{
+      console.log(key)
+      this.selectElement(player, key)
+        })
+  },
+  methods: {
+    selectElement(player, key) {
+      console.log(key)  
+        if (typeof key === 'number') {
+          console.log('1')
+          return;
+        } else if(key === 'w') {
+          this.addDot(player, `p${player}-axis-bumper`)
+          console.log('2')
+          return;
+        } else if(key === 'a' || key === 'x' || key === 'i' || key === 's'){
+          this.addDot(player, `p${player}-axis-${key}`)
+          console.log('3')
+          return;
+        }
+      },
+    addDot(player, id) {
+      console.log(id)
+      const button = document.getElementById(id)
+      const rect = button.getBoundingClientRect()
+      const posX = rect.left + (rect.width / 4)
+      const posY = rect.top + (rect.height / 4)
+
+      const dot = document.createElement('span')
+      console.log(posX, posY)
+      dot.style.left =`${posX}px`;
+      dot.style.top = `${posY}px`;
+      if(player === '1') {
+        dot.classList.add('player1-dot')
+        dot.id ='player1-dot'
+        document.getElementById('controller').appendChild(dot)
+      }
+      else {
+        dot.classList.add('player2-dot')
+        dot.id ='player2-dot'
+        document.getElementById('controller').appendChild(dot)
+      }
+      setTimeout(() => {
+        dot.remove()
+      }, 300)
+    },
+    addFull() {
+
+    }
+  }
 }
 </script>
 
-<style scoped>
+<style>
 .controller {
   position: absolute;
   z-index: 1;
@@ -54,9 +110,20 @@ export default {
   transform: translate3d(-5%, -80%, 0);
 }
 
-
-
-#p2-axis-bumper {
-  fill: blue;
+path, svg{
+  position: relative;
 }
+.player1-dot, .player2-dot {
+  content: '';
+  display: flex;
+  position: absolute;
+  border-radius: 25px;
+  background: blue;
+  width: 20px;
+  height: 20px;
+}
+.player2-dot {
+  background: red;
+}
+
 </style>
