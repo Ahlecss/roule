@@ -5,22 +5,19 @@ import {
     Object3D
 } from "three"
 
-import { SpriteElement } from './SpriteElement.js'
-
 export class Ground {
     constructor(options) {
         this.beat = options.beat
         this.container = new Object3D()
-        this.radius = 4
+        this.radius = 5
         this.height = 20
-        this.sprites = []
         this.init()
-        this.container.position.z = -5
     }
+
     init() {
         this.setGround()
-        this.setSprite()
     }
+
     setGround() {
         this.ground = new Mesh(
             new CylinderGeometry(this.radius, this.radius, this.height, 64),
@@ -53,6 +50,7 @@ export class Ground {
                     vec3 color = vec3(0.);
                     color += road + grass;
                     gl_FragColor = vec4(color, 1.0);
+
                 }
             `,
             })
@@ -60,14 +58,6 @@ export class Ground {
         this.container.add(this.ground)
         this.container.rotateZ(Math.PI / 2)
         this.container.position.y = -this.radius
-    }
-    setSprite(player) {
-        const sprite = new SpriteElement({
-            beat: this.beat,
-            player,
-            radius: this.radius
-        })
-        this.container.add(sprite.container)
     }
 
     update(delta) {

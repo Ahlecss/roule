@@ -1,7 +1,9 @@
 export class Input {
     constructor(options) {
+        this.playerIndex = options.playerIndex
         this.beat = options.beat
         this.clock = options.clock
+        this.world = options.world
         this.lastHit = undefined
         this.combo = 0
         this.setEvents()
@@ -12,6 +14,7 @@ export class Input {
             let valid = this.inputIsValid()
             if (valid) {
                 this.combo++
+                this.world.sprites.createSprite(this.playerIndex)
             } else {
                 this.combo = 0
             }

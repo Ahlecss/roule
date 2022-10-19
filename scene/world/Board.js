@@ -29,6 +29,7 @@ export class Board {
       })
       element.material = material
     })
+    this.board.position.z = 4
   }
   easeInBounce(x) {
     return 1 - this.easeOutBounce(1 - x);
@@ -49,30 +50,30 @@ export class Board {
   }
 
   skateJump() {
-    this.tl = gsap.timeline({delay: 1})
+    this.tl = gsap.timeline({ delay: 1 })
     console.log(this.beat)
     this.tl.progress(this.tl.progress)
 
     this.tl.to(this.container.position, {
-        y: - Math.PI / 8,
-        duration: 0.3
+      y: - Math.PI / 8,
+      duration: 0.3
     })
     this.tl.to(this.container.position, {
-        y:  Math.PI / 2,
-        duration: 0.4
+      y: Math.PI / 2,
+      duration: 0.4
     })
     this.tl.to(this.container.rotation, {
-        z: -Math.PI / 2,
-        duration: 1,
-        onComplete: () => {
-            this.speed = 0.2
-        }
+      z: -Math.PI / 2,
+      duration: 1,
+      onComplete: () => {
+        this.speed = 0.2
+      }
     }, '-=0.5')
     this.tl.to(this.container.rotation, {
-        z: -Math.PI ,
-        duration: 10,
+      z: -Math.PI,
+      duration: 10,
     }, '-=1')
-}
+  }
   update(delta) {
     this.container.scale.y = 1. - this.easeInBack(Math.sin(this.beat.getBeat() * 2 * Math.PI) / 2 + 0.5) * 0.2
   }

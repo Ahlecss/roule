@@ -1,7 +1,7 @@
 <template>
   <div class="interface">
     <Events />
-    <Intro />
+    <!-- <Intro /> -->
     <Pause />
     <Game />
     <HUD />
