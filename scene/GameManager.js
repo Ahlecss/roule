@@ -5,6 +5,7 @@ export class GameManager {
         this.camera = options.camera
         this.setSpeed = options.setSpeed
         this.badges = []
+        
 
         this.init();
     }

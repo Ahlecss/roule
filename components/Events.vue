@@ -107,20 +107,16 @@ export default {
             this.$root.$emit('player2Button', '2', e.key)
         },
         player1JoystickMoveHandler(e) {
-            if(e.position.x !== 0) {   
-                this.$root.$emit('player1Joystick',1, e.position.x, "#EC5E40")
-            } else {
-                this.$root.$emit('player1Joystick',1, e.position.x, "#949494")
-            }
+            if(e.position.x >= 0)
+                this.$root.$emit('player1Joystick', e.position.x)
+
             this.player1Position.x = e.position.x
             this.player1Position.y = e.position.y 
         },
         player2JoystickMoveHandler(e) {
-            if(e.position.x !== 0) {   
-                this.$root.$emit('player2Joystick',2, e.position.x, "#FAC96F")
-            } else {
-                this.$root.$emit('player2Joystick',2, e.position.x, "#949494")
-            }
+            if(e.position.x <= 0)
+                this.$root.$emit('player2Joystick', e.position.x)
+
             this.player2Position.x = e.position.x
             this.player2Position.y = e.position.y 
         }
