@@ -92,16 +92,14 @@ export default {
         player1KeydownHandler(e) {
             if(e.key = "a" && !this.player1isReady) {   
                 this.player1isReady = true
-                this.$root.$emit('playerisReady', "right")
+                this.$root.$emit('playerisReady',1)
             }
-            console.log("Player 1 keydown button "+e.key)
         },
         player2KeydownHandler(e) {
             if(e.key = "a" && !this.player2isReady) {   
                 this.player2isReady = true
-                this.$root.$emit('playerisReady', "left")
+                this.$root.$emit('playerisReady',2)
             }
-            console.log("Player 2 keydown button "+e.key)
         },
         player1KeyupHandler(e) {
             console.log("Player 1 keyup button "+e.key)
