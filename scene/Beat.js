@@ -5,13 +5,26 @@ export class Beat {
         console.log(options)
         this.gameManager = options.gameManager
         this.bpm = 111 * this.speed
+        this.delta = 0
+        this.lastTotal = this.getBeatTotal()
     }
 
     getBeat() {
+        return this.getBeatTotal() % 1
+    }
+
+    getBeatTotal() {
         let time = this.clock.getElapsedTime()
-        let b = (time / 60 * this.bpm) % 1
+        let b = (time / 60 * this.bpm)
         return b
     }
 
-    update() { }
+    getBeatDelta() {
+        return this.delta
+    }
+
+    update() {
+        this.delta = this.getBeatTotal() - this.lastTotal
+        this.lastTotal = this.getBeatTotal()
+    }
 }

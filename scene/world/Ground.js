@@ -19,7 +19,7 @@ export class Ground {
     }
     init() {
         this.setGround()
-        this.initEvents()
+        this.setSprite()
     }
     setGround() {
         this.ground = new Mesh(
@@ -61,29 +61,13 @@ export class Ground {
         this.container.rotateZ(Math.PI / 2)
         this.container.position.y = -this.radius
     }
-    initEvents() {
-        document.addEventListener('keydown', (e) => {
-            console.log(e)
-            if (e.code === 'KeyD') {
-                this.setSprite('player1')
-            }
-            else if (e.code === 'KeyF') {
-                this.setSprite('player2')
-            }
-        })
-    }
     setSprite(player) {
         const sprite = new SpriteElement({
             beat: this.beat,
-            player
+            player,
+            radius: this.radius
         })
-        this.sprites.push(sprite)
         this.container.add(sprite.container)
-        setTimeout(() => {
-            console.log('ici')
-            this.sprites.pop()
-            this.container.remove(sprite.container)
-        }, 500)
     }
 
     update(delta) {

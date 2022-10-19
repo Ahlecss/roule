@@ -28,7 +28,7 @@ export class GameManager {
 
         // mouvement skate si raté
         // Recommencer 5 secondes après
-
+        
     }
 
 
