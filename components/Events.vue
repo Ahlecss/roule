@@ -1,5 +1,6 @@
 <template>
     <div>
+        <p>{{player1Position.x}} || {{player2Position.x}}</p>
     </div>
 </template>
   
@@ -101,20 +102,35 @@ export default {
         },
         player1KeyupHandler(e) {
             this.$root.$emit('player1Button', '1', e.key)
-            console.log("Player 1 keyup button "+e.key)
         },
         player2KeyupHandler(e) {
             this.$root.$emit('player2Button', '2', e.key)
-            console.log("Player 2 keyup button "+e.key)
         },
         player1JoystickMoveHandler(e) {
+            if(e.position.x !== 0) {   
+                this.$root.$emit('player1Joystick',1, e.position.x, "#EC5E40")
+            } else {
+                this.$root.$emit('player1Joystick',1, e.position.x, "#949494")
+            }
             this.player1Position.x = e.position.x
             this.player1Position.y = e.position.y 
         },
         player2JoystickMoveHandler(e) {
+            if(e.position.x !== 0) {   
+                this.$root.$emit('player2Joystick',2, e.position.x, "#FAC96F")
+            } else {
+                this.$root.$emit('player2Joystick',2, e.position.x, "#949494")
+            }
             this.player2Position.x = e.position.x
             this.player2Position.y = e.position.y 
         }
     },
 }
 </script>
+
+<style>
+p {
+    position: absolute;
+    z-index: 5;
+}
+</style>

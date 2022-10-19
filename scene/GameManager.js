@@ -40,4 +40,8 @@ export class GameManager {
         this.addBadge("jump")
     }
 
+    wouinn() {
+        this.addBadge("wouinn")
+    }
+
 }
