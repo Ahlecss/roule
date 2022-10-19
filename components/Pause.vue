@@ -21,19 +21,12 @@
     methods: {
       initPause() {
         this.$refs.pause.style.opacity = 1
-        document.addEventListener('keydown', (e) => {
-            if (e.code === 'Control') {
-                this.setSprite('player1')
-            }
-        })
       },
       closePause() {
         this.$refs.pause.style.opacity = 0
       },
       exitCompletedHandler() {
-        if (event.keyCode === 80) {
-          alert("👋 Bye bye");
-        }
+     // check what to do with game examples
       },
     }
   }
