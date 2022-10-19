@@ -54,7 +54,6 @@ export class Game {
   }
 
   setClock() {
-
     this.clock = new Clock({
       autoStart: true
     })
@@ -75,7 +74,17 @@ export class Game {
   }
 
   setGameManager() {
-    this.gameManager = new GameManager()
+    this.gameManager = new GameManager({
+      world: this.world,
+      beat: this.beat,
+      camera: this.camera,
+      setSpeed: this.setSpeed
+    })
+  }
+
+  setSpeed(s) {
+    console.log('setSpeed', s)
+    this.speed = s
   }
 
   setEvents() {
@@ -86,7 +95,6 @@ export class Game {
       )
       this.camera.resize()
     })
-
   }
 
   setUser() {

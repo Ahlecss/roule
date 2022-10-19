@@ -1,4 +1,6 @@
 import { PerspectiveCamera } from "three";
+import gsap from 'gsap'
+
 
 export class Camera {
     constructor(options) {
@@ -14,6 +16,12 @@ export class Camera {
         console.log('resize camera');
         this.camera.aspect = window.innerWidth / window.innerHeight;
         this.camera.updateProjectionMatrix();
+    }
+    cameraJump() {
+        gsap.to(this.camera.position, {
+            z: 2,
+            duration: 2
+        })
     }
 
 }
