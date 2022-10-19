@@ -14,6 +14,7 @@ export class Board {
     this.container = new Object3D()
     this.container.name = 'Board'
     this.loader = new GLTFLoader()
+    this.vecBadges = new Vector3(0.2, 0.2, 0.2)
     this.loadBoard()
   }
   loadBoard() {
@@ -38,7 +39,7 @@ export class Board {
     this.maskMaterial = new ShaderMaterial({
       transparent: true,
       uniforms: {
-         activated: {type : "v2v", value : new Vector3(0.2, 0.2, 0.2)},
+         activated: {type : "v2v", value : this.vecBadges},
          stickerT : {value : this.stickersText},
          stickerM : {value : this.stickersMask},
       },
@@ -86,6 +87,21 @@ export class Board {
     this.overlay.rotation.x = Math.PI / 2
     this.overlay.position.y = 0.68
     this.container.add(this.overlay)
+  }
+  updateOverlayBadge(badges) {
+    badges.map((badge) => {
+      switch(badge){
+        case "beat":
+          this.vecBadges.x = 1
+          break;
+        case "wouinn":
+          this.vecBadges.y = 1
+          break;
+        case "jump":
+          this.vecBadges.z = 1
+          break;
+      }
+    })
   }
   easeInBounce(x) {
     return 1 - this.easeOutBounce(1 - x);
