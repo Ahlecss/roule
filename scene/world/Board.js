@@ -32,7 +32,7 @@ export class Board {
       })
       element.material = material
     })
-    this.board.position.z = 4
+    this.container.position.z = 4
     this.setBoardOverlay()
   }
   setBoardOverlay() {
