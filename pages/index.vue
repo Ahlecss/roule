@@ -1,7 +1,9 @@
 <template>
   <div class="interface">
-    <Game />
     <Events />
+    <Intro />
+    <Pause />
+    <Game />
     <HUD />
   </div>
 </template>
