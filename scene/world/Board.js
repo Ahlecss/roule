@@ -1,4 +1,4 @@
-import { Mesh, MeshBasicMaterial, Object3D, BoxGeometry } from 'three'
+import { Mesh, MeshBasicMaterial, Object3D, BoxGeometry, PlaneGeometry, DoubleSide } from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 let boardURL = require('../../assets/models/board.glb')
 import gsap from 'gsap'
@@ -29,6 +29,18 @@ export class Board {
       })
       element.material = material
     })
+    this.setBoardOverlay()
+  }
+  setBoardOverlay() {
+    this.overlayGeometry = new PlaneGeometry( 2, 5 )
+    this.overlayMaterial = new MeshBasicMaterial( {color: 0xffffff, side: DoubleSide, transparent: true, opacity:0.6} )
+    this.overlay = new Mesh( this.overlayGeometry, this.overlayMaterial )
+    this.overlay.name = "Overlay"
+    this.overlay.rotation.x = Math.PI / 2
+    this.overlay.position.y = 0.68
+    this.container.add(this.overlay)
+
+    
   }
   easeInBounce(x) {
     return 1 - this.easeOutBounce(1 - x);

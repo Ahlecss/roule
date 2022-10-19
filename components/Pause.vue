@@ -1,8 +1,6 @@
 <template>
     <div class="pause" ref="pause">
-        <p>ROULE is a game created by 5 students from Gobelins blablablablablablalbalba.Design : Léo Clot & Lisa Levavasseur.Dev : Clara Lautré, Leith Ben Abdessalem & Alexis Séjourné</p>
-        <h2>Press A to get back to the game</h2>
-        <h2>Press home to exit</h2>
+        <h2>Press any key to resume</h2>
     </div>
 </template>
   

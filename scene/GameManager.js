@@ -1,16 +1,22 @@
-
 export class GameManager {
     constructor(options) {
         this.world = options.world
         this.beat = options.beat
         this.camera = options.camera
         this.setSpeed = options.setSpeed
+        this.badges = []
 
         this.init();
     }
 
     init() {
-        this.theJump();
+        // this.theJump();
+    }
+
+    addBadge(badge) {
+        this.badges.push(badge)
+        //Update Alpha map inside board texture
+        console.log(this.badges)
     }
 
     theJump() {
@@ -32,6 +38,7 @@ export class GameManager {
 
         // remove le jeu du GameManager
         // si le jeu est réussi > addBadges
+        this.addBadge("jump")
     }
 
 

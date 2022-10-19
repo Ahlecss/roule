@@ -3,7 +3,6 @@ export class Users {
     constructor(options) {
         this.beat = options.beat
         this.clock = options.clock
-        this.badges = []
         this.setUsers()
     }
 
@@ -20,15 +19,6 @@ export class Users {
         //     clock: this.clock
         // })
 
-    }
-
-    // initBadges() {
-    //     // create slots
-    //     // 
-    // }
-
-    addBadges(badge) {
-        this.badges.push(badge)
     }
 
 }
