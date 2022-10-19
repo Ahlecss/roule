@@ -16,3 +16,11 @@ export default {
   components: { Game, HUD }
 }
 </script>
+
+<style>
+.interface {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}</style>

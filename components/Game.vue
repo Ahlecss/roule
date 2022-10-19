@@ -27,14 +27,14 @@ export default {
     transform: translate3d(-50%, -50%, 0);
     z-index: 1;
     pointer-events: all;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
 }
 
 canvas {
     position: absolute;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
 }
 
 .loader {
