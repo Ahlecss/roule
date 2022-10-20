@@ -13,6 +13,7 @@ export class GameManager {
     init() {
         // this.theJump();
         this.theBeat()
+        this.wouinn()
     }
 
     addBadge(badge) {
@@ -43,7 +44,9 @@ export class GameManager {
     }
 
     wouinn() {
-        this.addBadge("wouinn")
+        // this.$root.$on('wouinWin',() =>{
+            this.addBadge("wouinn")
+        // })
     }
 
     theBeat() {
