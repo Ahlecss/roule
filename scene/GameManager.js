@@ -10,7 +10,7 @@ export class GameManager {
 
         requestAnimationFrame(() => {
             this.init();
-        })
+        }, 1000)
     }
 
     init() {
@@ -45,7 +45,7 @@ export class GameManager {
         // Start game
         $nuxt.$emit('startTheDrop')
 
-        console.log('the drop')
+        // console.log('the drop')
         this.world.board.skateDrop()
         this.camera.cameraDrop()
         // this.skateJumping()
@@ -64,10 +64,11 @@ export class GameManager {
     }
 
     theWouin() {
+        console.log('la')
         $nuxt.$emit('changeCurrentTitle', 'The Wouiiiinnn')
 
-        $nuxt.$emit('startTheWouin')
-
+        $nuxt.$emit('startTpheWouin')
+        
         $nuxt.$on('win', (game) => {
             if (game !== 'theWouin') return
             this.wonGame(game)

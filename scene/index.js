@@ -88,7 +88,7 @@ export class Game {
 
   setSpeed(s) {
     $nuxt.$on('setSpeed', s => {
-      console.log(s)
+      // console.log(s)
       this.speed = s
       this.beat.bpm = this.beat.bpmOriginal * s
     })

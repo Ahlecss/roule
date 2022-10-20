@@ -1,8 +1,8 @@
 import { Mesh, MeshBasicMaterial, Object3D, BoxGeometry, PlaneGeometry, ShaderMaterial, TextureLoader, Vector2, Vector3 } from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 let boardURL = require('../../assets/models/board.glb')
-let stickers = require('../../assets/img/PNG_stickers-HD-res.png')
-let stickersMask = require('../../assets/img/MASK_stickers-HD-res.png')
+let stickers = require('../../assets/img/PNG_stickers-HD.png')
+let stickersMask = require('../../assets/img/MASK_stickers-HD.png')
 import gsap from 'gsap'
 
 
@@ -24,7 +24,7 @@ export class Board {
   loadBoard() {
     this.loader.load(boardURL.default, (gltf) => {
       this.board = gltf.scene
-      console.log(this.board)
+      // console.log(this.board)
       this.container.add(this.board)
       this.setBoard()
     })
@@ -34,7 +34,7 @@ export class Board {
     this.setBoardOverlay()
   }
   setBoardOverlay() {
-    this.overlayGeometry = new PlaneGeometry(2, 5)
+    this.overlayGeometry = new PlaneGeometry(1, 5)
     this.maskMaterial = new ShaderMaterial({
       transparent: true,
       uniforms: {
@@ -89,11 +89,12 @@ export class Board {
     new TextureLoader().load(stickersMask, (tex) => {
       this.maskMaterial.uniforms.stickerM.value = tex
     })
-    // this.maskMaterial2 = new MeshBasicMaterial({map: new TextureLoader().load(stickers), transparent: true})
     this.overlay = new Mesh(this.overlayGeometry, this.maskMaterial)
     this.overlay.name = "Overlay"
-    this.overlay.rotation.x = Math.PI / 2
-    this.overlay.position.y = 0.66
+    this.overlay.rotation.x = 1.64
+    this.overlay.position.y = 0.65
+    this.overlay.position.z = -1.2
+    this.overlay.scale.set(0.920, 0.850, 0.850)
     this.container.add(this.overlay)
   }
   updateOverlayBadge(badges) {

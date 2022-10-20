@@ -33,9 +33,9 @@
       $nuxt.$on('player2Button',(player, key) =>{
         this.selectElement(player, key)
           })
-      $nuxt.$on('startTheBeat', () => {
-        this.theBeatCreateInterval()
-      })
+      // $nuxt.$on('startTheBeat', () => {
+      //   this.theBeatCreateInterval()
+      // })
       $nuxt.$on('startTheDrop', () => {
         this.theDropCreateInterval()
       })
@@ -168,9 +168,9 @@
       },
       createWaveTheDrop() {
         this.timing = 60 / this.$game.user.leftUser.input.beat.bpm
-        console.log(60 / this.$game.user.leftUser.input.beat.bpm)
+        // console.log(60 / this.$game.user.leftUser.input.beat.bpm)
 
-        console.log('fjdsjfjksdh')
+        // console.log('fjdsjfjksdh')
         this.p1bumper = document.getElementById('p1-axis-bumper')
         this.p2bumper = document.getElementById('p2-axis-bumper')
         this.p1BumpRect = this.p1bumper.getBoundingClientRect()
