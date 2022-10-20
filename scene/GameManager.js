@@ -5,7 +5,7 @@ export class GameManager {
         this.camera = options.camera
         this.setSpeed = options.setSpeed
         this.badges = []
-        this.games = ['theBeat', 'theDrop', 'theWouin']
+         this.games = ['theBeat', 'theDrop', 'theWouin']
         // this.games = ['theDrop']
 
         requestAnimationFrame(() => {
@@ -40,14 +40,14 @@ export class GameManager {
     }
 
     theDrop() {
-        $nuxt.$emit('changeCurrentTitle', 'The Jump')
+        $nuxt.$emit('changeCurrentTitle', 'The Drop')
 
-        console.log('the jump')
-        setTimeout(() => {
-            this.setSpeed(0.2)
-        }, 1400)
-        this.world.board.skateJump()
-        this.camera.cameraJump()
+        // Start game
+        $nuxt.$emit('startTheDrop')
+
+        console.log('the drop')
+        this.world.board.skateDrop()
+        this.camera.cameraDrop()
         // this.skateJumping()
 
         // faire un flip de camera

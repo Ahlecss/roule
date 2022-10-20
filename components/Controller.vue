@@ -36,6 +36,9 @@
       $nuxt.$on('startTheBeat', () => {
         this.theBeatCreateInterval()
       })
+      $nuxt.$on('startTheDrop', () => {
+        this.theDropCreateInterval()
+      })
       this.timing = 60 / this.$game.user.leftUser.input.beat.bpm
     },
     methods: {
@@ -73,10 +76,16 @@
       },
 
       theBeatCreateInterval() {
-        this.interval = setInterval(this.createWave, this.timing  * 1000)
+        this.beatInterval = setInterval(this.createWaveTheBeat, this.timing  * 1000)
+      },
+      theDropCreateInterval() {
+        this.dropInterval = setTimeout(this.createWaveTheDrop, this.timing  * 1000)
       },
       theBeatDeleteInterval() {
-        clearInterval(this.interval)
+        clearInterval(this.beatInterval)
+      },
+      theDropDeleteInterval() {
+        clearInterval(this.dropInterval)
       },
       addDot(player, id) {
         const button = document.getElementById(id)
@@ -125,7 +134,7 @@
           p2.classList.remove('bouncing')
         }, 2100)
       },
-      createWave() {
+      createWaveTheBeat() {
         this.p1AxisA = document.getElementById('p1-axis-a')
         this.p1Rect = this.p1AxisA.getBoundingClientRect()
         this.p2AxisA = document.getElementById('p2-axis-a')
@@ -144,10 +153,7 @@
           wave.classList.add('p2-wave')
         }
         wave.classList.add('wave')
-  
-  
-        this.timing = 60 / this.$game.user.leftUser.input.beat.bpm
-  
+    
         wave.style.setProperty('--posX',`${posX}px`);
         wave.style.setProperty('--posY', `${posY}px`);
         wave.style.setProperty('--timing', `${this.timing}s`);
@@ -157,6 +163,47 @@
   
         setTimeout(() => {
           wave.remove()
+        }, this.timing * 3000)
+        
+      },
+      createWaveTheDrop() {
+        this.timing = 60 / this.$game.user.leftUser.input.beat.bpm
+        console.log(60 / this.$game.user.leftUser.input.beat.bpm)
+
+        console.log('fjdsjfjksdh')
+        this.p1bumper = document.getElementById('p1-axis-bumper')
+        this.p2bumper = document.getElementById('p2-axis-bumper')
+        this.p1BumpRect = this.p1bumper.getBoundingClientRect()
+        this.p2BumpRect = this.p2bumper.getBoundingClientRect()
+
+        const wave1 = document.createElement('span')
+        const wave2 = document.createElement('span')
+        const bump1posX = this.p1BumpRect.left + (this.p1BumpRect.width / 3.5)
+        const bump1posY = this.p1BumpRect.top + (this.p1BumpRect.height / 3.5)
+        const bump2posX = this.p2BumpRect.left + (this.p2BumpRect.width / 3.5)
+        const bump2posY = this.p2BumpRect.top + (this.p2BumpRect.height / 3.5)
+        wave1.classList.add('wave')
+        wave2.classList.add('wave')
+        wave2.classList.add('p2-wave')
+
+
+        wave1.style.setProperty('--posX',`${bump1posX}px`);
+        wave1.style.setProperty('--posY', `${bump1posY}px`);
+        wave1.style.setProperty('--timing', `${this.timing}s`);
+
+        wave2.style.setProperty('--posX',`${bump2posX}px`);
+        wave2.style.setProperty('--posY', `${bump2posY}px`);
+        wave2.style.setProperty('--timing', `${this.timing}s`);
+        //if(player === '1') {
+        document.getElementById('controller').appendChild(wave1)
+        document.getElementById('controller').appendChild(wave2)
+
+        setTimeout(() => {
+          this.createWaveTheDrop()
+        }, this.timing * 1000)
+        setTimeout(() => {
+          wave1.remove()
+          wave2.remove()
         }, this.timing * 3000)
       }
     }
@@ -219,7 +266,7 @@
     position: absolute;
     width: 100px;
     height: 100px;
-    border: 5px solid #EC5E40;
+    border: 10px solid #EC5E40;
     border-radius: 100%;
     left: calc(var(--posX) - 44px);
     top: calc(var(--posY) - 44px);
@@ -229,7 +276,7 @@
     animation: wave var(--timing) var(--timing) linear forwards;
   }
   .p2-wave {
-    border: 5px solid #FAC96F;
+    border: 10px solid #FAC96F;
   }
   .bouncing{
     animation: bouncing 1s 2 cubic-bezier(.36,.07,.19,.97) both;

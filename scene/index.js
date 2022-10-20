@@ -29,6 +29,7 @@ export class Game {
     this.setUsers()
     this.setPostProcessing()
     this.setAudio()
+    this.setSpeed()
     this.update()
   }
 
@@ -86,8 +87,11 @@ export class Game {
   }
 
   setSpeed(s) {
-    this.speed = s
-    this.beat.bpm = this.beat.bpmOriginal * s
+    $nuxt.$on('setSpeed', s => {
+      console.log(s)
+      this.speed = s
+      this.beat.bpm = this.beat.bpmOriginal * s
+    })
   }
 
   setEvents() {
