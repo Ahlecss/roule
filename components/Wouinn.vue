@@ -71,9 +71,7 @@ export default {
       } else {
         this.timeoutRef = setTimeout(() => {
           if(this.isWinning) {
-            console.log('win')
-            // emit to Gamemanager
-            $nuxt.$emit('wouinWin')
+            $nuxt.$emit('win', "theWouin")
           } else {
             clearTimeout(this.timeoutRef);
             this.timeoutRef = false

@@ -92,13 +92,13 @@ export class Board {
   updateOverlayBadge(badges) {
     badges.map((badge) => {
       switch (badge) {
-        case "beat":
+        case "theBeat":
           this.vecBadges.x = 1
           break;
-        case "wouinn":
+        case "theWouin":
           this.vecBadges.y = 1
           break;
-        case "jump":
+        case "theJump":
           this.vecBadges.z = 1
           break;
       }

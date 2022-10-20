@@ -85,22 +85,22 @@ export class Users {
         Axis.addEventListener("exit:canceled", this.exitCanceledHandler)
         Axis.addEventListener("exit:completed", this.exitCompletedHandler)
 
-        document.addEventListener("keydown", (event) => {
-             if (event.key == "Control") {
-                this.exitAttemptedHandler()
-            } else if (event.key == "²") {
-                this.exitCanceledHandler()
-            }
-        });
+        // document.addEventListener("keydown", (event) => {
+        //      if (event.key == "Control") {
+        //         this.exitAttemptedHandler()
+        //     } else if (event.key == "²") {
+        //         this.exitCanceledHandler()
+        //     }
+        // });
     }
 
-    exitAttemptedHandler() {
-        $nuxt.$emit('initPause')
-    }
+    // exitAttemptedHandler() {
+    //     $nuxt.$emit('initPause')
+    // }
 
-    exitCanceledHandler() {
-        $nuxt.$emit('closePause')
-    }
+    // exitCanceledHandler() {
+    //     $nuxt.$emit('closePause')
+    // }
 
     player1KeydownHandler(e) {
         if(e.key = "a" && !this.player1isReady) {

@@ -5,7 +5,7 @@ export class GameManager {
         this.camera = options.camera
         this.setSpeed = options.setSpeed
         this.badges = []
-        this.games = ['theBeat', 'theJump']
+        this.games = ['theBeat', 'theJump', 'theWouin']
 
         requestAnimationFrame(() => {
             this.init();
@@ -58,14 +58,16 @@ export class GameManager {
         // mouvement skate si raté
         // Recommencer 5 secondes après
 
-        // remove le jeu du GameManager
-        // si le jeu est réussi > addBadges
-        this.addBadge("jump")
     }
 
-    wouinn() {
-        $nuxt.$on('wouinWin',() =>{
-            this.addBadge("wouinn")
+    theWouin() {
+        $nuxt.$emit('changeCurrentTitle', 'The Wouiiiinnn')
+
+        $nuxt.$emit('startTheWouin')
+
+        $nuxt.$on('win', (game) => {
+            if (game !== 'theWouin') return
+            this.wonGame(game)
         })
     }
 
