@@ -34,7 +34,7 @@ export class Board {
     this.setBoardOverlay()
   }
   setBoardOverlay() {
-    this.overlayGeometry = new PlaneGeometry(2, 5)
+    this.overlayGeometry = new PlaneGeometry(1, 5)
     this.maskMaterial = new ShaderMaterial({
       transparent: true,
       uniforms: {
@@ -89,11 +89,12 @@ export class Board {
     new TextureLoader().load(stickersMask, (tex) => {
       this.maskMaterial.uniforms.stickerM.value = tex
     })
-    // this.maskMaterial2 = new MeshBasicMaterial({map: new TextureLoader().load(stickers), transparent: true})
     this.overlay = new Mesh(this.overlayGeometry, this.maskMaterial)
     this.overlay.name = "Overlay"
-    this.overlay.rotation.x = Math.PI / 2
-    this.overlay.position.y = 0.66
+    this.overlay.rotation.x = 1.64
+    this.overlay.position.y = 0.65
+    this.overlay.position.z = -1.2
+    this.overlay.scale.set(0.920, 0.850, 0.850)
     this.container.add(this.overlay)
   }
   updateOverlayBadge(badges) {

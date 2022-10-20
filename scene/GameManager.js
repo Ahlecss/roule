@@ -5,7 +5,7 @@ export class GameManager {
         this.camera = options.camera
         this.setSpeed = options.setSpeed
         this.badges = []
-        this.games = ['theBeat', 'theDrop', 'theWouin']
+        this.games = ['theBeat',  'theWouin']
         // this.games = ['theDrop']
 
         requestAnimationFrame(() => {
