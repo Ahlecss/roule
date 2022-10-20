@@ -14,6 +14,7 @@
 			}
 		},
     mounted() {
+      this.titles = this.$refs.titles
 			$nuxt.$on('changeCurrentTitle', newTitle => {
 				this.currentTitle = newTitle
 				this.showTitle()
@@ -21,12 +22,12 @@
     },
     methods: {
         showTitle() {
-					this.$refs.titles.classList.add('show')
+					this.titles.classList.add('show')
 					this.hideTitle()
         },
 				hideTitle() {
 					setTimeout(() => {
-						this.$refs.titles.classList.remove('show')
+						tthis.titles.classList.remove('show')
 					}, 4000)
 				}
     }

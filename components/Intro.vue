@@ -1,17 +1,22 @@
 <template>
     <div class="intro" ref="intro">
         <Controller class="controller-small"/>
-        <div class="player-div player1">
-            <h3 v-if="!player1isReady">Ready ?</h3>
-            <h3 v-else>All good !</h3>
-            <div class="player-i"></div>
-            <h2 v-if="!player1isReady">Press X</h2>
+        <div v-if="!firstInput">
+           <h3>Press any key to start</h3>
         </div>
-        <div class="player-div player2">
-            <h3 v-if="!player2isReady">Ready ?</h3>
-            <h3 v-else>All good !</h3>
-            <div class="player-i"></div>
-            <h2 v-if="!player2isReady">Press X</h2>
+        <div class="intro-players" v-else>
+            <div class="player-div player1">
+                <h3 v-if="!player1isReady">Ready ?</h3>
+                <h3 v-else>All good !</h3>
+                <div class="player-i"></div>
+                <h2 v-if="!player1isReady">Press X</h2>
+            </div>
+            <div class="player-div player2">
+                <h3 v-if="!player2isReady">Ready ?</h3>
+                <h3 v-else>All good !</h3>
+                <div class="player-i"></div>
+                <h2 v-if="!player2isReady">Press X</h2>
+            </div>
         </div>
     </div>
 </template>
@@ -24,13 +29,16 @@ import Controller from './Controller.vue'
     data() {
         return {
             started : false,
+            firstInput: false,
             player1isReady: false,
             player2isReady: false,
             players: []
         }
     },
     mounted() {
+        this.intro = this.$refs.intro
         $nuxt.$on('playerisReady',(player) =>{
+            this.firstInput = true
             this.started = true
             this.playerisReady(player)
         })
@@ -51,7 +59,7 @@ import Controller from './Controller.vue'
             }
         },
         closeinit() {
-            this.$refs.intro.style.opacity = 0
+            this.intro.style.opacity = 0
         }
     }
   }
@@ -70,6 +78,10 @@ import Controller from './Controller.vue'
     text-align: center;
     font-family: 'KC Pixel Hand';
     font-size: 25px;
+    font-family: 'KCPixelHand';
+}
+
+.intro-players {
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -87,13 +99,13 @@ import Controller from './Controller.vue'
 }
 
 .player1 {
-    color: #EC5E40;
-    border-color: #EC5E40;
+    color: #ABEB36;
+    border-color: #ABEB36;
 }
 
 .player2 {
-    color: #FAC96F;
-    border-color: #FAC96F;
+    color: #FF326F;
+    border-color: #FF326F;
 }
 
 .controller-small #p1, .controller-small #p2  {
@@ -106,6 +118,17 @@ import Controller from './Controller.vue'
 
 .controller-small #p2  {
     right: 17%;
+}
+
+.controller-small #p1  {
+    left: 20%;
+}
+
+.controller-small #p1 #p1-axis-a {
+    fill: #ABEB36;
+}
+.controller-small #p2 #p2-axis-a  {
+    fill: #FF326F;
 }
 </style>
   
