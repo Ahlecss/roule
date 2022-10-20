@@ -1,6 +1,5 @@
 <template>
     <div>
-        <p>{{player1Position.x}} || {{player2Position.x}}</p>
     </div>
 </template>
   
@@ -12,8 +11,6 @@ export default {
         return {
             player1isReady : false,
             player2isReady : false,
-            player1Position : { x: 0, y: 0 },
-            player2Position : { x: 0, y: 0 },
             gamepadEmulator : Axis.createGamepadEmulator(0)
         }
     },
@@ -109,16 +106,10 @@ export default {
         player1JoystickMoveHandler(e) {
             if(e.position.x >= 0)
                 this.$root.$emit('player1Joystick', e.position.x)
-
-            this.player1Position.x = e.position.x
-            this.player1Position.y = e.position.y 
         },
         player2JoystickMoveHandler(e) {
             if(e.position.x <= 0)
                 this.$root.$emit('player2Joystick', e.position.x)
-
-            this.player2Position.x = e.position.x
-            this.player2Position.y = e.position.y 
         }
     },
 }
