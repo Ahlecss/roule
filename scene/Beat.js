@@ -4,7 +4,7 @@ export class Beat {
         this.speed = options.speed
         console.log(options)
         this.gameManager = options.gameManager
-        this.bpm = 111 * this.speed
+        this.bpm = 60 * this.speed
         this.delta = 0
         this.lastTotal = this.getBeatTotal()
     }
