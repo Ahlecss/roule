@@ -28,6 +28,7 @@ export class Game {
     this.setEvents()
     this.setUsers()
     this.setPostProcessing()
+    this.setAudio()
     this.update()
   }
 
@@ -86,6 +87,7 @@ export class Game {
 
   setSpeed(s) {
     this.speed = s
+    this.beat.bpm = this.beat.bpmOriginal * s
   }
 
   setEvents() {
@@ -113,6 +115,12 @@ export class Game {
       scene: this.scene,
       beat: this.beat,
     })
+  }
+
+  setAudio() {
+    this.audio = new Audio()
+    this.audio.src = '../assets/audio/beat.mp3'
+    this.audio.play()
   }
 
   update() {
