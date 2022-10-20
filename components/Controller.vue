@@ -61,11 +61,16 @@
           this.shake(player)
           this.addDot(player,id)
         }
-        console.log(input.combo)
+        this.checkCombo(input.combo)
         },
+      checkCombo(combo) {
+        if(combo === 2) {
+          $nuxt.$emit('win', 'theBeat')
+          this.theBeatDeleteInterval()
+        } else return
+      },
 
       theBeatCreateInterval() {
-        console.log('test')
         this.interval = setInterval(this.createWave, this.timing  * 1000)
       },
       theBeatDeleteInterval() {

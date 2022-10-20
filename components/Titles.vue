@@ -15,14 +15,12 @@
 		},
     mounted() {
 			$nuxt.$on('changeCurrentTitle', newTitle => {
-				console.log(newTitle)
 				this.currentTitle = newTitle
 				this.showTitle()
       })
     },
     methods: {
         showTitle() {
-          console.log('tkldshfsdkjhfh')
 					this.$refs.titles.classList.add('show')
 					this.hideTitle()
         },

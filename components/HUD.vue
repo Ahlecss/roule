@@ -3,14 +3,17 @@
   <div class="HUD" id="HUD">
     <Controller />
     <Titles />
+    <Success />
   </div>
 </template>
 
 <script>
 import Controller from './Controller.vue'
+import Titles from './Titles.vue';
+import Success from './Success.vue';
 export default {
   name: 'HUD',
-  components: { Controller },
+  components: { Controller, Success, Titles },
   mounted() {
 
   },

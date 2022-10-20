@@ -21,9 +21,21 @@ export class GameManager {
         this[randomGame]()
     }
 
+    removeGame(game) {
+        this.games.splice(this.games.indexOf(game), 1)
+    }
+
     addBadge(badge) {
         this.badges.push(badge)
         this.world.board.updateOverlayBadge(this.badges)
+    }
+
+    wonGame(game) {
+        this.addBadge(game)
+        this.removeGame(game)
+        setTimeout(() => {
+            this.chooseRandomGame()
+        }, 5000)
     }
 
     theJump() {
@@ -52,14 +64,21 @@ export class GameManager {
     }
 
     theBeat() {
-        console.log('the beat')
+        // Change Title
         $nuxt.$emit('changeCurrentTitle', 'The Beat')
 
+        // Start game
         $nuxt.$emit('startTheBeat')
+
+        // When game is winned, add badge, remove from existing games, and play another game
+        $nuxt.$on('win', (game) => {
+            if (game !== 'theBeat') return
+            this.wonGame(game)
+        })
 
         // Lancer la musique
 
-        
+
 
         // démarrer un rythme en même temps
 
