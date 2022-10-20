@@ -24,7 +24,7 @@ export class Board {
   loadBoard() {
     this.loader.load(boardURL.default, (gltf) => {
       this.board = gltf.scene
-      console.log(this.board)
+      // console.log(this.board)
       this.container.add(this.board)
       this.setBoard()
     })

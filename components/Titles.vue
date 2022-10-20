@@ -27,7 +27,7 @@
         },
 				hideTitle() {
 					setTimeout(() => {
-						tthis.titles.classList.remove('show')
+						this.titles.classList.remove('show')
 					}, 4000)
 				}
     }

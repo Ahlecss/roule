@@ -45,7 +45,7 @@ export class GameManager {
         // Start game
         $nuxt.$emit('startTheDrop')
 
-        console.log('the drop')
+        // console.log('the drop')
         this.world.board.skateDrop()
         this.camera.cameraDrop()
         // this.skateJumping()

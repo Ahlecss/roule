@@ -1,7 +1,8 @@
 <template>
     <div class="intro" ref="intro">
         <Controller class="controller-small"/>
-        <div v-if="!firstInput">
+        <div class="intro-logo" v-if="!firstInput">
+            <img src="../assets/img/logo-intro.svg"/>
            <h3>Press any key to start</h3>
         </div>
         <div class="intro-players" v-else>
@@ -71,7 +72,8 @@ import Controller from './Controller.vue'
     top: 0;
     left: 0;
     z-index:2;
-    background: linear-gradient(180deg, #000000 34.79%, #4A0065 100%);
+    background: url("../assets/img/grid.svg") top center no-repeat, linear-gradient(180deg, #000000 34.79%, #4A0065 100%);
+    background-size: 110%;
     height:100vh;
     width:100vw;
     color: white;
@@ -85,6 +87,27 @@ import Controller from './Controller.vue'
     display: flex;
     justify-content: space-around;
     align-items: center;
+}
+
+.intro-logo h3 {
+    position: absolute;
+    top: 65%;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+.intro-logo  {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+
+.intro-logo img {
+    object-fit: cover;
+    height: 100%;
 }
 
 .player-div {
