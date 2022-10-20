@@ -11,9 +11,10 @@
 <script>
 import Game from '../components/Game.vue';
 import HUD from '../components/HUD.vue';
+import Events from '../components/Events.vue';
 export default {
   name: "Interface",
-  components: { Game, HUD }
+  components: { Game, HUD, Events }
 }
 </script>
 
