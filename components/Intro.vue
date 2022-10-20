@@ -7,16 +7,28 @@
         </div>
         <div class="intro-players" v-else>
             <div class="player-div player1">
-                <h3 v-if="!player1isReady">Ready ?</h3>
-                <h3 v-else>All good !</h3>
-                <div class="player-i"></div>
-                <h2 v-if="!player1isReady">Press A</h2>
+                <h3>Ready ?</h3>
+                <div class="player-i">
+                    <img src="../assets/img/Wheel1.png"/>
+                </div>
+                <h2 v-if="!player1isReady">Press 
+                    <span><svg width="25" height="28" viewBox="0 0 25 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M25 27.9169L25 12.7326C25 12.7326 23.1253 1.17254e-06 14.063 3.80287e-07C5.00066 -4.11967e-07 0.00107863 5.06143 0.00107815 10.5186L10.1564 10.9928C10.1564 10.9928 12.4995 11.3089 12.4995 12.8907C12.4995 14.4724 10.7023 13.9579 10.7023 13.9579L2.81259 13.9579C2.81259 13.9579 -4.20404e-08 14.4724 -5.81255e-07 20.6403C-1.12047e-06 26.8082 3.20347 27.5212 5.85886 27.5212C8.51424 27.5212 11.6402 24.9899 11.6402 22.7759C11.6402 20.5619 13.2812 20.0866 13.671 21.5103C13.8132 22.0281 14.7403 25.6026 16.6397 26.6513C19.9606 28.4848 24.9989 27.9169 24.9989 27.9169L25 27.9169Z" fill="#ABEB36"/>
+                    </svg></span>
+                </h2>
+                    <h3 v-else>All good !</h3>
             </div>
             <div class="player-div player2">
-                <h3 v-if="!player2isReady">Ready ?</h3>
+                <h3>Ready ?</h3>
+                <div class="player-i">
+                    <img src="../assets/img/Wheel2.png"/>
+                </div>
+                <h2 v-if="!player2isReady">Press 
+                    <span><svg width="25" height="28" viewBox="0 0 25 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M25 27.9169L25 12.7326C25 12.7326 23.1253 1.17254e-06 14.063 3.80287e-07C5.00066 -4.11967e-07 0.00107863 5.06143 0.00107815 10.5186L10.1564 10.9928C10.1564 10.9928 12.4995 11.3089 12.4995 12.8907C12.4995 14.4724 10.7023 13.9579 10.7023 13.9579L2.81259 13.9579C2.81259 13.9579 -4.20404e-08 14.4724 -5.81255e-07 20.6403C-1.12047e-06 26.8082 3.20347 27.5212 5.85886 27.5212C8.51424 27.5212 11.6402 24.9899 11.6402 22.7759C11.6402 20.5619 13.2812 20.0866 13.671 21.5103C13.8132 22.0281 14.7403 25.6026 16.6397 26.6513C19.9606 28.4848 24.9989 27.9169 24.9989 27.9169L25 27.9169Z" fill="#FF326F"/>
+                    </svg></span>
+                </h2>
                 <h3 v-else>All good !</h3>
-                <div class="player-i"></div>
-                <h2 v-if="!player2isReady">Press A</h2>
             </div>
         </div>
     </div>
@@ -88,6 +100,7 @@ import Controller from './Controller.vue'
     justify-content: space-around;
     align-items: center;
 }
+
 
 .intro-logo h3 {
     position: absolute;

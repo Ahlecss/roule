@@ -33,9 +33,9 @@
       $nuxt.$on('player2Button',(player, key) =>{
         this.selectElement(player, key)
           })
-      $nuxt.$on('startTheBeat', () => {
-        this.theBeatCreateInterval()
-      })
+      // $nuxt.$on('startTheBeat', () => {
+      //   this.theBeatCreateInterval()
+      // })
       $nuxt.$on('startTheDrop', () => {
         this.theDropCreateInterval()
       })
