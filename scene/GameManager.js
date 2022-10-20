@@ -5,8 +5,8 @@ export class GameManager {
         this.camera = options.camera
         this.setSpeed = options.setSpeed
         this.badges = []
-        // this.games = ['theBeat', 'theDrop', 'theWouin']
-        this.games = ['theBeat']
+        //this.games = ['theBeat', 'theDrop', 'theWouin']
+        this.games = ['theDrop']
 
         requestAnimationFrame(() => {
             this.init();
@@ -45,7 +45,14 @@ export class GameManager {
         // Start game
         $nuxt.$emit('startTheDrop')
 
-        // console.log('the drop')
+        $nuxt.$on('win', (game) => {
+            if (game !== 'theDrop') return
+            console.log('the drop')
+            this.wonGame(game)
+            this.camera.endCameraDrop()
+            this.world.board.endSkateDrop()
+        })
+
         this.world.board.skateDrop()
         this.camera.cameraDrop()
         // this.skateJumping()
