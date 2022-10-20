@@ -41,6 +41,7 @@
     methods: {
       selectElement(player, key) {
           if (typeof key === 'number') {
+            this.checkValidity(player, `p${player}-axis-controller`)
             return;
           } else if(key === 'w') {
             // this.addDot(player, `p${player}-axis-bumper`)
@@ -156,7 +157,7 @@
   
         setTimeout(() => {
           wave.remove()
-        }, this.timing * 2000)
+        }, this.timing * 3000)
       }
     }
   }
@@ -223,8 +224,9 @@
     left: calc(var(--posX) - 44px);
     top: calc(var(--posY) - 44px);
     transform-origin: center;
+    opacity: 0;
     /* transform: translate3d(var(--posX), var(--posY), 0);*/
-    animation: wave var(--timing) linear forwards;
+    animation: wave var(--timing) var(--timing) linear forwards;
   }
   .p2-wave {
     border: 5px solid #FAC96F;
@@ -270,8 +272,16 @@
   }
   
   @keyframes wave {
-    0% { 
+    0% {
       transform: scale(1);
+      opacity: 0;
+    }
+    49% {
+      opacity: 0;
+    }
+    50% {
+      transform: scale(1);
+      opacity: 1;
     }
     99% { 
       transform: scale(0.40);

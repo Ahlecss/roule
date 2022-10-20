@@ -2,9 +2,9 @@ export class Beat {
     constructor(options) {
         this.clock = options.clock
         this.speed = options.speed
-        console.log(options)
+
         this.gameManager = options.gameManager
-        this.bpm = 111 * this.speed
+        this.bpm = 160 * this.speed
         this.delta = 0
         this.lastTotal = this.getBeatTotal()
     }

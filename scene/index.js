@@ -17,14 +17,13 @@ export class Game {
   }
 
   init(options) {
-    console.log('init game')
     this.canvas = options.canvas
     this.speed = 1
     this.setRenderer()
-    this.setCamera()
     this.setClock()
     this.setBeat()
     this.setWorld()
+    this.setCamera()
     this.setGameManager()
     this.setEvents()
     this.setUsers()
@@ -52,7 +51,7 @@ export class Game {
   }
   setCamera() {
     this.camera = new Camera()
-    this.scene.add(this.camera.camera)
+    this.world.board.container.attach(this.camera.camera)
   }
 
   setClock() {
@@ -63,7 +62,8 @@ export class Game {
 
   setWorld() {
     this.world = new World({
-      beat: this.beat
+      beat: this.beat,
+      speed: this.speed
     })
     this.scene.add(this.world.container)
   }
@@ -80,12 +80,11 @@ export class Game {
       world: this.world,
       beat: this.beat,
       camera: this.camera,
-      setSpeed: this.setSpeed
+      setSpeed: (s) => this.setSpeed(s)
     })
   }
 
   setSpeed(s) {
-    console.log('setSpeed', s)
     this.speed = s
   }
 
@@ -108,11 +107,11 @@ export class Game {
   }
 
   setPostProcessing() {
-    console.log(this.renderer)
     this.postProcessing = new PostProcessing({
       renderer: this.renderer,
       camera: this.camera,
-      scene: this.scene
+      scene: this.scene,
+      beat: this.beat,
     })
   }
 
@@ -121,7 +120,6 @@ export class Game {
     let delta = this.beat.getBeatDelta() * this.speed
     this.world.update(delta)
     this.beat.update()
-    // this.renderer.render(this.scene, this.camera.camera)
-    this.postProcessing.update()
+    this.postProcessing.update(delta)
   }
 }

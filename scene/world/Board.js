@@ -10,6 +10,7 @@ export class Board {
   constructor(options) {
     // Options
     this.beat = options.beat
+    this.speed = options.speed
     // Set up
     this.container = new Object3D()
     this.container.name = 'Board'
@@ -22,19 +23,13 @@ export class Board {
   }
   loadBoard() {
     this.loader.load(boardURL.default, (gltf) => {
-      console.log('loaded')
       this.board = gltf.scene
+      console.log(this.board)
       this.container.add(this.board)
       this.setBoard()
     })
   }
   setBoard() {
-    this.board.children.forEach(element => {
-      let material = new MeshBasicMaterial({
-        color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
-      })
-      element.material = material
-    })
     this.container.position.z = 4
     this.setBoardOverlay()
   }
@@ -98,7 +93,7 @@ export class Board {
     this.overlay = new Mesh(this.overlayGeometry, this.maskMaterial)
     this.overlay.name = "Overlay"
     this.overlay.rotation.x = Math.PI / 2
-    this.overlay.position.y = 0.68
+    this.overlay.position.y = 0.66
     this.container.add(this.overlay)
   }
   updateOverlayBadge(badges) {
@@ -139,8 +134,7 @@ export class Board {
 
   skateJump() {
     this.tl = gsap.timeline({ delay: 1 })
-    console.log(this.beat)
-    this.tl.progress(this.tl.progress)
+    // this.tl.duration(this.tl.duration * this.speed)
 
     this.tl.to(this.container.position, {
       y: - Math.PI / 8,
@@ -153,9 +147,6 @@ export class Board {
     this.tl.to(this.container.rotation, {
       z: -Math.PI / 2,
       duration: 1,
-      onComplete: () => {
-        this.speed = 0.2
-      }
     }, '-=0.5')
     this.tl.to(this.container.rotation, {
       z: -Math.PI,
@@ -163,6 +154,11 @@ export class Board {
     }, '-=1')
   }
   update(delta) {
+    if (this.board) {
+      this.board.children[1].rotateZ(delta * 15.)
+      this.board.children[2].rotateZ(delta * 15.)
+    }
+
     this.container.scale.y = 1. - this.easeInBack(Math.sin(this.beat.getBeat() * 2 * Math.PI) / 2 + 0.5) * 0.2
   }
   easeInBack(x) {
