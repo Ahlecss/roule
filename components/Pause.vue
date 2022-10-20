@@ -9,10 +9,10 @@
   export default {
     name: 'Pause',
     mounted() {
-      this.$root.$on('initPause',() =>{
+      $nuxt.$on('initPause',() =>{
         this.initPause()
       })
-      this.$root.$on('closePause',() =>{
+      $nuxt.$on('closePause',() =>{
         this.closePause()
       })
     },
