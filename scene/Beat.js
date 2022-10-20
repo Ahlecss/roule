@@ -4,7 +4,8 @@ export class Beat {
         this.speed = options.speed
 
         this.gameManager = options.gameManager
-        this.bpm = 160 * this.speed
+        this.bpmOriginal = 160
+        this.bpm = this.bpmOriginal * this.speed
         this.delta = 0
         this.lastTotal = this.getBeatTotal()
     }
