@@ -266,7 +266,7 @@
     position: absolute;
     width: 100px;
     height: 100px;
-    border: 10px solid #EC5E40;
+    border: 10px solid #ABEB36;
     border-radius: 100%;
     left: calc(var(--posX) - 44px);
     top: calc(var(--posY) - 44px);
@@ -276,7 +276,7 @@
     animation: wave var(--timing) var(--timing) linear forwards;
   }
   .p2-wave {
-    border: 10px solid #FAC96F;
+    border: 10px solid #FF326F;
   }
   .bouncing{
     animation: bouncing 1s 2 cubic-bezier(.36,.07,.19,.97) both;
