@@ -66,6 +66,7 @@
       checkCombo(combo) {
         if(combo === 2) {
           $nuxt.$emit('win', 'theBeat')
+          this.bounce()
           this.theBeatDeleteInterval()
         } else return
       },
@@ -112,6 +113,16 @@
         setTimeout(() => {
           controller.classList.remove('shake')
         }, 900)
+      },
+      bounce() {
+        const p1 = document.getElementById('p1')
+        const p2 = document.getElementById('p2')
+        p1.classList.add('bouncing')
+        p2.classList.add('bouncing')
+        setTimeout(() => {
+          p1.classList.remove('bouncing')
+          p2.classList.remove('bouncing')
+        }, 2100)
       },
       createWave() {
         this.p1AxisA = document.getElementById('p1-axis-a')
@@ -217,7 +228,9 @@
   }
   .p2-wave {
     border: 5px solid #FAC96F;
-  
+  }
+  .bouncing{
+    animation: bouncing 1s 2 cubic-bezier(.36,.07,.19,.97) both;
   }
   
   @keyframes shake {
@@ -237,10 +250,28 @@
       transform: translate3d(calc(-5% + 4px),  -90%, 0);
     }
   }
+
+  @keyframes bouncing {
+    0% { 
+      transform: translate3d(-5%, -90%, 0) scale(1);
+    }
+    20% {
+      transform: translate3d(-5%, -90%, 0) scale(1.2);
+    }
+    40%{ 
+      transform: translate3d(-5%, -90%, 0) scale(1);
+    }
+    60%{
+      transform: translate3d(-5%, -90%, 0) scale(1.2);
+    }
+    80%{ 
+      transform: translate3d(-5%, -90%, 0) scale(1);
+    }
+  }
   
   @keyframes wave {
     0% { 
-      transform: scale(1)
+      transform: scale(1);
     }
     99% { 
       transform: scale(0.40);
