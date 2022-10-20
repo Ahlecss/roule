@@ -28,7 +28,7 @@
         }
     },
     mounted() {
-        this.$root.$on('playerisReady',(player) =>{
+        $nuxt.$on('playerisReady',(player) =>{
             this.started = true
             this.playerisReady(player)
         })

@@ -44,9 +44,9 @@ export class GameManager {
     }
 
     wouinn() {
-        // this.$root.$on('wouinWin',() =>{
+        $nuxt.$on('wouinWin',() =>{
             this.addBadge("wouinn")
-        // })
+        })
     }
 
     theBeat() {

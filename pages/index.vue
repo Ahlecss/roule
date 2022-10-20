@@ -1,6 +1,6 @@
 <template>
   <div class="interface">
-    <Events />
+    <!-- <Events /> -->
     <!-- <Intro /> -->
     <!-- <Pause /> -->
     <Game />

@@ -28,10 +28,10 @@
 export default {
   name: 'HUD',
   mounted() {
-    this.$root.$on('player1Button',(player, key) => {
+    $nuxt.$on('player1Button',(player, key) => {
       this.selectElement(player, key)
     })
-    this.$root.$on('player2Button',(player, key) =>{
+    $nuxt.$on('player2Button',(player, key) =>{
       this.selectElement(player, key)
     })
     this.timing = 60 / this.$game.user.leftUser.input.beat.bpm

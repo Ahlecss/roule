@@ -25,12 +25,12 @@ export default {
     this.right = this.$refs.right
     this.cursorMid = this.$refs.cursorMid
     this.cursorMov = this.$refs.cursorMov
-    this.$root.$on('player1Joystick', (x) => {
+    $nuxt.$on('player1Joystick', (x) => {
       this.left.style.opacity = 0.8 + 0.2 * x
       this.wouinFactor += x * 0.003
       this.updateWouinBar()
     })
-    this.$root.$on('player2Joystick', (x) => {
+    $nuxt.$on('player2Joystick', (x) => {
       this.right.style.opacity = 0.8 + 0.2 * -x
       this.wouinFactor += x * 0.003
       this.updateWouinBar()
@@ -73,6 +73,7 @@ export default {
           if(this.isWinning) {
             console.log('win')
             // emit to Gamemanager
+            $nuxt.$emit('wouinWin')
           } else {
             clearTimeout(this.timeoutRef);
             this.timeoutRef = false
