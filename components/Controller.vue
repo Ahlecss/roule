@@ -41,6 +41,7 @@
     methods: {
       selectElement(player, key) {
           if (typeof key === 'number') {
+            this.checkValidity(player, `p${player}-axis-controller`)
             return;
           } else if(key === 'w') {
             // this.addDot(player, `p${player}-axis-bumper`)
