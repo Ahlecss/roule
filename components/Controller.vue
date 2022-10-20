@@ -33,8 +33,10 @@
       this.$root.$on('player2Button',(player, key) =>{
         this.selectElement(player, key)
           })
+      $nuxt.$on('startTheBeat', () => {
+        this.theBeatCreateInterval()
+      })
       this.timing = 60 / this.$game.user.leftUser.input.beat.bpm
-      setInterval(this.createWave, this.timing  * 1000)
     },
     methods: {
       selectElement(player, key) {
@@ -59,7 +61,16 @@
           this.shake(player)
           this.addDot(player,id)
         }
+        console.log(input.combo)
         },
+
+      theBeatCreateInterval() {
+        console.log('test')
+        this.interval = setInterval(this.createWave, this.timing  * 1000)
+      },
+      theBeatDeleteInterval() {
+        clearInterval(this.interval)
+      },
       addDot(player, id) {
         const button = document.getElementById(id)
         const rect = button.getBoundingClientRect()

@@ -10,19 +10,19 @@
     name: 'Titles',
 		data() {
 			return {
-				currentTitle: 'The Beat'
+				currentTitle: ''
 			}
 		},
     mounted() {
-			$nuxt.$on('changeCurrentTitle', (newTitle) => {
-				console.log('ici')
+			$nuxt.$on('changeCurrentTitle', newTitle => {
+				console.log(newTitle)
 				this.currentTitle = newTitle
 				this.showTitle()
       })
-			this.showTitle()
     },
     methods: {
         showTitle() {
+          console.log('tkldshfsdkjhfh')
 					this.$refs.titles.classList.add('show')
 					this.hideTitle()
         },

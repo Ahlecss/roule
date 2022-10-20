@@ -5,13 +5,20 @@ export class GameManager {
         this.camera = options.camera
         this.setSpeed = options.setSpeed
         this.badges = []
+        this.games = ['theBeat', 'theJump']
 
-        this.init();
+        requestAnimationFrame(() => {
+            this.init();
+        })
     }
 
     init() {
-        // this.theJump();
-        this.theBeat()
+        this.chooseRandomGame()
+    }
+
+    chooseRandomGame() {
+        var randomGame = this.games[Math.floor(this.games.length * Math.random())];
+        this[randomGame]()
     }
 
     addBadge(badge) {
@@ -20,6 +27,9 @@ export class GameManager {
     }
 
     theJump() {
+        $nuxt.$emit('changeCurrentTitle', 'The Jump')
+
+        console.log('the jump')
         this.setSpeed(0.2)
         this.world.board.skateJump()
         this.camera.cameraJump()
@@ -42,7 +52,10 @@ export class GameManager {
     }
 
     theBeat() {
+        console.log('the beat')
         $nuxt.$emit('changeCurrentTitle', 'The Beat')
+
+        $nuxt.$emit('startTheBeat')
 
         // Lancer la musique
 
