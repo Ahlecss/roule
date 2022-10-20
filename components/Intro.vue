@@ -9,7 +9,7 @@
             <div class="player-div player1">
                 <h3>Ready ?</h3>
                 <div class="player-i">
-                    <img src="../assets/img/Wheel1.png"/>
+                    <img src="../assets/img/Wheel1.png" v-if="player1isReady"/>
                 </div>
                 <h2 v-if="!player1isReady">Press 
                     <span><svg width="25" height="28" viewBox="0 0 25 28" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -20,8 +20,8 @@
             </div>
             <div class="player-div player2">
                 <h3>Ready ?</h3>
-                <div class="player-i">
-                    <img src="../assets/img/Wheel2.png"/>
+                <div class="player-i" >
+                    <img src="../assets/img/Wheel2.png" v-if="player2isReady"/>
                 </div>
                 <h2 v-if="!player2isReady">Press 
                     <span><svg width="25" height="28" viewBox="0 0 25 28" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -51,6 +51,7 @@ import Controller from './Controller.vue'
     mounted() {
         this.intro = this.$refs.intro
         $nuxt.$on('playerisReady',(player) =>{
+            // AJOUTER UNE TRANSITION
             this.firstInput = true
             this.started = true
             this.playerisReady(player)
@@ -72,6 +73,7 @@ import Controller from './Controller.vue'
             }
         },
         closeinit() {
+            // AJOUTER UNE TRANSITION
             this.intro.style.opacity = 0
         }
     }
