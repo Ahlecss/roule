@@ -7,6 +7,7 @@ import { Faces } from "./Faces.js"
 export class World {
     constructor(options) {
         this.beat = options.beat
+        this.speed = options.speed
         this.container = new Object3D()
         this.setGround()
         this.setBoard()
@@ -23,7 +24,8 @@ export class World {
 
     setBoard() {
         this.board = new Board({
-            beat: this.beat
+            beat: this.beat,
+            speed: this.speed
         })
         this.container.add(this.board.container)
     }

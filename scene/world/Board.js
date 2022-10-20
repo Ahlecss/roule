@@ -10,6 +10,7 @@ export class Board {
   constructor(options) {
     // Options
     this.beat = options.beat
+    this.speed = options.speed
     // Set up
     this.container = new Object3D()
     this.container.name = 'Board'
@@ -98,7 +99,7 @@ export class Board {
         case "theWouin":
           this.vecBadges.y = 1
           break;
-        case "theJump":
+        case "theDrop":
           this.vecBadges.z = 1
           break;
       }
@@ -124,8 +125,7 @@ export class Board {
 
   skateJump() {
     this.tl = gsap.timeline({ delay: 1 })
-    console.log(this.beat)
-    this.tl.progress(this.tl.progress)
+    // this.tl.duration(this.tl.duration * this.speed)
 
     this.tl.to(this.container.position, {
       y: - Math.PI / 8,
@@ -138,9 +138,6 @@ export class Board {
     this.tl.to(this.container.rotation, {
       z: -Math.PI / 2,
       duration: 1,
-      onComplete: () => {
-        this.speed = 0.2
-      }
     }, '-=0.5')
     this.tl.to(this.container.rotation, {
       z: -Math.PI,

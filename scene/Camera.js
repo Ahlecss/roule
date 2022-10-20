@@ -20,7 +20,7 @@ export class Camera {
     }
     cameraJump() {
         gsap.to(this.camera.position, {
-            z: 2,
+            z: 5,
             duration: 2
         })
     }

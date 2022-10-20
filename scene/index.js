@@ -63,7 +63,8 @@ export class Game {
 
   setWorld() {
     this.world = new World({
-      beat: this.beat
+      beat: this.beat,
+      speed: this.speed
     })
     this.scene.add(this.world.container)
   }
@@ -80,7 +81,7 @@ export class Game {
       world: this.world,
       beat: this.beat,
       camera: this.camera,
-      setSpeed: this.setSpeed
+      setSpeed: (s) => this.setSpeed(s)
     })
   }
 
