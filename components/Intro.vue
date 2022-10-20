@@ -10,13 +10,13 @@
                 <h3 v-if="!player1isReady">Ready ?</h3>
                 <h3 v-else>All good !</h3>
                 <div class="player-i"></div>
-                <h2 v-if="!player1isReady">Press X</h2>
+                <h2 v-if="!player1isReady">Press A</h2>
             </div>
             <div class="player-div player2">
                 <h3 v-if="!player2isReady">Ready ?</h3>
                 <h3 v-else>All good !</h3>
                 <div class="player-i"></div>
-                <h2 v-if="!player2isReady">Press X</h2>
+                <h2 v-if="!player2isReady">Press A</h2>
             </div>
         </div>
     </div>
