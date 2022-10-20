@@ -63,6 +63,12 @@ export class GameManager {
         this.addBadge("jump")
     }
 
+    wouinn() {
+        $nuxt.$on('wouinWin',() =>{
+            this.addBadge("wouinn")
+        })
+    }
+
     theBeat() {
         // Change Title
         $nuxt.$emit('changeCurrentTitle', 'The Beat')

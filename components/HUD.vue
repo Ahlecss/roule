@@ -13,13 +13,7 @@ import Titles from './Titles.vue';
 import Success from './Success.vue';
 export default {
   name: 'HUD',
-  components: { Controller, Success, Titles },
-  mounted() {
-
-  },
-  methods: {
-    
-  }
+  components: { Controller, Success, Titles }
 }
 </script>
 
