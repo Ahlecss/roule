@@ -9,7 +9,6 @@ export class Faces {
         this.setFace()
         this.loader.load(faceURL, (texture) => {
             this.material.uniforms.uTexture.value = texture
-            console.log(this.material.uniforms.uTexture.value)
         })
     }
     setFace() {

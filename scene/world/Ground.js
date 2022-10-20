@@ -20,20 +20,52 @@ export class Ground {
 
     setGround() {
         this.ground = new Mesh(
-            new CylinderGeometry(this.radius, this.radius, this.height, 64),
+            new CylinderGeometry(this.radius, this.radius, this.height, 64, 64),
             new ShaderMaterial({
                 uniforms: {
                     uTime: { value: 0 },
                     uBeat: { value: 0 },
                 },
-                vertexShader: `
+                vertexShader: /*glsl*/`
                 varying vec2 vUv;
+                uniform float uTime;
+                uniform float uBeat;
+                float mod289(float x){return x - floor(x * (1.0 / 289.0)) * 289.0;}
+                vec4 mod289(vec4 x){return x - floor(x * (1.0 / 289.0)) * 289.0;}
+                vec4 perm(vec4 x){return mod289(((x * 34.0) + 1.0) * x);}
+
+                float noise(vec3 p){
+                    #define PI 3.1415926535897932384626433832795
+                    vec3 a = floor(p);
+                    vec3 d = p - a;
+                    d = d * d * (3.0 - 2.0 * d);
+
+                    vec4 b = a.xxyy + vec4(0.0, 1.0, 0.0, 1.0);
+                    vec4 k1 = perm(b.xyxy);
+                    vec4 k2 = perm(k1.xyxy + b.zzww);
+
+                    vec4 c = k2 + a.zzzz;
+                    vec4 k3 = perm(c);
+                    vec4 k4 = perm(c + 1.0);
+
+                    vec4 o1 = fract(k3 * (1.0 / 41.0));
+                    vec4 o2 = fract(k4 * (1.0 / 41.0));
+
+                    vec4 o3 = o2 * d.z + o1 * (1.0 - d.z);
+                    vec2 o4 = o3.yw * d.x + o3.xz * (1.0 - d.x);
+
+                    return o4.y * d.y + o4.x * (1.0 - d.y);
+                }
                 void main() {
                     vUv = uv;
-                    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                    vec3 pos = position;
+                    float n = noise(vec3(pos*0.5));
+                    float b = sin(uBeat * PI * 2.);
+                    pos.xz /= 1. - smoothstep(0.6, 0.8, abs(pos.y/10.))*0.8*n*(0.8+b*0.2);
+                    gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
                 }
             `,
-                fragmentShader: `
+                fragmentShader: /*glsl*/`
                 #define PI 3.1415926535897932384626433832795
                 uniform float uTime;
                 uniform float uBeat;
@@ -41,12 +73,14 @@ export class Ground {
                 void main() {
                     vec2 uv = vUv;
                     float b = uBeat;
+                    b = sin(uBeat * PI * 2.);
                     float t = uTime;
                     float d = 1. - distance(uv.y, 0.5);
-                    float roadLimit =  smoothstep(0.8, 0.801, d);
-                    vec3 road = vec3(0.1) * roadLimit;
-                    road += smoothstep(0.5, 0.51, vec3(sin(uv.x*PI*2. * 20.))) * smoothstep(0.988, 0.99, d);
-                    vec3 grass = vec3(0.1, 0.2, 0.1) * (1. - roadLimit);
+                    float roadLimit =  smoothstep(0.7, 0.701, d);
+                    float h = (0.1+b*0.08) / abs(sin(uv.x*20.*PI*2.));
+                    float v = (0.1+b*0.08) / abs(sin(uv.y*20.*PI*2.));
+                    vec3 road = vec3(.8, 0., 1.) * roadLimit * (v+h*0.2);
+                    vec3 grass = vec3(0., 1., 1.) * (1. - roadLimit) * (h+v);
                     vec3 color = vec3(0.);
                     color += road + grass;
                     gl_FragColor = vec4(color, 1.0);

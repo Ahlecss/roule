@@ -4,6 +4,8 @@ export class Users {
         this.beat = options.beat
         this.clock = options.clock
         this.world = options.world
+        this.combo = 0
+        this.lastHit = undefined
         this.setUsers()
     }
 
@@ -12,16 +14,32 @@ export class Users {
             playerIndex: 0,
             beat: this.beat,
             clock: this.clock,
-            world: this.world
+            world: this.world,
+            setCombo: this.setCombo,
+            getCombo: this.getCombo,
+            setLastHit: this.setLastHit,
+            getLastHit: this.getLastHit,
         })
 
-        // this.rightUser = new User({
-        //     playerIndex: 1,
-        //     beat: this.beat,
-        //     clock: this.clock,
-        //     world: this.world
-        // })
+    }
 
+    setCombo(c) {
+        //console.log('setCombo', c)
+        this.combo = c
+    }
+
+    getCombo() {
+        //console.log('getCombo')
+        return this.combo
+    }
+    setLastHit(lastHit) {
+        //console.log('setHit', lastHit)
+        this.lastHit = lastHit
+    }
+
+    getLastHit() {
+        //console.log('getHit')
+        return this.lastHit
     }
 
 }

@@ -3,6 +3,7 @@ import { Ground } from "./Ground.js"
 import { Board } from "./Board.js"
 import { Sprites } from './Sprites.js'
 import { Faces } from "./Faces.js"
+import { Sky } from "./Sky.js"
 
 export class World {
     constructor(options) {
@@ -11,7 +12,8 @@ export class World {
         this.setGround()
         this.setBoard()
         this.setSprite()
-        this.setFaces()
+        // this.setFaces()
+        this.setSky()
     }
 
     setGround() {
@@ -41,10 +43,17 @@ export class World {
         this.board.container.add(this.faces.container)
     }
 
+    setSky() {
+        this.sky = new Sky({
+            beat: this.beat
+        })
+        this.container.add(this.sky.container)
+    }
+
     update(delta) {
         this.ground.update(delta)
         this.board.update(delta)
         this.sprites.update(delta)
-        this.faces.update(delta)
+        this.sky.update(delta)
     }
 }

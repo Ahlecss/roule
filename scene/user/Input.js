@@ -4,43 +4,47 @@ export class Input {
         this.beat = options.beat
         this.clock = options.clock
         this.world = options.world
-        this.lastHit = undefined
-        this.combo = 0
-        // this.setEvents()
+        this.setCombo = options.setCombo
+        this.getCombo = options.getCombo
+        this.setLastHit = options.setLastHit
+        this.getLastHit = options.getLastHit
     }
 
     registerInput() {
-            let valid = this.inputIsValid()
-            if (valid) {
-                this.combo++
-                this.world.sprites.createSprite(this.playerIndex)
-            } else {
-                this.combo = 0
-            }
-            return {
-                valid: valid, 
-                combo: this.combo
-            }
+        let valid = this.inputIsValid()
+        if (valid) {
+            //console.log('oi', this.getCombo())
+            let c = this.getCombo() + 1
+            this.setCombo(c)
+            this.world.sprites.createSprite(this.playerIndex)
+        } else {
+            this.setCombo(0)
+        }
+        return {
+            valid: valid,
+            combo: this.getCombo()
+        }
     }
 
     inputIsValid() {
-        if (this.lastHit) {
-            let deltaHit = this.clock.getElapsedTime() - this.lastHit
+        if (this.getLastHit() != undefined) {
+            let deltaHit = this.clock.getElapsedTime() - this.getLastHit()
             let userBPM = 60 / deltaHit
             let deltaBPM = Math.abs(userBPM - this.beat.bpm)
 
-            this.lastHit = this.clock.getElapsedTime()
+            this.setLastHit(this.clock.getElapsedTime())
 
             if (deltaBPM < 20) {
                 return true
             }
+
 
             else {
                 return false
             }
         }
 
-        this.lastHit = this.clock.getElapsedTime()
-        return true
+        this.setLastHit(this.clock.getElapsedTime())
+        return false
     }
 }
