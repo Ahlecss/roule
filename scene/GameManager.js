@@ -5,12 +5,12 @@ export class GameManager {
         this.camera = options.camera
         this.setSpeed = options.setSpeed
         this.badges = []
-         this.games = ['theBeat', 'theDrop', 'theWouin']
-        // this.games = ['theDrop']
+        // this.games = ['theBeat',  'theWouin']
+        this.games = ['theWouin']
 
         requestAnimationFrame(() => {
             this.init();
-        })
+        }, 1000)
     }
 
     init() {
@@ -64,6 +64,7 @@ export class GameManager {
     }
 
     theWouin() {
+        console.log('la')
         $nuxt.$emit('changeCurrentTitle', 'The Wouiiiinnn')
 
         $nuxt.$emit('startTheWouin')

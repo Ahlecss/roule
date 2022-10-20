@@ -71,6 +71,7 @@ export default {
       this.checkMiddle()
     },
     checkMiddle() {
+      console.log('test')
       if (this.timeoutRef) {
         if (this.wouinFactor * 100 <= 40 || this.wouinFactor * 100 >= 60) {
           this.isWinning = false
