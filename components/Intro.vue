@@ -1,5 +1,6 @@
 <template>
     <div class="intro" ref="intro">
+        <Controller class="controller-small"/>
         <div class="player-div player1">
             <h3 v-if="!player1isReady">Ready ?</h3>
             <h3 v-else>All good !</h3>
@@ -16,9 +17,10 @@
 </template>
   
 <script>
-
+import Controller from './Controller.vue'
   export default {
     name: 'Intro',
+    components: { Controller },
     data() {
         return {
             started : false,
@@ -92,6 +94,18 @@
 .player2 {
     color: #FAC96F;
     border-color: #FAC96F;
+}
+
+.controller-small #p1, .controller-small #p2  {
+    width: 250px;
+}
+
+.controller-small #p1  {
+    left: 20%;
+}
+
+.controller-small #p2  {
+    right: 17%;
 }
 </style>
   
