@@ -5,15 +5,24 @@ export class GameManager {
         this.camera = options.camera
         this.setSpeed = options.setSpeed
         this.badges = []
-        
+        this.games = ['theBeat', 'theJump']
 
-        this.init();
+        requestAnimationFrame(() => {
+            this.init();
+        })
     }
 
     init() {
-        // this.theJump();
-        this.theBeat()
-        this.wouinn()
+        this.chooseRandomGame()
+    }
+
+    chooseRandomGame() {
+        var randomGame = this.games[Math.floor(this.games.length * Math.random())];
+        this[randomGame]()
+    }
+
+    removeGame(game) {
+        this.games.splice(this.games.indexOf(game), 1)
     }
 
     addBadge(badge) {
@@ -21,7 +30,18 @@ export class GameManager {
         this.world.board.updateOverlayBadge(this.badges)
     }
 
+    wonGame(game) {
+        this.addBadge(game)
+        this.removeGame(game)
+        setTimeout(() => {
+            this.chooseRandomGame()
+        }, 5000)
+    }
+
     theJump() {
+        $nuxt.$emit('changeCurrentTitle', 'The Jump')
+
+        console.log('the jump')
         this.setSpeed(0.2)
         this.world.board.skateJump()
         this.camera.cameraJump()
@@ -50,10 +70,21 @@ export class GameManager {
     }
 
     theBeat() {
+        // Change Title
+        $nuxt.$emit('changeCurrentTitle', 'The Beat')
+
+        // Start game
+        $nuxt.$emit('startTheBeat')
+
+        // When game is winned, add badge, remove from existing games, and play another game
+        $nuxt.$on('win', (game) => {
+            if (game !== 'theBeat') return
+            this.wonGame(game)
+        })
 
         // Lancer la musique
 
-        
+
 
         // démarrer un rythme en même temps
 
