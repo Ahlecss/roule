@@ -133,26 +133,44 @@ export class Board {
     }
   }
 
-  skateJump() {
+  skateDrop() {
     this.tl = gsap.timeline({ delay: 1 })
     // this.tl.duration(this.tl.duration * this.speed)
 
     this.tl.to(this.container.position, {
       y: - Math.PI / 8,
-      duration: 0.3
+      duration: 0.3 * this.speed
     })
     this.tl.to(this.container.position, {
       y: Math.PI / 2,
-      duration: 0.4
+      duration: 0.4 * this.speed,
+      onComplete: () => {
+        $nuxt.$emit('setSpeed',0.3)
+      }
     })
     this.tl.to(this.container.rotation, {
       z: -Math.PI / 2,
-      duration: 1,
+      duration: 1 * this.speed,
     }, '-=0.5')
     this.tl.to(this.container.rotation, {
       z: -Math.PI,
-      duration: 10,
+      duration: 4 * this.speed,
     }, '-=1')
+    this.tl.to(this.container.rotation, {
+      z: - 2 * Math.PI,
+      duration: 10 * this.speed,
+      onComplete:() => {
+        $nuxt.$emit('setSpeed', 1)
+      }
+    }, '-=1')
+    this.tl.to(this.container.position, {
+      y: Math.PI / 8,
+      duration: 2 * this.speed,
+    }, `-= ${ 5 * this.speed}`)
+    this.tl.to(this.container.position, {
+      y: 0,
+      duration: 1 * this.speed,
+    })
   }
   update(delta) {
     if (this.board) {

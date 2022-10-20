@@ -21,10 +21,11 @@ export class Camera {
         this.camera.aspect = window.innerWidth / window.innerHeight;
         this.camera.updateProjectionMatrix();
     }
-    cameraJump() {
+    cameraDrop() {
         gsap.to(this.camera.position, {
-            z: 5,
-            duration: 2
+            z: 2,
+            duration: 1,
+            delay: 1.5
         })
     }
 

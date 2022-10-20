@@ -24,4 +24,8 @@ export default {
   height: 100vh;
   position: relative;
   overflow: hidden;
-}</style>
+}
+body{
+  font-family: 'KCPixelHand';
+}
+</style>

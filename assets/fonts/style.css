@@ -1,0 +1,8 @@
+/* KCPixelHand */
+@font-face {
+    font-family: 'KCPixelHand';
+    font-style: normal;
+    font-weight: 500;
+    src: url('~assets/fonts/KCPixelHand.otf') format('opentype');
+    /* IE9 Compat Modes */
+  }
