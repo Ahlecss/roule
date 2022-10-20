@@ -110,7 +110,7 @@ export default {
 #wouin-div #div-l {
   height: 100%;
   width: 50%;
-  background: #EC5E40;
+  background: #ABEB36;
   border-radius: 50px 0 0 50px;
   padding: 0 5px;
 }
@@ -118,7 +118,7 @@ export default {
 #wouin-div #div-r {
   height: 100%;
   width: 50%;
-  background: #FAC96F;
+  background: #FF326F;
   border-radius: 0 50px 50px 0;
   padding: 0 5px;
 }

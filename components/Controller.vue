@@ -242,19 +242,19 @@
     display: flex;
     position: absolute;
     border-radius: 25px;
-    background: #EC5E40;
+    background: #ABEB36;
     width: 20px;
     height: 20px;
   }
   .player2-dot {
-    background: #FAC96F;
+    background: #FF326F;
   }
   
   #p1 .active {
-    fill: #EC5E40;
+    fill: #ABEB36;
   }
   #p2 .active {
-    fill: #FAC96F;
+    fill: #FF326F;
   }
   .shake {
     animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
