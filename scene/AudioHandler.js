@@ -57,6 +57,9 @@ export class AudioHandler {
         this.beat.setPlaybackRate(s)
         this.solo.setPlaybackRate(s)
         this.wouin.setPlaybackRate(s)
+        this.beat.detune = (1 / s)
+        this.solo.detune = (1 / s)
+        this.wouin.detune = (1 / s)
     }
 
     enableBeat() {

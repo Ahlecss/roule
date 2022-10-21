@@ -6,7 +6,7 @@ export class GameManager {
         this.setSpeed = options.setSpeed
         this.audioHandler = options.audioHandler
         this.badges = []
-        this.games = ['theBeat', 'theDrop', 'theWouin']
+        this.games = ['theBeat', 'theDrop']//, 'theWouin']
         // this.games = ['theBeat']
 
         $nuxt.$on('introFinished',() =>{
@@ -51,7 +51,6 @@ export class GameManager {
 
         $nuxt.$on('win', (game) => {
             if (game !== 'theDrop') return
-            console.log('the drop')
             this.wonGame(game)
             this.camera.endCameraDrop()
             this.world.board.endSkateDrop()
@@ -75,7 +74,6 @@ export class GameManager {
     }
 
     theWouin() {
-        console.log('la')
         $nuxt.$emit('changeCurrentTitle', 'The Wouiiiinnn')
         this.audioHandler.enableWouin()
 
