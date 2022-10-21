@@ -52,10 +52,16 @@
       })
       $nuxt.$on('startTheBeat', () => {
         this.currentGame = 'theBeat'
+        this.tutoAppear()
         // this.theBeatCreateInterval()
       })
       $nuxt.$on('startTheDrop', () => {
         this.currentGame = 'theDrop'
+        this.tutoAppear()
+        // this.theDropCreateInterval()
+      })
+      $nuxt.$on('startTheWouin', () => {
+        this.currentGame = 'theWouin'
         // this.theDropCreateInterval()
       })
       $nuxt.$on('setSpeed', () => {
@@ -73,7 +79,7 @@
             // this.addDot(player, `p${player}-axis-bumper`)
             this.checkValidity(player, `p${player}-axis-bumper`)
             return;
-          } else if((key === 'a' || key === 'x' || key === 'i' || key === 's')) {
+          } else if(this.currentGame === 'theBeat' && (key === 'a' || key === 'x' || key === 'i' || key === 's')) {
             // this.addDot(player, `p${player}-axis-${key}`)
             this.checkValidity(player, `p${player}-axis-${key}`)
             return;
@@ -93,21 +99,14 @@
         this.checkCombo(inputLeft.combo)
         this.displayCombo(inputLeft.combo)
         // Shitty validation, refacto sa mère
-        
-        /*if(this.currentGame === 'theBeat') 
-        else if(this.currentGame === 'theDrop') {
-          console.log(this.dropCombo)
-          this.dropCombo = 1;
-          if(this.dropCombo === 1 ) {
-            $nuxt.$emit('win', 'theDrop')
-            this.bounce()
-            //this.theDropDeleteInterval()
-          }
-        }*/
         },
       checkCombo(combo) {
-        if(combo === 5) {
-          $nuxt.$emit('win', 'theBeat')
+        if(this.currentGame === 'theBeat' && combo === 10) {
+          $nuxt.$emit('win', this.currentGame)
+          this.bounce()
+        }
+        else if(this.currentGame === 'theDrop' && combo === 4) {
+          $nuxt.$emit('win', this.currentGame)
           this.bounce()
           // this.theBeatDeleteInterval()
         } else return
@@ -169,6 +168,28 @@
       deleteMetronome() {
         this.metronomeTl.kill()
         this.click.remove()
+      },
+
+      tutoAppear() {
+        if(this.currentGame === 'theBeat') {
+          var button1 = document.getElementById('p1-axis-a')
+          var button2 = document.getElementById('p2-axis-a')
+        } else if(this.currentGame === 'theDrop') {
+          var button1 = document.getElementById('p1-axis-bumper')
+          var button2 = document.getElementById('p2-axis-bumper')
+        } else if(this.currentGame === 'theWouin') {
+          var button1 = document.getElementById('p1-axis-controller')
+          var button2 = document.getElementById('p2-axis-controller')
+        }
+
+        button1.classList.add('blink1')
+        setTimeout(() => {
+          button1.classList.remove('blink1')
+        }, 2000)
+        button2.classList.add('blink1')
+        setTimeout(() => {
+          button2.classList.remove('blink1')
+        }, 2000)
       },
 
 
@@ -440,6 +461,15 @@
     animation: bouncing 1s 2 cubic-bezier(.36,.07,.19,.97) both;
   }
   
+  .blink1 {
+    background:#ABEB36;
+    animation: blink 2s;
+  }
+  .blink2 {
+    background:#FF326F;
+    animation: blink 2s 0.4s;
+  }
+  
   @keyframes shake {
     10%, 90% {
       transform: translate3d(calc(-5% + -1px),  -90%, 0);
@@ -511,6 +541,27 @@
     }
     99% { 
       transform: scale(0.60);
+      opacity: 1;
+    }
+    100% { 
+      opacity: 0;
+    }
+  }
+
+  @keyframes blink {
+    0% {
+      opacity: 1;
+    }
+    20% {
+      opacity: 0;
+    }
+    40% {
+      opacity: 1;
+    }
+    60% { 
+      opacity: 0;
+    }
+    80% { 
       opacity: 1;
     }
     100% { 

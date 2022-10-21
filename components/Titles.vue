@@ -28,7 +28,7 @@
 				hideTitle() {
 					setTimeout(() => {
 						this.titles.classList.remove('show')
-					}, 4000)
+					}, 3000)
 				}
     }
   }
