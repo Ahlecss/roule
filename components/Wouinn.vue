@@ -54,7 +54,7 @@ export default {
     updateWouinBar() {
       this.date = new Date()
       let t = this.date.getTime() * 0.002
-      let d = (Math.sin(2 * t) + Math.sin(Math.PI * t)) * 0.003
+      let d = (Math.sin(2 * t) + Math.sin(Math.PI * t)) * 0.008
       this.wouinFactor += d
       this.left.style.width = this.wouinFactor * 100 + "%"
       this.right.style.width = (1 - this.wouinFactor) * 100 + "%"

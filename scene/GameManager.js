@@ -6,8 +6,8 @@ export class GameManager {
         this.setSpeed = options.setSpeed
         this.audioHandler = options.audioHandler
         this.badges = []
-        this.games = ['theBeat', 'theDrop', 'theWouin']//, 'theWouin']
-        // this.games = ['theBeat']
+        this.games = ['theBeat', 'theDrop', 'theWouin']
+        // this.games = ['theWouin']
 
         $nuxt.$on('introFinished',() =>{
             requestAnimationFrame(() => {
