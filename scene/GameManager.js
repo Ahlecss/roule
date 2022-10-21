@@ -5,8 +5,8 @@ export class GameManager {
         this.camera = options.camera
         this.setSpeed = options.setSpeed
         this.badges = []
-        // this.games = ['theBeat', 'theDrop', 'theWouin']
-        this.games = ['theBeat']
+        this.games = ['theBeat', 'theDrop', 'theWouin']
+        //this.games = ['theBeat']
 
         $nuxt.$on('introFinished',() =>{
             requestAnimationFrame(() => {
@@ -38,7 +38,7 @@ export class GameManager {
         this.removeGame(game)
         setTimeout(() => {
             this.chooseRandomGame()
-        }, 5000)
+        }, 10000)
     }
 
     theDrop() {

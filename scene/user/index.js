@@ -28,6 +28,16 @@ export class Users {
             setLastHit: this.setLastHit,
             getLastHit: this.getLastHit,
         })
+        this.rightUser = new User({
+            playerIndex: 1,
+            beat: this.beat,
+            clock: this.clock,
+            world: this.world,
+            setCombo: this.setCombo,
+            getCombo: this.getCombo,
+            setLastHit: this.setLastHit,
+            getLastHit: this.getLastHit,
+        })
 
     }
 

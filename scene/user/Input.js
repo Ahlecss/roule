@@ -16,6 +16,7 @@ export class Input {
             //console.log('oi', this.getCombo())
             let c = this.getCombo() + 1
             this.setCombo(c)
+            console.log(this.playerIndex)
             this.world.sprites.createSprite(this.playerIndex)
         } else {
             this.setCombo(0)
