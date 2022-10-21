@@ -1,8 +1,8 @@
 import { Mesh, MeshBasicMaterial, Object3D, BoxGeometry, PlaneGeometry, ShaderMaterial, TextureLoader, Vector2, Vector3 } from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 let boardURL = require('../../assets/models/board.glb')
-let stickers = require('../../assets/img/PNG_stickers-HD-res.png')
-let stickersMask = require('../../assets/img/MASK_stickers-HD-res.png')
+let stickers = require('@/assets/img/PNG_stickers-HD.png')
+let stickersMask = require('@/assets/img/MASK_stickers-HD.png')
 import gsap, {Power3} from 'gsap'
 
 
