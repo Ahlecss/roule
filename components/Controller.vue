@@ -65,6 +65,7 @@
         // this.theDropCreateInterval()
       })
       $nuxt.$on('setSpeed', () => {
+        console.log('test')
         this.deleteMetronome()
         this.setupMetronome()
       })
@@ -101,11 +102,11 @@
         // Shitty validation, refacto sa mère
         },
       checkCombo(combo) {
-        if(this.currentGame === 'theBeat' && combo === 10) {
+        if(this.currentGame === 'theBeat' && combo === 9) {
           $nuxt.$emit('win', this.currentGame)
           this.bounce()
         }
-        else if(this.currentGame === 'theDrop' && combo === 4) {
+        else if(this.currentGame === 'theDrop' && combo === 3) {
           $nuxt.$emit('win', this.currentGame)
           this.bounce()
           // this.theBeatDeleteInterval()
