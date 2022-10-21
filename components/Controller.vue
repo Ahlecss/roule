@@ -93,12 +93,17 @@ export default {
       // this.theDropCreateInterval()
     })
     $nuxt.$on('setSpeed', () => {
-      this.deleteMetronome()
-      this.setupMetronome()
+      console.log('test')
+      setTimeout(() => {
+
+        this.deleteMetronome()
+        this.setupMetronome()
+      }, 300)
     })
   },
   methods: {
     selectElement(player, key) {
+      console.log(this.currentGame)
       if (this.currentGame === 'theWouin' && typeof key === 'number') {
         this.checkValidity(player, `p${player}-axis-controller`)
         return;
@@ -132,7 +137,7 @@ export default {
         $nuxt.$emit('win', this.currentGame)
         this.bounce()
       }
-      else if (this.currentGame === 'theDrop' && combo === 3) {
+      else if (this.currentGame === 'theDrop' && combo === 2) {
         $nuxt.$emit('win', this.currentGame)
         this.bounce()
         // this.theBeatDeleteInterval()
@@ -145,6 +150,7 @@ export default {
 
       const comboBox = document.getElementById('combo')
 
+      console.log(comboNum)
       comboBox.appendChild(comboNum)
 
       comboNum.style.left = `${Math.random() * 400}px`
@@ -162,6 +168,7 @@ export default {
           scale: 1.3,
           duration: 1,
           onComplete: () => {
+            console.log('disapear')
             comboNum.remove()
           }
         },
@@ -179,6 +186,7 @@ export default {
 
       metronome.appendChild(this.click)
 
+      console.log(this.timing * 1000)
       this.metronomeTl = gsap.timeline({})
       this.metronomeTl.to(this.click, {
         background: '#FF326F',
@@ -210,9 +218,9 @@ export default {
       setTimeout(() => {
         button1.classList.remove('blink1')
       }, 2000)
-      button2.classList.add('blink1')
+      button2.classList.add('blink2')
       setTimeout(() => {
-        button2.classList.remove('blink1')
+        button2.classList.remove('blink2')
       }, 2000)
     },
 
@@ -231,6 +239,7 @@ export default {
      }, */
     addDot(player, id) {
       const button = document.getElementById(id)
+      console.log(player, id)
       const rect = button.getBoundingClientRect()
       const posX = rect.left + (rect.width / 4)
       const posY = rect.top + (rect.height / 4)
@@ -279,6 +288,7 @@ export default {
     },
     /*
     createWaveTheBeat() {
+      console.log(this.timing)
       this.p1AxisA = document.getElementById('p1-axis-a')
       this.p1Rect = this.p1AxisA.getBoundingClientRect()
       this.p2AxisA = document.getElementById('p2-axis-a')
@@ -312,7 +322,9 @@ export default {
     },
     createWaveTheDrop() {
       this.timing = 60 / this.$game.user.leftUser.input.beat.bpm
+      // console.log(60 / this.$game.user.leftUser.input.beat.bpm)
 
+      // console.log('fjdsjfjksdh')
       this.p1bumper = document.getElementById('p1-axis-bumper')
       this.p2bumper = document.getElementById('p2-axis-bumper')
       this.p1BumpRect = this.p1bumper.getBoundingClientRect()
@@ -496,12 +508,12 @@ svg {
 }
 
 .blink1 {
-  background: #ABEB36;
+  fill: #ABEB36;
   animation: blink 2s;
 }
 
 .blink2 {
-  background: #FF326F;
+  fill: #FF326F;
   animation: blink 2s 0.4s;
 }
 
@@ -603,28 +615,27 @@ svg {
 
 @keyframes blink {
   0% {
-    opacity: 1;
+    opacity: 0
   }
 
   20% {
-    opacity: 0;
+    opacity: 1
   }
 
   40% {
-    opacity: 1;
+    opacity: 0
   }
 
   60% {
-    opacity: 0;
+    opacity: 1
   }
 
   80% {
-    opacity: 1;
+    opacity: 0
   }
 
   100% {
-    opacity: 0;
+    opacity: 1
   }
 }
 </style>
-  

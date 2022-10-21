@@ -1,5 +1,5 @@
 <template>
-  <div class="wouin fadeIn" ref="wouinDiv" v-if="show">
+  <div class="wouin fadeIn" ref="wouinDiv">
     <div id="wouin-div">
       <div id="div-l" ref="left"></div>
       <img id="cursor-mid" ref="cursorMid" src="../assets/img/Cursor-m.svg" />
@@ -35,7 +35,8 @@ export default {
   },
   methods: {
     initWouin() {
-      this.show = true
+      this.wouin.style.display ="flex"
+      this.updateWouinBar()
 
       $nuxt.$on('player1Joystick', (x) => {
         this.left.style.opacity = 0.8 + 0.2 * x
@@ -70,7 +71,10 @@ export default {
         this.cursorMov.style.left = this.wouinFactor * 100 + "%";
         this.cursorMov.style.transform = "translate-y(" + this.wouinFactor * - 100 + "%" + ")";
       }
-      this.checkMiddle()
+      
+      setTimeout(() => {
+        this.checkMiddle()
+      }, 2000)
     },
     checkMiddle() {
       if (this.timeoutRef) {
@@ -92,7 +96,7 @@ export default {
             clearTimeout(this.timeoutRef);
             this.timeoutRef = false
           }
-        }, 1000);
+        }, 2000);
       }
     },
     destroy() {
@@ -110,13 +114,13 @@ export default {
   height: 100vh;
   z-index: 2;
   margin: auto;
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
 }
 
 .wouin.fadeIn {
-  animation-delay: 3s;
+  /* animation-delay: 3s; */
 }
 
 #wouin-div {

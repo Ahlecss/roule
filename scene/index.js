@@ -93,6 +93,13 @@ export class Game {
       this.speed = s
     })
   }
+  
+  updateSpeed(s) {
+    this.audioHandler.setSpeed(
+      this.lerp(this.audioHandler.speed, this.speed, 0.1)
+    )
+    this.beat.bpm = this.beat.bpmOriginal * this.lerp(this.audioHandler.speed, this.speed, 0.1)
+  }
 
   updateSpeed(s) {
     this.audioHandler.setSpeed(
