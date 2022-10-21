@@ -1,9 +1,9 @@
 <template>
   <div class="interface">
-    <!-- <Pause /> -->
     <Game />
     <Intro />
     <HUD />
+    <Wouinn />
   </div>
 </template>
 

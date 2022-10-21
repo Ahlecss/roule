@@ -74,7 +74,7 @@ export class GameManager {
         console.log('la')
         $nuxt.$emit('changeCurrentTitle', 'The Wouiiiinnn')
 
-        $nuxt.$emit('startTpheWouin')
+        // $nuxt.$emit('startTheWouin')
 
         $nuxt.$on('win', (game) => {
             if (game !== 'theWouin') return
