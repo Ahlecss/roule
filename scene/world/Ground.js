@@ -2,8 +2,12 @@ import {
     CylinderGeometry,
     Mesh,
     ShaderMaterial,
-    Object3D
+    Object3D,
+    TextureLoader,
+    DoubleSide,
 } from "three"
+
+let roadURL = require('../../assets/textures/road.png')
 
 export class Ground {
     constructor(options) {
@@ -11,6 +15,10 @@ export class Ground {
         this.container = new Object3D()
         this.radius = 5
         this.height = 20
+        this.loader = new TextureLoader()
+        this.loader.load(roadURL, (texture) => {
+            this.ground.material.uniforms.uTexture.value = texture
+        })
         this.init()
     }
 
@@ -22,9 +30,12 @@ export class Ground {
         this.ground = new Mesh(
             new CylinderGeometry(this.radius, this.radius, this.height, 64, 64),
             new ShaderMaterial({
+                transparent: true,
+                side: DoubleSide,
                 uniforms: {
                     uTime: { value: 0 },
                     uBeat: { value: 0 },
+                    uTexture: { value: null }
                 },
                 vertexShader: /*glsl*/`
                 varying vec2 vUv;
@@ -61,7 +72,7 @@ export class Ground {
                     vec3 pos = position;
                     float n = noise(vec3(pos*0.5));
                     float b = sin(uBeat * PI * 2.);
-                    pos.xz /= 1. - smoothstep(0.6, 0.8, abs(pos.y/10.))*0.8*n*(0.8+b*0.2);
+                    pos.xz /= 1. - smoothstep(0.6, 0.8, abs(pos.y/10.))*0.8*n*(0.8+b*0.1);
                     gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
                 }
             `,
@@ -69,7 +80,12 @@ export class Ground {
                 #define PI 3.1415926535897932384626433832795
                 uniform float uTime;
                 uniform float uBeat;
+                uniform sampler2D uTexture;
                 varying vec2 vUv;
+                vec3 roadColor = vec3(255.)/255.;
+                vec3 grassColor1 = vec3(171., 235., 54.)/255.;
+                vec3 grassColor2 = vec3(255., 50., 111.)/255.;
+
                 void main() {
                     vec2 uv = vUv;
                     float b = uBeat;
@@ -77,13 +93,18 @@ export class Ground {
                     float t = uTime;
                     float d = 1. - distance(uv.y, 0.5);
                     float roadLimit =  smoothstep(0.7, 0.701, d);
-                    float h = (0.1+b*0.08) / abs(sin(uv.x*20.*PI*2.));
-                    float v = (0.1+b*0.08) / abs(sin(uv.y*20.*PI*2.));
-                    vec3 road = vec3(.8, 0., 1.) * roadLimit * (v+h*0.2);
-                    vec3 grass = vec3(0., 1., 1.) * (1. - roadLimit) * (h+v);
+                    float h = (0.3+b*0.01) / abs(sin(uv.x*20.*PI*2.));
+                    float v = (0.3+b*0.01) / abs(sin(uv.y*20.*PI*2.));
+                    vec3 gCol =  mix(grassColor1,grassColor2, step(0.5,1.-vUv.y));
+                    vec3 grass =gCol * (1. - roadLimit) * (h+v);
+                    h = min(h, 1.)*0.3;
+                    v = min(v, 1.)*0.3;
+                    vec3 road = roadColor * roadLimit * (v+h);
                     vec3 color = vec3(0.);
-                    color += road + grass;
-                    gl_FragColor = vec4(color, 1.0);
+                    color += grass;
+                    color += texture2D(uTexture, mod(uv*2.,vec2(1.))).rgb * roadLimit;
+                    gl_FragColor = vec4(color, mix(grass.b,1.0,roadLimit));
+                    // gl_FragColor = vec4(gCol, 1.);
 
                 }
             `,

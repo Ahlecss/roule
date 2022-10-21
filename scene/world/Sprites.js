@@ -1,21 +1,8 @@
 import { Object3D, TextureLoader, PlaneGeometry, MeshBasicMaterial, Mesh, DoubleSide } from 'three'
 let urls = [
-  require('../../assets/textures/buildings/bottle-min.png'),
-  require('../../assets/textures/buildings/box-min.png'),
-  require('../../assets/textures/buildings/building1-min.png'),
-  require('../../assets/textures/buildings/building2-min.png'),
-  require('../../assets/textures/buildings/building3-min.png'),
-  require('../../assets/textures/buildings/building4-min.png'),
-  require('../../assets/textures/buildings/building5-min.png'),
-  require('../../assets/textures/buildings/building6-min.png'),
-  require('../../assets/textures/buildings/building7-min.png'),
-  require('../../assets/textures/buildings/building8-min.png'),
-  require('../../assets/textures/buildings/building9-min.png'),
-  require('../../assets/textures/buildings/fence-min.png'),
-  require('../../assets/textures/buildings/palm-min.png'),
-  require('../../assets/textures/buildings/palm2-min.png'),
-  require('../../assets/textures/buildings/palm3-min.png'),
-  require('../../assets/textures/buildings/trash-min.png'),
+  require('../../assets/textures/buildings/awesome.png'),
+  require('../../assets/textures/buildings/dope.png'),
+  require('../../assets/textures/buildings/nice.png'),
 
 ]
 
@@ -54,7 +41,7 @@ export class Sprites {
     let plane = new Mesh(this.geometry, this.material.clone());
     let index = Math.floor(Math.random() * this.maps.length)
     plane.material.map = this.maps[index]
-    let x = (playerIndex - 0.5) * 4
+    let x = (playerIndex - 0.5) * 2.5
     x = x * 3
     plane.position.set(x, -this.groundRadius, -this.groundRadius - this.size / 2)
     plane.rotateX(-Math.PI / 2)

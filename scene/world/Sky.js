@@ -55,15 +55,18 @@ export class Sky {
     
                         return o4.y * d.y + o4.x * (1.0 - d.y);
                     }
+                    vec3 sun1 = vec3(179.,42., 195.)/ 255.;
+                    vec3 sun2 = vec3(240., 97., 55)/ 255.;
                     void main() {
                         float d = distance(vUv, vec2(.5));
                         float sun = (1.-d) * smoothstep(.11, .1, d);
                         sun =  mix(sun, sun * smoothstep(0.1, 0.11,sin(vUv.y*300.)/2.+0.5), step(vUv.y,0.53));
-                        vec3 sunColor = sun*mix(vec3(0.230,0.02,0.390), vec3(1., 0.9, 0.), (vUv.y* 6.) - 2.8) ;
-                        vec3 skyColor = mix(vec3(0.230,0.002,0.390), vec3(0.970,0.000,0.959), (vUv.y/0.4)-1.5);
+                        vec3 sunColor = sun*mix(sun1, sun2, (vUv.y* 6.) - 2.4) ;
+                        vec3 skyColor = mix(sun1, sun2, vUv.y*4.-1.8)*0.5;
                         skyColor *= 1. - noise(vec3(vUv*10., uTime*0.1))*0.3;
 
-                        vec3 color = mix(skyColor, sunColor*2., sun);
+                        vec3 color = skyColor;//mix(skyColor, sunColor*2., sun);
+                        // color = vec3(length(color)/3.);
                         gl_FragColor = vec4(color, 1.0);
                     }`
             })

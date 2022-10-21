@@ -19,11 +19,11 @@ export class PostProcessing {
         this.composer = new EffectComposer(this.renderer)
         this.renderPass = new RenderPass(this.scene, this.camera)
 
-        this.unrealBloomPass = new UnrealBloomPass(new Vector2(window.innerWidth, window.innerHeight), 1., 0.5, 0.5)
+        this.unrealBloomPass = new UnrealBloomPass(new Vector2(window.innerWidth, window.innerHeight), 0.5, 0.5, 0.5)
 
 
         this.halftonePass = new HalftonePass(new Vector2(window.innerWidth, window.innerHeight));
-        this.halftonePass.uniforms.radius.value = 15
+        this.halftonePass.uniforms.radius.value = 10
         this.halftonePass.uniforms.rotateR.value = 0
         this.halftonePass.uniforms.rotateG.value = 0.33 * Math.PI * 2
         this.halftonePass.uniforms.rotateB.value = 0.66 * Math.PI * 2
@@ -35,7 +35,7 @@ export class PostProcessing {
     }
     update(delta) {
         this.unrealBloomPass.strength = (Math.sin(this.beat.getBeat() * Math.PI * 2) / 2. + 0.5) * 0.3
-        this.halftonePass.uniforms.blending.value = this.easeInBack(0.6 + (Math.sin(this.beat.getBeat() * Math.PI * 2) / 2. + 0.5) * 0.2)
+        this.halftonePass.uniforms.blending.value = 0.15 + this.easeInBack((Math.sin(this.beat.getBeat() * Math.PI * 2) / 2. + 0.5) * 0.15)
         this.halftonePass.uniforms.radius.value = 13 + 2 * this.beat.getBeat()
         this.r += delta * 0.01
         this.halftonePass.uniforms.rotateR.value = this.r
