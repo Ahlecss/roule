@@ -43,21 +43,17 @@ export class Users {
     }
 
     setCombo(c) {
-        //console.log('setCombo', c)
         this.combo = c
     }
 
     getCombo() {
-        //console.log('getCombo')
         return this.combo
     }
     setLastHit(lastHit) {
-        //console.log('setHit', lastHit)
         this.lastHit = lastHit
     }
 
     getLastHit() {
-        //console.log('getHit')
         return this.lastHit
     }
 
@@ -118,35 +114,33 @@ export class Users {
     exitAttemptedHandler() {
         pause();
     }
-    
+
     exitCanceledHandler() {
         unpause();
     }
 
     exitCompletedHandler() {
-        console.log("👋 Bye bye");
     }
 
     player1KeydownHandler(e) {
-        if(!this.firstInput) {
+        if (!this.firstInput) {
             $nuxt.$emit('firstInput')
             this.firstInput = true
-        }else if (e.key == "a" && !this.player1isReady) {
+        } else if (e.key == "a" && !this.player1isReady) {
             this.player1isReady = true
             $nuxt.$emit('playerisReady', 1)
         }
     }
 
     player2KeydownHandler(e) {
-        console.log(e)
-        if(!this.firstInput) {
+        if (!this.firstInput) {
             $nuxt.$emit('firstInput')
             this.firstInput = true
         } else if (e.key == "a" && !this.player2isReady) {
             this.player2isReady = true
             $nuxt.$emit('playerisReady', 2)
         }
-      
+
     }
 
     player1KeyupHandler(e) {

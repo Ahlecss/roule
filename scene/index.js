@@ -90,7 +90,6 @@ export class Game {
 
   setSpeed(s) {
     $nuxt.$on('setSpeed', s => {
-      // console.log(s)
       this.speed = s
     })
   }
@@ -133,11 +132,9 @@ export class Game {
     this.audioHandler = new AudioHandler()
     this.camera.camera.add(this.audioHandler.container)
     addEventListener('pointerdown', () => {
-      console.log('go')
       this.audioHandler.setAudio()
     })
     addEventListener('keydown', () => {
-      console.log('go')
       this.audioHandler.setAudio()
     })
   }
