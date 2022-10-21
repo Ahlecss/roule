@@ -6,7 +6,7 @@ export class GameManager {
         this.setSpeed = options.setSpeed
         this.badges = []
         //this.games = ['theBeat', 'theDrop', 'theWouin']
-        this.games = ['theBeat']
+        this.games = ['theWouin']
 
         requestAnimationFrame(() => {
             this.init();
@@ -74,7 +74,7 @@ export class GameManager {
         console.log('la')
         $nuxt.$emit('changeCurrentTitle', 'The Wouiiiinnn')
 
-        $nuxt.$emit('startTheWouin')
+        // $nuxt.$emit('startTheWouin')
         
         $nuxt.$on('win', (game) => {
             if (game !== 'theWouin') return
