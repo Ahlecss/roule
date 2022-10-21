@@ -1,7 +1,7 @@
 <!-- Please remove this file from your project -->
 <template>
   <div class="HUD" id="HUD">
-    <Controller />
+    <Controller :trueMetronome="true"/>
     <Titles />
     <Success />
   </div>

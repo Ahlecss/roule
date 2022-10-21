@@ -19,19 +19,30 @@
       <path id='p2-axis-controller' d="M77 41.5484C77 27.9439 65.4922 17.0341 51.6959 18.0679C40.1231 18.931 30.8187 28.3453 30.0525 39.9526C29.3514 50.6215 35.7413 59.8853 44.9605 63.4884L48.2106 85.4283C48.6012 88.0579 50.8496 90 53.4987 90C56.1478 90 58.4013 88.0529 58.7869 85.4283L62.0369 63.4884C70.7904 60.0659 77 51.5348 77 41.5484Z" fill="#949494"/>
       <path id='p2-axis-bumper' d="M278 117C294.569 117 308 103.345 308 86.5C308 69.6553 294.569 56 278 56C261.431 56 248 69.6553 248 86.5C248 103.345 261.431 117 278 117Z" fill="#949494"/>
     </svg>
+    <div class="metronome" id="metronome">
+      <span class="left-zone"></span>
+      <span class="right-zone"></span>
+    </div>
   </div>
+
 </template>
   
   <script>
-  
+  import gsap from 'gsap'
   export default {
     name: 'Controller',
+    props: ['trueMetronome'],
     deta () {
       return {
         currentGame: ''
       }
     },
     mounted() {
+      if(this.trueMetronome) {
+        this.setupMetronome()
+      } else {
+        return 
+      }
       $nuxt.$on('player1Button',(player, key) => {
         this.selectElement(player, key)
       })
@@ -40,16 +51,16 @@
       })
       $nuxt.$on('startTheBeat', () => {
         this.currentGame = 'theBeat'
-        this.theBeatCreateInterval()
+        // this.theBeatCreateInterval()
       })
       $nuxt.$on('startTheDrop', () => {
         this.currentGame = 'theDrop'
-        this.theDropCreateInterval()
+        // this.theDropCreateInterval()
       })
-      this.timing = 60 / this.$game.user.leftUser.input.beat.bpm
     },
     methods: {
       selectElement(player, key) {
+        console.log(this.currentGame)
           if (this.currentGame === 'theWouin' && typeof key === 'number') {
             this.checkValidity(player, `p${player}-axis-controller`)
             return;
@@ -57,7 +68,7 @@
             // this.addDot(player, `p${player}-axis-bumper`)
             this.checkValidity(player, `p${player}-axis-bumper`)
             return;
-          } else if(this.currentGame === 'theBeat' && (key === 'a' || key === 'x' || key === 'i' || key === 's')) {
+          } else if((key === 'a' || key === 'x' || key === 'i' || key === 's')) {
             // this.addDot(player, `p${player}-axis-${key}`)
             this.checkValidity(player, `p${player}-axis-${key}`)
             return;
@@ -66,34 +77,58 @@
   
       checkValidity(player, id) {
         const input = this.$game.user.leftUser.input.registerInput()
+        console.log(input.valid)
         if(input.valid) {
           this.addFull(player,id)
         } else {
           this.shake(player)
           this.addDot(player,id)
         }
-
+        this.checkCombo(input.combo)
         // Shitty validation, refacto sa mère
-        if(this.currentGame === 'theBeat') this.checkCombo(input.combo)
+        
+        /*if(this.currentGame === 'theBeat') 
         else if(this.currentGame === 'theDrop') {
           console.log(this.dropCombo)
           this.dropCombo = 1;
           if(this.dropCombo === 1 ) {
             $nuxt.$emit('win', 'theDrop')
             this.bounce()
-            this.theDropDeleteInterval()
+            //this.theDropDeleteInterval()
           }
-        }
+        }*/
         },
       checkCombo(combo) {
-        if(combo === 2) {
+        if(combo === 5) {
           $nuxt.$emit('win', 'theBeat')
           this.bounce()
           this.theBeatDeleteInterval()
         } else return
       },
 
-      theBeatCreateInterval() {
+      setupMetronome() {
+        this.timing = 60 / this.$game.user.leftUser.input.beat.bpm
+
+        const click = document.createElement('span')
+        click.classList.add('click')
+
+        const metronome = document.querySelectorAll(`.metronome`)[1]
+
+        metronome.appendChild(click)
+
+        console.log(this.timing * 1000)
+        gsap.to(click, {
+          background: '#FF326F',
+          x: '430px',
+          yoyo: true,
+          repeat: -1,
+          ease: 'linear',
+          duration: this.timing
+        })
+      },
+
+
+     /* theBeatCreateInterval() {
         this.beatInterval = setInterval(this.createWaveTheBeat, this.timing  * 1000)
       },
       theDropCreateInterval() {
@@ -104,9 +139,10 @@
       },
       theDropDeleteInterval() {
         clearInterval(this.dropInterval)
-      },
+      }, */
       addDot(player, id) {
         const button = document.getElementById(id)
+        console.log(player, id)
         const rect = button.getBoundingClientRect()
         const posX = rect.left + (rect.width / 4)
         const posY = rect.top + (rect.height / 4)
@@ -124,10 +160,11 @@
           dot.id ='player2-dot'
           document.getElementById('controller').appendChild(dot)
         }
-        setTimeout(() => {
+        /*setTimeout(() => {
           dot.remove()
-        }, 300)
+        }, 300)*/
       },
+      
       addFull(player, id) {
         const button = document.getElementById(id)
         button.classList.add('active')
@@ -152,6 +189,7 @@
           p2.classList.remove('bouncing')
         }, 2100)
       },
+      /*
       createWaveTheBeat() {
         console.log(this.timing)
         this.p1AxisA = document.getElementById('p1-axis-a')
@@ -226,7 +264,7 @@
           wave1.remove()
           wave2.remove()
         }, this.timing * 3000)
-      }
+      }*/
     }
   }
   </script>
@@ -280,6 +318,42 @@
   .shake {
     animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
     backface-visibility: hidden;
+  }
+
+  .metronome {
+    position: relative;
+    top: 90%;
+    left: 50%;
+    transform: translate3d(-50%, -90%, 0);
+    width: 500px;
+    border-radius: 40px;
+    border: 5px solid lightgray;
+    height: 60px;
+  }
+
+  .left-zone, .right-zone {
+    position: absolute;
+    left: 0%;
+    width: 100px;
+    border-radius: 40px;
+    border: 5px dashed #ABEB36  ;
+    height: 50px;
+  }
+  .right-zone {
+    left: auto;
+    right: 0%;
+    border: 5px dashed #FF326F ;
+  }
+  .click {
+    display: block;
+    position: relative;
+    width: 60px;
+    height: 60px;
+    background:#ABEB36;
+    border-radius: 100%;
+    transform-origin: center;
+    opacity: 1;
+    z-index: 1000;
   }
   
   .wave{
