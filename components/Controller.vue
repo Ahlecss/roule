@@ -23,6 +23,9 @@
       <span class="left-zone"></span>
       <span class="right-zone"></span>
     </div>
+    <div class="combo" id="combo">
+
+    </div>
   </div>
 
 </template>
@@ -85,6 +88,7 @@
           this.addDot(player,id)
         }
         this.checkCombo(input.combo)
+        this.displayCombo(input.combo)
         // Shitty validation, refacto sa mère
         
         /*if(this.currentGame === 'theBeat') 
@@ -102,9 +106,33 @@
         if(combo === 5) {
           $nuxt.$emit('win', 'theBeat')
           this.bounce()
-          this.theBeatDeleteInterval()
+          // this.theBeatDeleteInterval()
         } else return
       },
+      displayCombo(combo){
+        const comboNum = document.createElement('p')
+        comboNum.innerHTML = combo
+        comboNum.classList.add('combo-number')
+
+        const comboBox = document.getElementById('combo')
+
+        comboBox.appendChild(comboNum)
+
+        gsap.fromTo(comboNum, {
+          opacity: 0.3,
+          scale: 0.5
+        }, {
+          opacity: 1,
+          scale: 1,
+          duration: 1,
+          onComplete: () => {
+            console.log('disapear')
+            comboNum.remove()
+          }
+        },
+        )
+      },
+
 
       setupMetronome() {
         this.timing = 60 / this.$game.user.leftUser.input.beat.bpm
