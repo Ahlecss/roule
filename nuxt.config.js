@@ -58,6 +58,11 @@ export default {
         exclude: /node_modules/,
         use: ['file-loader'],
       })
+      config.module.rules.push({
+        test: /\.(mp3)$/,
+        exclude: /node_modules/,
+        use: ['file-loader'],
+      })
     },
   },
 }

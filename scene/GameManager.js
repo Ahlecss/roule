@@ -4,9 +4,10 @@ export class GameManager {
         this.beat = options.beat
         this.camera = options.camera
         this.setSpeed = options.setSpeed
+        this.audioHandler = options.audioHandler
         this.badges = []
-        this.games = ['theDrop']
-        // this.games = ['theDrop']
+        this.games = ['theBeat', 'theDrop', 'theWouin']
+        // this.games = ['theBeat']
 
         $nuxt.$on('introFinished',() =>{
             requestAnimationFrame(() => {
@@ -43,6 +44,7 @@ export class GameManager {
 
     theDrop() {
         $nuxt.$emit('changeCurrentTitle', 'The Drop')
+        this.audioHandler.enableSolo()
 
         // Start game
         $nuxt.$emit('startTheDrop')
@@ -75,6 +77,7 @@ export class GameManager {
     theWouin() {
         console.log('la')
         $nuxt.$emit('changeCurrentTitle', 'The Wouiiiinnn')
+        this.audioHandler.enableWouin()
 
         $nuxt.$emit('startTheWouin')
 
@@ -87,6 +90,7 @@ export class GameManager {
     theBeat() {
         // Change Title
         $nuxt.$emit('changeCurrentTitle', 'The Beat')
+        this.audioHandler.enableBeat()
 
         // Start game
         $nuxt.$emit('startTheBeat')

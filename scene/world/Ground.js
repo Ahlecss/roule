@@ -41,6 +41,7 @@ export class Ground {
                 varying vec2 vUv;
                 uniform float uTime;
                 uniform float uBeat;
+                varying vec3 norm;
                 float mod289(float x){return x - floor(x * (1.0 / 289.0)) * 289.0;}
                 vec4 mod289(vec4 x){return x - floor(x * (1.0 / 289.0)) * 289.0;}
                 vec4 perm(vec4 x){return mod289(((x * 34.0) + 1.0) * x);}
@@ -72,7 +73,8 @@ export class Ground {
                     vec3 pos = position;
                     float n = noise(vec3(pos*0.5));
                     float b = sin(uBeat * PI * 2.);
-                    pos.xz /= 1. - smoothstep(0.6, 0.8, abs(pos.y/10.))*0.8*n*(0.8+b*0.1);
+                    pos.xz /= 1. - smoothstep(0.6, 0.8, abs(pos.y/10.))*0.8*n*(0.8+b*0.1)*(1.- abs(norm.g));
+                    norm = normal;
                     gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
                 }
             `,
@@ -85,6 +87,7 @@ export class Ground {
                 vec3 roadColor = vec3(255.)/255.;
                 vec3 grassColor1 = vec3(171., 235., 54.)/255.;
                 vec3 grassColor2 = vec3(255., 50., 111.)/255.;
+                varying vec3 norm;
 
                 void main() {
                     vec2 uv = vUv;
@@ -103,8 +106,8 @@ export class Ground {
                     vec3 color = vec3(0.);
                     color += grass;
                     color += texture2D(uTexture, mod(uv*2.,vec2(1.))).rgb * roadLimit;
-                    gl_FragColor = vec4(color, mix(grass.b,1.0,roadLimit));
-                    // gl_FragColor = vec4(gCol, 1.);
+                    gl_FragColor = vec4(color, mix(grass.b,1.0,roadLimit*(1.- abs(norm.g))));
+                    // gl_FragColor = vec4(, 1.);
 
                 }
             `,
