@@ -104,10 +104,10 @@ export class Board {
           this.maskMaterial.uniforms.badge1.value = 1
           break;
         case "theSolo":
-          this.maskMaterial.uniforms.badge2.value = 1
+          this.maskMaterial.uniforms.badge3.value = 1
           break;
         case "theWouin":
-          this.maskMaterial.uniforms.badge3.value = 1
+          this.maskMaterial.uniforms.badge2.value = 1
           break;
         case "theDrop":
           this.maskMaterial.uniforms.badge4.value = 1

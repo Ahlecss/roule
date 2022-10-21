@@ -91,7 +91,7 @@ import Controller from './Controller.vue'
         },
         closeinit() {
             this.intro.classList.add("swipeLeft")
-            setTimeout(() => {this.intro.remove()}, 2000);
+            setTimeout(() => {this.intro.remove(), $nuxt.$emit("introFinished")}, 2000);
         }
     }
   }

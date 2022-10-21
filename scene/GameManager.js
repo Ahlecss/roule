@@ -8,9 +8,11 @@ export class GameManager {
         // this.games = ['theBeat', 'theDrop', 'theWouin']
         this.games = ['theBeat']
 
-        requestAnimationFrame(() => {
-            this.init();
-        }, 1000)
+        $nuxt.$on('introFinished',() =>{
+            requestAnimationFrame(() => {
+                this.init();
+            }, 1000)
+        })
     }
 
     init() {
@@ -74,7 +76,7 @@ export class GameManager {
         console.log('la')
         $nuxt.$emit('changeCurrentTitle', 'The Wouiiiinnn')
 
-        // $nuxt.$emit('startTheWouin')
+        $nuxt.$emit('startTheWouin')
 
         $nuxt.$on('win', (game) => {
             if (game !== 'theWouin') return

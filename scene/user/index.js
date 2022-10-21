@@ -105,14 +105,14 @@ export class Users {
     }
 
     player1KeydownHandler(e) {
-        if (e.key = "a" && !this.player1isReady) {
+        if (e.key = "x" && !this.player1isReady) {
             this.player1isReady = true
             $nuxt.$emit('playerisReady', 1)
         }
     }
 
     player2KeydownHandler(e) {
-        if (e.key = "a" && !this.player2isReady) {
+        if (e.key = "x" && !this.player2isReady) {
             this.player2isReady = true
             $nuxt.$emit('playerisReady', 2)
         }
