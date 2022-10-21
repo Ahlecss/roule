@@ -115,6 +115,10 @@ export default {
   align-items: center;
 }
 
+.wouin.fadeIn {
+  animation-delay: 3s;
+}
+
 #wouin-div {
   position: relative;
   width: 400px;
@@ -154,21 +158,6 @@ export default {
 
 #wouin-div #cursor-mov {
   z-index: 4;
-}
-
-.fadeIn {
-    animation: fadeIn .1s cubic-bezier(.36,.07,.19,.97) both;
-    animation-delay: 3s;
-}
-
-@keyframes fadeIn {
-    0% {
-      opacity : 0;
-    }
-    
-    100% {
-      opacity: 1;
-    }
 }
 </style>
   
