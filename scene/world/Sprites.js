@@ -1,8 +1,10 @@
 import { Object3D, TextureLoader, PlaneGeometry, MeshBasicMaterial, Mesh, DoubleSide } from 'three'
 let urls = [
-  require('../../assets/textures/buildings/awesome.png'),
+  // require('../../assets/textures/buildings/awesome.png'),
   require('../../assets/textures/buildings/dope.png'),
   require('../../assets/textures/buildings/nice.png'),
+  require('../../assets/textures/buildings/goodjob.png'),
+  require('../../assets/textures/buildings/wow.png'),
 
 ]
 
@@ -12,7 +14,7 @@ export class Sprites {
     this.beat = options.beat
     this.player = options.player
     this.groundRadius = options.radius
-    this.size = 5
+    this.size = 3
     this.sprites = []
     this.maps = []
 
@@ -34,7 +36,7 @@ export class Sprites {
 
   setSprite() {
     this.geometry = new PlaneGeometry(this.size, this.size);
-    this.material = new MeshBasicMaterial({ transparent: true });
+    this.material = new MeshBasicMaterial({ transparent: SVGComponentTransferFunctionElement, depthTest: false });
   }
 
   createSprite(playerIndex) {
