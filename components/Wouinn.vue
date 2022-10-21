@@ -36,6 +36,7 @@ export default {
   methods: {
     initWouin() {
       this.wouin.style.display ="flex"
+      this.updateWouinBar()
 
       $nuxt.$on('player1Joystick', (x) => {
         this.left.style.opacity = 0.8 + 0.2 * x
