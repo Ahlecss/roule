@@ -1,5 +1,5 @@
 <template>
-  <div class="wouin" ref="woinDiv">
+  <div class="wouin" v-if="show">
     <div id="wouin-div">
       <div id="div-l" ref="left"></div>
       <img id="cursor-mid" ref="cursorMid" src="../assets/img/Cursor-m.svg" />
@@ -34,7 +34,7 @@ export default {
   },
   methods: {
     initWouin() {
-      this.woinDiv.style.display ="flex"
+      this.show = true
 
       $nuxt.$on('player1Joystick', (x) => {
         this.left.style.opacity = 0.8 + 0.2 * x
@@ -71,7 +71,6 @@ export default {
       this.checkMiddle()
     },
     checkMiddle() {
-      console.log('test')
       if (this.timeoutRef) {
         if (this.wouinFactor * 100 <= 40 || this.wouinFactor * 100 >= 60) {
           this.isWinning = false
@@ -95,7 +94,7 @@ export default {
       }
     },
     destroy() {
-      this.$refs.wouin.parentNode.removeChild(this.$refs.wouin)
+      setTimeout(() => {this.woinDiv.remove()}, 2000);
     }
   }
 }
@@ -109,15 +108,15 @@ export default {
   height: 100vh;
   z-index: 2;
   margin: auto;
+  display: flex;
   justify-content: center;
   align-items: center;
-  display: none;
 }
 
 #wouin-div {
   position: relative;
   width: 400px;
-  height: 30px;
+  height: 25px;
   background: white;
   display: flex;
   justify-content: space-between;
