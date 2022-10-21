@@ -51,9 +51,7 @@
       <span class="left-zone"></span>
       <span class="right-zone"></span>
     </div>
-    <div class="combo" id="combo">
-
-    </div>
+    <div class="combo" id="combo"></div>
   </div>
 
 </template>
@@ -82,11 +80,22 @@ export default {
     })
     $nuxt.$on('startTheBeat', () => {
       this.currentGame = 'theBeat'
+      this.tutoAppear()
       // this.theBeatCreateInterval()
     })
     $nuxt.$on('startTheDrop', () => {
       this.currentGame = 'theDrop'
+      this.tutoAppear()
       // this.theDropCreateInterval()
+    })
+    $nuxt.$on('startTheWouin', () => {
+      this.currentGame = 'theWouin'
+      // this.theDropCreateInterval()
+    })
+    $nuxt.$on('setSpeed', () => {
+      console.log('test')
+      this.deleteMetronome()
+      this.setupMetronome()
     })
   },
   methods: {
@@ -99,7 +108,7 @@ export default {
         // this.addDot(player, `p${player}-axis-bumper`)
         this.checkValidity(player, `p${player}-axis-bumper`)
         return;
-      } else if ((key === 'a' || key === 'x' || key === 'i' || key === 's')) {
+      } else if (this.currentGame === 'theBeat' && (key === 'a' || key === 'x' || key === 'i' || key === 's')) {
         // this.addDot(player, `p${player}-axis-${key}`)
         this.checkValidity(player, `p${player}-axis-${key}`)
         return;
@@ -107,73 +116,76 @@ export default {
     },
 
     checkValidity(player, id) {
-      const input = this.$game.user.leftUser.input.registerInput()
-      console.log(input.valid)
-      if (input.valid) {
+      const inputLeft = this.$game.user.leftUser.input.registerInput()
+      const inputRight = this.$game.user.rightUser.input.registerInput()
+      this.currentIsLeft = false
+      if (inputLeft.valid || inputRight.valid) {
         this.addFull(player, id)
       } else {
         this.shake(player)
         this.addDot(player, id)
       }
-      this.checkCombo(input.combo)
-      this.displayCombo(input.combo)
-      // Shitty validation, refacto sa mère
-
-      /*if(this.currentGame === 'theBeat') 
-      else if(this.currentGame === 'theDrop') {
-        console.log(this.dropCombo)
-        this.dropCombo = 1;
-        if(this.dropCombo === 1 ) {
-          $nuxt.$emit('win', 'theDrop')
-          this.bounce()
-          //this.theDropDeleteInterval()
-        }
-      }*/
+      this.checkCombo(inputLeft.combo)
+      this.displayCombo(inputLeft.combo)
+      // Shitty validation, refacto sa mÃ¨re
     },
     checkCombo(combo) {
-      if (combo === 5) {
-        $nuxt.$emit('win', 'theBeat')
+      if (this.currentGame === 'theBeat' && combo === 9) {
+        $nuxt.$emit('win', this.currentGame)
+        this.bounce()
+      }
+      else if (this.currentGame === 'theDrop' && combo === 3) {
+        $nuxt.$emit('win', this.currentGame)
         this.bounce()
         // this.theBeatDeleteInterval()
       } else return
     },
     displayCombo(combo) {
       const comboNum = document.createElement('p')
-      comboNum.innerHTML = combo
+      comboNum.innerHTML = combo + 1
       comboNum.classList.add('combo-number')
 
       const comboBox = document.getElementById('combo')
 
+      console.log(comboNum)
       comboBox.appendChild(comboNum)
 
-      gsap.fromTo(comboNum, {
-        opacity: 0.3,
-        scale: 0.5
-      }, {
+      comboNum.style.left = `${Math.random() * 400}px`
+      comboNum.style.top = `${Math.random() * 400}px`
+
+      this.comboNumTl = gsap.timeline({}
+      )
+      this.comboNumTl.to(comboNum, {
         opacity: 1,
         scale: 1,
         duration: 1,
-        onComplete: () => {
-          console.log('disapear')
-          comboNum.remove()
-        }
-      },
-      )
+      }),
+        this.comboNumTl.to(comboNum, {
+          opacity: 0,
+          scale: 1.3,
+          duration: 1,
+          onComplete: () => {
+            console.log('disapear')
+            comboNum.remove()
+          }
+        },
+        )
     },
 
 
     setupMetronome() {
       this.timing = 60 / this.$game.user.leftUser.input.beat.bpm
 
-      const click = document.createElement('span')
-      click.classList.add('click')
+      this.click = document.createElement('span')
+      this.click.classList.add('click')
 
       const metronome = document.getElementById('metronome')
 
-      metronome.appendChild(click)
+      metronome.appendChild(this.click)
 
       console.log(this.timing * 1000)
-      gsap.to(click, {
+      this.metronomeTl = gsap.timeline({})
+      this.metronomeTl.to(this.click, {
         background: '#FF326F',
         x: '430px',
         yoyo: true,
@@ -181,6 +193,32 @@ export default {
         ease: 'linear',
         duration: this.timing
       })
+    },
+    deleteMetronome() {
+      this.metronomeTl.kill()
+      this.click.remove()
+    },
+
+    tutoAppear() {
+      if (this.currentGame === 'theBeat') {
+        var button1 = document.getElementById('p1-axis-a')
+        var button2 = document.getElementById('p2-axis-a')
+      } else if (this.currentGame === 'theDrop') {
+        var button1 = document.getElementById('p1-axis-bumper')
+        var button2 = document.getElementById('p2-axis-bumper')
+      } else if (this.currentGame === 'theWouin') {
+        var button1 = document.getElementById('p1-axis-controller')
+        var button2 = document.getElementById('p2-axis-controller')
+      }
+
+      button1.classList.add('blink1')
+      setTimeout(() => {
+        button1.classList.remove('blink1')
+      }, 2000)
+      button2.classList.add('blink1')
+      setTimeout(() => {
+        button2.classList.remove('blink1')
+      }, 2000)
     },
 
 
@@ -385,6 +423,25 @@ svg {
   backface-visibility: hidden;
 }
 
+.combo {
+  position: relative;
+  left: 50%;
+  top: 10%;
+  transform: translate3d(-50%, -10%, 0);
+  width: 20vw;
+  height: 20vh;
+}
+
+.combo-number {
+  position: absolute;
+  color: white;
+  font-size: 10rem;
+  opacity: 0.3;
+  transform: scale(0.5);
+  text-shadow: 6px 0 #000, -6px 0 #000, 0 6px #000, 0 -6px #000,
+    3px 3px #000, -3px -3px #000, 3px -3px #000, -3px 3px #000;
+}
+
 .metronome {
   position: relative;
   top: 90%;
@@ -445,6 +502,16 @@ svg {
 
 .bouncing {
   animation: bouncing 1s 2 cubic-bezier(.36, .07, .19, .97) both;
+}
+
+.blink1 {
+  background: #ABEB36;
+  animation: blink 2s;
+}
+
+.blink2 {
+  background: #FF326F;
+  animation: blink 2s 0.4s;
 }
 
 @keyframes shake {
@@ -535,6 +602,32 @@ svg {
 
   99% {
     transform: scale(0.60);
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+
+  20% {
+    opacity: 0;
+  }
+
+  40% {
+    opacity: 1;
+  }
+
+  60% {
+    opacity: 0;
+  }
+
+  80% {
     opacity: 1;
   }
 

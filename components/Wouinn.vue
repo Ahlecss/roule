@@ -1,5 +1,5 @@
 <template>
-  <div class="wouin" v-if="show">
+  <div class="wouin fadeIn" ref="wouinDiv" v-if="show">
     <div id="wouin-div">
       <div id="div-l" ref="left"></div>
       <img id="cursor-mid" ref="cursorMid" src="../assets/img/Cursor-m.svg" />
@@ -22,7 +22,7 @@ export default {
     }
   },
   mounted() {
-    this.woinDiv = this.$refs.woinDiv
+    this.wouin = this.$refs.wouinDiv
     this.left = this.$refs.left
     this.right = this.$refs.right
     this.cursorMid = this.$refs.cursorMid
@@ -31,6 +31,7 @@ export default {
     $nuxt.$on('startTheWouin', () => {
       this.initWouin()
     })
+
   },
   methods: {
     initWouin() {
@@ -47,6 +48,7 @@ export default {
         this.wouinFactor += x * 0.003
         this.updateWouinBar()
       })
+
     },
     updateWouinBar() {
       this.date = new Date()
@@ -94,7 +96,7 @@ export default {
       }
     },
     destroy() {
-      setTimeout(() => {this.woinDiv.remove()}, 2000);
+      setTimeout(() => {this.wouin.remove()}, 2000);
     }
   }
 }
@@ -111,6 +113,10 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.wouin.fadeIn {
+  animation-delay: 3s;
 }
 
 #wouin-div {

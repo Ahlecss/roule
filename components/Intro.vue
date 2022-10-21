@@ -68,9 +68,11 @@ import Controller from './Controller.vue'
     },
     mounted() {
         this.intro = this.$refs.intro
-        $nuxt.$on('playerisReady',(player) =>{
+        $nuxt.$on('firstInput',() =>{
             this.firstInput = true
             this.started = true
+        })
+        $nuxt.$on('playerisReady',(player) =>{
             this.playerisReady(player)
         })
     },
@@ -91,7 +93,7 @@ import Controller from './Controller.vue'
         },
         closeinit() {
             this.intro.classList.add("swipeLeft")
-            setTimeout(() => {this.intro.remove()}, 2000);
+            setTimeout(() => {this.intro.remove(), $nuxt.$emit("introFinished")}, 2000);
         }
     }
   }
@@ -204,7 +206,7 @@ import Controller from './Controller.vue'
 }
 
 .fadeIn {
-    animation: fadeIn .3s cubic-bezier(.36,.07,.19,.97) both;
+    animation: fadeIn 0.5s cubic-bezier(.36,.07,.19,.97) both;
 }
 
 @keyframes swipeLeft {

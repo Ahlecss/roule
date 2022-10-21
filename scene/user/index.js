@@ -7,6 +7,7 @@ export class Users {
         this.world = options.world
         this.combo = 0
         this.lastHit = undefined
+        this.firstInput = false
         this.player1isReady = false
         this.player2isReady = false
         this.gamepadEmulator = Axis.createGamepadEmulator(0)
@@ -20,6 +21,16 @@ export class Users {
 
         this.leftUser = new User({
             playerIndex: 0,
+            beat: this.beat,
+            clock: this.clock,
+            world: this.world,
+            setCombo: this.setCombo,
+            getCombo: this.getCombo,
+            setLastHit: this.setLastHit,
+            getLastHit: this.getLastHit,
+        })
+        this.rightUser = new User({
+            playerIndex: 1,
             beat: this.beat,
             clock: this.clock,
             world: this.world,
@@ -104,18 +115,38 @@ export class Users {
         Axis.addEventListener("exit:completed", this.exitCompletedHandler)
     }
 
+    exitAttemptedHandler() {
+        pause();
+    }
+    
+    exitCanceledHandler() {
+        unpause();
+    }
+
+    exitCompletedHandler() {
+        console.log("👋 Bye bye");
+    }
+
     player1KeydownHandler(e) {
-        if (e.key = "a" && !this.player1isReady) {
+        if(!this.firstInput) {
+            $nuxt.$emit('firstInput')
+            this.firstInput = true
+        }else if (e.key == "a" && !this.player1isReady) {
             this.player1isReady = true
             $nuxt.$emit('playerisReady', 1)
         }
     }
 
     player2KeydownHandler(e) {
-        if (e.key = "a" && !this.player2isReady) {
+        console.log(e)
+        if(!this.firstInput) {
+            $nuxt.$emit('firstInput')
+            this.firstInput = true
+        } else if (e.key == "a" && !this.player2isReady) {
             this.player2isReady = true
             $nuxt.$emit('playerisReady', 2)
         }
+      
     }
 
     player1KeyupHandler(e) {
