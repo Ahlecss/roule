@@ -3,7 +3,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 let boardURL = require('../../assets/models/board.glb')
 let stickers = require('@/assets/img/PNG_stickers-HD.png')
 let stickersMask = require('@/assets/img/MASK_stickers-HD.png')
-import gsap, {Power3} from 'gsap'
+import gsap, { Power3 } from 'gsap'
 
 
 export class Board {
@@ -38,10 +38,10 @@ export class Board {
     this.maskMaterial = new ShaderMaterial({
       transparent: true,
       uniforms: {
-        badge1: {value: this.badge1},
-        badge2: {value: this.badge2},
-        badge3: {value: this.badge3},
-        badge4: {value: this.badge4},
+        badge1: { value: this.badge1 },
+        badge2: { value: this.badge2 },
+        badge3: { value: this.badge3 },
+        badge4: { value: this.badge4 },
         stickerT: { value: this.stickersText },
         stickerM: { value: this.stickersMask },
       },
@@ -95,7 +95,7 @@ export class Board {
     this.overlay.position.y = 0.65
     this.overlay.position.z = -1.2
     this.overlay.scale.set(0.920, 0.850, 0.850)
-    this.container.add(this.overlay)
+    this.board.add(this.overlay)
   }
   updateOverlayBadge(badges) {
     badges.map((badge) => {
@@ -141,7 +141,7 @@ export class Board {
       y: - Math.PI / 8,
       duration: 0.4 * this.speed,
       onComplete: () => {
-        $nuxt.$emit('setSpeed',0.3)
+        $nuxt.$emit('setSpeed', 0.3)
       }
     })
     this.tl.to(this.container.position, {
@@ -159,14 +159,14 @@ export class Board {
     this.tl.to(this.container.rotation, {
       z: - 2 * Math.PI,
       duration: 10 * this.speed,
-      onComplete:() => {
+      onComplete: () => {
         $nuxt.$emit('setSpeed', 1)
       }
     }, '-=1')
     this.tl.to(this.container.position, {
       y: Math.PI / 8,
       duration: 2 * this.speed,
-    }, `-= ${ 5 * this.speed}`)
+    }, `-= ${5 * this.speed}`)
     this.tl.to(this.container.position, {
       y: 0,
       duration: 1 * this.speed,
@@ -194,9 +194,9 @@ export class Board {
     if (this.board) {
       this.board.children[1].rotateZ(delta * 15.)
       this.board.children[2].rotateZ(delta * 15.)
+      this.board.scale.y = 1. - this.easeInBack(Math.sin(this.beat.getBeat() * 2 * Math.PI) / 2 + 0.5) * 0.15
     }
 
-    this.container.scale.y = 1. - this.easeInBack(Math.sin(this.beat.getBeat() * 2 * Math.PI) / 2 + 0.5) * 0.2
   }
   easeInBack(x) {
     const c1 = 1.70158;
