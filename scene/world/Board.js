@@ -101,16 +101,16 @@ export class Board {
     badges.map((badge) => {
       switch (badge) {
         case "theBeat":
-          this.badge1 = 1
+          this.maskMaterial.uniforms.badge1.value = 1
           break;
         case "theSolo":
-          this.badge2 = 1
+          this.maskMaterial.uniforms.badge2.value = 1
           break;
         case "theWouin":
-          this.badge3 = 1
+          this.maskMaterial.uniforms.badge3.value = 1
           break;
         case "theDrop":
-          this.badge4 = 1
+          this.maskMaterial.uniforms.badge4.value = 1
           break;
       }
     })

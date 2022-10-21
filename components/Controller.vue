@@ -188,9 +188,9 @@
           dot.id ='player2-dot'
           document.getElementById('controller').appendChild(dot)
         }
-        /*setTimeout(() => {
+        setTimeout(() => {
           dot.remove()
-        }, 300)*/
+        }, 300)
       },
       
       addFull(player, id) {
