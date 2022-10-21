@@ -11,6 +11,7 @@ import { Beat } from './Beat.js'
 import { Users } from './user/index.js'
 import { GameManager } from './GameManager.js'
 import { PostProcessing } from './PostProcessing.js'
+import { AudioHandler } from './AudioHandler.js'
 
 export class Game {
   constructor() {
@@ -24,11 +25,11 @@ export class Game {
     this.setBeat()
     this.setWorld()
     this.setCamera()
+    this.setAudio()
     this.setGameManager()
     this.setEvents()
     this.setUsers()
     this.setPostProcessing()
-    this.setAudio()
     this.setSpeed()
     this.update()
   }
@@ -82,16 +83,22 @@ export class Game {
       world: this.world,
       beat: this.beat,
       camera: this.camera,
+      audioHandler: this.audioHandler,
       setSpeed: (s) => this.setSpeed(s)
     })
   }
 
   setSpeed(s) {
     $nuxt.$on('setSpeed', s => {
-      // console.log(s)
       this.speed = s
-      this.beat.bpm = this.beat.bpmOriginal * s
     })
+  }
+  
+  updateSpeed(s) {
+    this.audioHandler.setSpeed(
+      this.lerp(this.audioHandler.speed, this.speed, 0.1)
+    )
+    this.beat.bpm = this.beat.bpmOriginal * this.lerp(this.audioHandler.speed, this.speed, 0.1)
   }
 
   setEvents() {
@@ -122,9 +129,14 @@ export class Game {
   }
 
   setAudio() {
-    this.audio = new Audio()
-    this.audio.src = '../assets/audio/beat.mp3'
-    this.audio.play()
+    this.audioHandler = new AudioHandler()
+    this.camera.camera.add(this.audioHandler.container)
+    addEventListener('pointerdown', () => {
+      this.audioHandler.setAudio()
+    })
+    addEventListener('keydown', () => {
+      this.audioHandler.setAudio()
+    })
   }
 
   update() {
@@ -132,6 +144,12 @@ export class Game {
     let delta = this.beat.getBeatDelta() * this.speed
     this.world.update(delta)
     this.beat.update()
+    this.updateSpeed()
+    this.audioHandler.update()
     this.postProcessing.update(delta)
+  }
+
+  lerp(a, b, n) {
+    return (1 - n) * a + n * b
   }
 }

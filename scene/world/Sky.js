@@ -9,7 +9,7 @@ export class Sky {
 
     setSky() {
         this.sky = new Mesh(
-            new PlaneGeometry(50, 50),
+            new PlaneGeometry(50, 25),
             new ShaderMaterial({
                 side: DoubleSide,
                 uniforms: {
@@ -72,6 +72,7 @@ export class Sky {
             })
         )
         this.sky.position.z = -10
+        this.sky.position.y = 4
         this.container.add(this.sky)
     }
 

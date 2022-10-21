@@ -24,7 +24,6 @@ export class Board {
   loadBoard() {
     this.loader.load(boardURL.default, (gltf) => {
       this.board = gltf.scene
-      // console.log(this.board)
       this.container.add(this.board)
       this.setBoard()
     })
@@ -175,7 +174,6 @@ export class Board {
 
   endSkateDrop() {
     this.tl.kill()
-    console.log('here')
     gsap.to(this.container.rotation, {
       z: - 2 * Math.PI,
       duration: 2 * this.speed,
