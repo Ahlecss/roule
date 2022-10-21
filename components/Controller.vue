@@ -26,31 +26,38 @@
   
   export default {
     name: 'Controller',
+    deta () {
+      return {
+        currentGame: ''
+      }
+    },
     mounted() {
       $nuxt.$on('player1Button',(player, key) => {
         this.selectElement(player, key)
       })
-      $nuxt.$on('player2Button',(player, key) =>{
+      $nuxt.$on('player2Button',(player, key) => {
         this.selectElement(player, key)
-          })
-      // $nuxt.$on('startTheBeat', () => {
-      //   this.theBeatCreateInterval()
-      // })
+      })
+      $nuxt.$on('startTheBeat', () => {
+        this.currentGame = 'theBeat'
+        this.theBeatCreateInterval()
+      })
       $nuxt.$on('startTheDrop', () => {
+        this.currentGame = 'theDrop'
         this.theDropCreateInterval()
       })
       this.timing = 60 / this.$game.user.leftUser.input.beat.bpm
     },
     methods: {
       selectElement(player, key) {
-          if (typeof key === 'number') {
+          if (this.currentGame === 'theWouin' && typeof key === 'number') {
             this.checkValidity(player, `p${player}-axis-controller`)
             return;
-          } else if(key === 'w') {
+          } else if(this.currentGame === 'theDrop' && key === 'w') {
             // this.addDot(player, `p${player}-axis-bumper`)
             this.checkValidity(player, `p${player}-axis-bumper`)
             return;
-          } else if(key === 'a' || key === 'x' || key === 'i' || key === 's'){
+          } else if(this.currentGame === 'theBeat' && (key === 'a' || key === 'x' || key === 'i' || key === 's')) {
             // this.addDot(player, `p${player}-axis-${key}`)
             this.checkValidity(player, `p${player}-axis-${key}`)
             return;
@@ -65,7 +72,18 @@
           this.shake(player)
           this.addDot(player,id)
         }
-        this.checkCombo(input.combo)
+
+        // Shitty validation, refacto sa mère
+        if(this.currentGame === 'theBeat') this.checkCombo(input.combo)
+        else if(this.currentGame === 'theDrop') {
+          console.log(this.dropCombo)
+          this.dropCombo = 1;
+          if(this.dropCombo === 1 ) {
+            $nuxt.$emit('win', 'theDrop')
+            this.bounce()
+            this.theDropDeleteInterval()
+          }
+        }
         },
       checkCombo(combo) {
         if(combo === 2) {
@@ -135,6 +153,7 @@
         }, 2100)
       },
       createWaveTheBeat() {
+        console.log(this.timing)
         this.p1AxisA = document.getElementById('p1-axis-a')
         this.p1Rect = this.p1AxisA.getBoundingClientRect()
         this.p2AxisA = document.getElementById('p2-axis-a')
@@ -196,7 +215,9 @@
         wave2.style.setProperty('--timing', `${this.timing}s`);
         //if(player === '1') {
         document.getElementById('controller').appendChild(wave1)
-        document.getElementById('controller').appendChild(wave2)
+        setTimeout(() => {
+          document.getElementById('controller').appendChild(wave2)
+        }, this.timing * 500)
 
         setTimeout(() => {
           this.createWaveTheDrop()
@@ -332,6 +353,27 @@
     }
     99% { 
       transform: scale(0.40);
+      opacity: 1;
+    }
+    100% { 
+      opacity: 0;
+    }
+  }
+
+  @keyframes wave-bumper {
+    0% {
+      transform: scale(1.2);
+      opacity: 0;
+    }
+    49% {
+      opacity: 0;
+    }
+    50% {
+      transform: scale(1.2);
+      opacity: 1;
+    }
+    99% { 
+      transform: scale(0.60);
       opacity: 1;
     }
     100% { 

@@ -1,7 +1,7 @@
 <template>
     <div class="intro" ref="intro">
         <Controller class="controller-small"/>
-        <div class="intro-logo" v-if="!firstInput">
+        <div id="intro-logo" v-if="!firstInput">
             <img src="../assets/img/logo-intro.svg"/>
            <h3>Press any key to start</h3>
         </div>
@@ -9,7 +9,7 @@
             <div class="player-div player1">
                 <h3>Ready ?</h3>
                 <div class="player-i">
-                    <img src="../assets/img/Wheel1.png" v-if="player1isReady"/>
+                    <img src="../assets/img/Wheel1.png" v-if="player1isReady" class="fadeIn"/>
                 </div>
                 <h2 v-if="!player1isReady">Press 
                     <span><svg width="25" height="28" viewBox="0 0 25 28" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -21,7 +21,7 @@
             <div class="player-div player2">
                 <h3>Ready ?</h3>
                 <div class="player-i" >
-                    <img src="../assets/img/Wheel2.png" v-if="player2isReady"/>
+                    <img src="../assets/img/Wheel2.png" v-if="player2isReady" class="fadeIn"/>
                 </div>
                 <h2 v-if="!player2isReady">Press 
                     <span><svg width="25" height="28" viewBox="0 0 25 28" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -51,7 +51,6 @@ import Controller from './Controller.vue'
     mounted() {
         this.intro = this.$refs.intro
         $nuxt.$on('playerisReady',(player) =>{
-            // AJOUTER UNE TRANSITION
             this.firstInput = true
             this.started = true
             this.playerisReady(player)
@@ -73,8 +72,7 @@ import Controller from './Controller.vue'
             }
         },
         closeinit() {
-            // AJOUTER UNE TRANSITION
-            this.intro.style.opacity = 0
+            this.intro.classList.add("swipeLeft")
         }
     }
   }
@@ -104,14 +102,14 @@ import Controller from './Controller.vue'
 }
 
 
-.intro-logo h3 {
+#intro-logo h3 {
     position: absolute;
     top: 65%;
     left: 50%;
     transform: translate(-50%);
 }
 
-.intro-logo  {
+#intro-logo  {
     position: relative;
     height: 100%;
     width: 100%;
@@ -120,7 +118,7 @@ import Controller from './Controller.vue'
     align-items: flex-start;
 }
 
-.intro-logo img {
+#intro-logo img {
     object-fit: cover;
     height: 100%;
 }
@@ -168,5 +166,51 @@ import Controller from './Controller.vue'
 .controller-small #p2 #p2-axis-a  {
     fill: #FF326F;
 }
+
+.swipeLeft {
+    animation: swipeLeft 1s cubic-bezier(.36,.07,.19,.97) both;
+    animation-delay: 1s;
+}
+
+.fadeOut {
+    animation: fadeOut 1s cubic-bezier(.36,.07,.19,.97) both;
+    animation-delay: 0.5s;
+}
+
+.fadeIn {
+    animation: fadeIn .3s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@keyframes swipeLeft {
+    0% {
+        margin-left : 0;
+        opacity: 1;
+    }
+    
+    100% {
+        margin-left : 200%;
+        opacity: 0;
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+      opacity : 0;
+    }
+    
+    100% {
+      opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+      opacity : 1;
+    }
+    
+    100% {
+      opacity: 0;
+    }
+  }
 </style>
   

@@ -3,7 +3,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 let boardURL = require('../../assets/models/board.glb')
 let stickers = require('../../assets/img/PNG_stickers-HD.png')
 let stickersMask = require('../../assets/img/MASK_stickers-HD.png')
-import gsap from 'gsap'
+import gsap, {Power3} from 'gsap'
 
 
 export class Board {
@@ -134,19 +134,19 @@ export class Board {
   }
 
   skateDrop() {
-    this.tl = gsap.timeline({ delay: 1 })
+    this.tl = gsap.timeline({ delay: 3 })
     // this.tl.duration(this.tl.duration * this.speed)
 
     this.tl.to(this.container.position, {
       y: - Math.PI / 8,
-      duration: 0.3 * this.speed
-    })
-    this.tl.to(this.container.position, {
-      y: Math.PI / 2,
       duration: 0.4 * this.speed,
       onComplete: () => {
         $nuxt.$emit('setSpeed',0.3)
       }
+    })
+    this.tl.to(this.container.position, {
+      y: Math.PI,
+      duration: 0.4 * this.speed,
     })
     this.tl.to(this.container.rotation, {
       z: -Math.PI / 2,
@@ -170,6 +170,24 @@ export class Board {
     this.tl.to(this.container.position, {
       y: 0,
       duration: 1 * this.speed,
+    })
+  }
+
+  endSkateDrop() {
+    this.tl.kill()
+    console.log('here')
+    gsap.to(this.container.rotation, {
+      z: - 2 * Math.PI,
+      duration: 2 * this.speed,
+      ease: 'linear',
+    })
+    setTimeout(() => {
+      $nuxt.$emit('setSpeed', 1)
+    }, 2000)
+    gsap.to(this.container.position, {
+      y: 0,
+      duration: 2 * this.speed,
+      ease: 'linear'
     })
   }
   update(delta) {
