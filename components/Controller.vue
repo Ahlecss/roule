@@ -379,6 +379,8 @@
     font-size: 10rem;
     opacity: 0.3;
     transform: scale(0.5);
+  text-shadow: 6px 0 #000, -6px 0 #000, 0 6px #000, 0 -6px #000,
+               3px 3px #000, -3px -3px #000, 3px -3px #000, -3px 3px #000;
   }
 
   .metronome {

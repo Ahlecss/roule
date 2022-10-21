@@ -3,6 +3,6 @@
     font-family: 'KCPixelHand';
     font-style: normal;
     font-weight: 500;
-    src: url('~assets/fonts/KCPixelHand.otf') format('opentype');
+    src: url('~assets/fonts/KCPixelHandRegular.woff') format('woff');
     /* IE9 Compat Modes */
   }
