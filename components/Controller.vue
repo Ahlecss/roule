@@ -140,7 +140,7 @@
         const click = document.createElement('span')
         click.classList.add('click')
 
-        const metronome = document.querySelectorAll(`.metronome`)[1]
+        const metronome = document.getElementById('metronome')
 
         metronome.appendChild(click)
 
