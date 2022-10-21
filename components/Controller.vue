@@ -19,35 +19,56 @@
       <path id='p2-axis-controller' d="M77 41.5484C77 27.9439 65.4922 17.0341 51.6959 18.0679C40.1231 18.931 30.8187 28.3453 30.0525 39.9526C29.3514 50.6215 35.7413 59.8853 44.9605 63.4884L48.2106 85.4283C48.6012 88.0579 50.8496 90 53.4987 90C56.1478 90 58.4013 88.0529 58.7869 85.4283L62.0369 63.4884C70.7904 60.0659 77 51.5348 77 41.5484Z" fill="#949494"/>
       <path id='p2-axis-bumper' d="M278 117C294.569 117 308 103.345 308 86.5C308 69.6553 294.569 56 278 56C261.431 56 248 69.6553 248 86.5C248 103.345 261.431 117 278 117Z" fill="#949494"/>
     </svg>
+    <div class="metronome" id="metronome">
+      <span class="left-zone"></span>
+      <span class="right-zone"></span>
+    </div>
   </div>
+
 </template>
   
   <script>
-  
+  import gsap from 'gsap'
   export default {
     name: 'Controller',
+    props: ['trueMetronome'],
+    deta () {
+      return {
+        currentGame: ''
+      }
+    },
     mounted() {
+      if(this.trueMetronome) {
+        this.setupMetronome()
+      } else {
+        return 
+      }
       $nuxt.$on('player1Button',(player, key) => {
         this.selectElement(player, key)
       })
-      $nuxt.$on('player2Button',(player, key) =>{
+      $nuxt.$on('player2Button',(player, key) => {
         this.selectElement(player, key)
-          })
-      $nuxt.$on('startTheBeat', () => {
-        this.theBeatCreateInterval()
       })
-      this.timing = 60 / this.$game.user.leftUser.input.beat.bpm
+      $nuxt.$on('startTheBeat', () => {
+        this.currentGame = 'theBeat'
+        // this.theBeatCreateInterval()
+      })
+      $nuxt.$on('startTheDrop', () => {
+        this.currentGame = 'theDrop'
+        // this.theDropCreateInterval()
+      })
     },
     methods: {
       selectElement(player, key) {
-          if (typeof key === 'number') {
+        console.log(this.currentGame)
+          if (this.currentGame === 'theWouin' && typeof key === 'number') {
             this.checkValidity(player, `p${player}-axis-controller`)
             return;
-          } else if(key === 'w') {
+          } else if(this.currentGame === 'theDrop' && key === 'w') {
             // this.addDot(player, `p${player}-axis-bumper`)
             this.checkValidity(player, `p${player}-axis-bumper`)
             return;
-          } else if(key === 'a' || key === 'x' || key === 'i' || key === 's'){
+          } else if((key === 'a' || key === 'x' || key === 'i' || key === 's')) {
             // this.addDot(player, `p${player}-axis-${key}`)
             this.checkValidity(player, `p${player}-axis-${key}`)
             return;
@@ -56,6 +77,7 @@
   
       checkValidity(player, id) {
         const input = this.$game.user.leftUser.input.registerInput()
+        console.log(input.valid)
         if(input.valid) {
           this.addFull(player,id)
         } else {
@@ -63,23 +85,64 @@
           this.addDot(player,id)
         }
         this.checkCombo(input.combo)
+        // Shitty validation, refacto sa mère
+        
+        /*if(this.currentGame === 'theBeat') 
+        else if(this.currentGame === 'theDrop') {
+          console.log(this.dropCombo)
+          this.dropCombo = 1;
+          if(this.dropCombo === 1 ) {
+            $nuxt.$emit('win', 'theDrop')
+            this.bounce()
+            //this.theDropDeleteInterval()
+          }
+        }*/
         },
       checkCombo(combo) {
-        if(combo === 2) {
+        if(combo === 5) {
           $nuxt.$emit('win', 'theBeat')
           this.bounce()
           this.theBeatDeleteInterval()
         } else return
       },
 
-      theBeatCreateInterval() {
-        this.interval = setInterval(this.createWave, this.timing  * 1000)
+      setupMetronome() {
+        this.timing = 60 / this.$game.user.leftUser.input.beat.bpm
+
+        const click = document.createElement('span')
+        click.classList.add('click')
+
+        const metronome = document.querySelectorAll(`.metronome`)[1]
+
+        metronome.appendChild(click)
+
+        console.log(this.timing * 1000)
+        gsap.to(click, {
+          background: '#FF326F',
+          x: '430px',
+          yoyo: true,
+          repeat: -1,
+          ease: 'linear',
+          duration: this.timing
+        })
+      },
+
+
+     /* theBeatCreateInterval() {
+        this.beatInterval = setInterval(this.createWaveTheBeat, this.timing  * 1000)
+      },
+      theDropCreateInterval() {
+        this.dropInterval = setTimeout(this.createWaveTheDrop, this.timing  * 1000)
       },
       theBeatDeleteInterval() {
-        clearInterval(this.interval)
+        clearInterval(this.beatInterval)
       },
+      theDropDeleteInterval() {
+        clearInterval(this.dropInterval)
+      }, */
       addDot(player, id) {
         const button = document.getElementById(id)
+        console.log(player, id)
         const rect = button.getBoundingClientRect()
         const posX = rect.left + (rect.width / 4)
         const posY = rect.top + (rect.height / 4)
@@ -97,10 +160,11 @@
           dot.id ='player2-dot'
           document.getElementById('controller').appendChild(dot)
         }
-        setTimeout(() => {
+        /*setTimeout(() => {
           dot.remove()
-        }, 300)
+        }, 300)*/
       },
+      
       addFull(player, id) {
         const button = document.getElementById(id)
         button.classList.add('active')
@@ -125,7 +189,9 @@
           p2.classList.remove('bouncing')
         }, 2100)
       },
-      createWave() {
+      /*
+      createWaveTheBeat() {
+        console.log(this.timing)
         this.p1AxisA = document.getElementById('p1-axis-a')
         this.p1Rect = this.p1AxisA.getBoundingClientRect()
         this.p2AxisA = document.getElementById('p2-axis-a')
@@ -144,10 +210,7 @@
           wave.classList.add('p2-wave')
         }
         wave.classList.add('wave')
-  
-  
-        this.timing = 60 / this.$game.user.leftUser.input.beat.bpm
-  
+    
         wave.style.setProperty('--posX',`${posX}px`);
         wave.style.setProperty('--posY', `${posY}px`);
         wave.style.setProperty('--timing', `${this.timing}s`);
@@ -158,7 +221,50 @@
         setTimeout(() => {
           wave.remove()
         }, this.timing * 3000)
-      }
+        
+      },
+      createWaveTheDrop() {
+        this.timing = 60 / this.$game.user.leftUser.input.beat.bpm
+        // console.log(60 / this.$game.user.leftUser.input.beat.bpm)
+
+        // console.log('fjdsjfjksdh')
+        this.p1bumper = document.getElementById('p1-axis-bumper')
+        this.p2bumper = document.getElementById('p2-axis-bumper')
+        this.p1BumpRect = this.p1bumper.getBoundingClientRect()
+        this.p2BumpRect = this.p2bumper.getBoundingClientRect()
+
+        const wave1 = document.createElement('span')
+        const wave2 = document.createElement('span')
+        const bump1posX = this.p1BumpRect.left + (this.p1BumpRect.width / 3.5)
+        const bump1posY = this.p1BumpRect.top + (this.p1BumpRect.height / 3.5)
+        const bump2posX = this.p2BumpRect.left + (this.p2BumpRect.width / 3.5)
+        const bump2posY = this.p2BumpRect.top + (this.p2BumpRect.height / 3.5)
+        wave1.classList.add('wave')
+        wave2.classList.add('wave')
+        wave2.classList.add('p2-wave')
+
+
+        wave1.style.setProperty('--posX',`${bump1posX}px`);
+        wave1.style.setProperty('--posY', `${bump1posY}px`);
+        wave1.style.setProperty('--timing', `${this.timing}s`);
+
+        wave2.style.setProperty('--posX',`${bump2posX}px`);
+        wave2.style.setProperty('--posY', `${bump2posY}px`);
+        wave2.style.setProperty('--timing', `${this.timing}s`);
+        //if(player === '1') {
+        document.getElementById('controller').appendChild(wave1)
+        setTimeout(() => {
+          document.getElementById('controller').appendChild(wave2)
+        }, this.timing * 500)
+
+        setTimeout(() => {
+          this.createWaveTheDrop()
+        }, this.timing * 1000)
+        setTimeout(() => {
+          wave1.remove()
+          wave2.remove()
+        }, this.timing * 3000)
+      }*/
     }
   }
   </script>
@@ -195,23 +301,59 @@
     display: flex;
     position: absolute;
     border-radius: 25px;
-    background: #EC5E40;
+    background: #ABEB36;
     width: 20px;
     height: 20px;
   }
   .player2-dot {
-    background: #FAC96F;
+    background: #FF326F;
   }
   
   #p1 .active {
-    fill: #EC5E40;
+    fill: #ABEB36;
   }
   #p2 .active {
-    fill: #FAC96F;
+    fill: #FF326F;
   }
   .shake {
     animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
     backface-visibility: hidden;
+  }
+
+  .metronome {
+    position: relative;
+    top: 90%;
+    left: 50%;
+    transform: translate3d(-50%, -90%, 0);
+    width: 500px;
+    border-radius: 40px;
+    border: 5px solid lightgray;
+    height: 60px;
+  }
+
+  .left-zone, .right-zone {
+    position: absolute;
+    left: 0%;
+    width: 100px;
+    border-radius: 40px;
+    border: 5px dashed #ABEB36  ;
+    height: 50px;
+  }
+  .right-zone {
+    left: auto;
+    right: 0%;
+    border: 5px dashed #FF326F ;
+  }
+  .click {
+    display: block;
+    position: relative;
+    width: 60px;
+    height: 60px;
+    background:#ABEB36;
+    border-radius: 100%;
+    transform-origin: center;
+    opacity: 1;
+    z-index: 1000;
   }
   
   .wave{
@@ -219,7 +361,7 @@
     position: absolute;
     width: 100px;
     height: 100px;
-    border: 5px solid #EC5E40;
+    border: 10px solid #ABEB36;
     border-radius: 100%;
     left: calc(var(--posX) - 44px);
     top: calc(var(--posY) - 44px);
@@ -229,7 +371,7 @@
     animation: wave var(--timing) var(--timing) linear forwards;
   }
   .p2-wave {
-    border: 5px solid #FAC96F;
+    border: 10px solid #FF326F;
   }
   .bouncing{
     animation: bouncing 1s 2 cubic-bezier(.36,.07,.19,.97) both;
@@ -285,6 +427,27 @@
     }
     99% { 
       transform: scale(0.40);
+      opacity: 1;
+    }
+    100% { 
+      opacity: 0;
+    }
+  }
+
+  @keyframes wave-bumper {
+    0% {
+      transform: scale(1.2);
+      opacity: 0;
+    }
+    49% {
+      opacity: 0;
+    }
+    50% {
+      transform: scale(1.2);
+      opacity: 1;
+    }
+    99% { 
+      transform: scale(0.60);
       opacity: 1;
     }
     100% { 

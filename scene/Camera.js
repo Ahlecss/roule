@@ -1,5 +1,5 @@
 import { PerspectiveCamera } from "three";
-import gsap from 'gsap'
+import gsap, {Power3} from 'gsap'
 
 
 export class Camera {
@@ -21,10 +21,28 @@ export class Camera {
         this.camera.aspect = window.innerWidth / window.innerHeight;
         this.camera.updateProjectionMatrix();
     }
-    cameraJump() {
+    cameraDrop() {
+        this.tlCam = gsap.timeline({delay: 2})
+        this.tlCam.to(this.camera.position, {
+            y: 0.6,
+            duration: 1,
+        })
+        this.tlCam.to(this.camera.position, {
+            y: 0.2,
+            duration: 1,
+        })
+        this.tlCam.to(this.camera.position, {
+            z: 2,
+            duration: 1,
+            delay: 1.5
+        }, '-=1')
+    }
+    endCameraDrop() {
         gsap.to(this.camera.position, {
-            z: 5,
-            duration: 2
+            z: -0.2,
+            duration: 1,
+            delay: 1.5,
+            ease: Power3.easeOut
         })
     }
 

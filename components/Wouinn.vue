@@ -1,5 +1,5 @@
 <template>
-  <div class="wouin">
+  <div class="wouin" ref="woinDiv">
     <div id="wouin-div">
       <div id="div-l" ref="left"></div>
       <img id="cursor-mid" ref="cursorMid" src="../assets/img/Cursor-m.svg" />
@@ -15,28 +15,39 @@ export default {
   name: 'Wouinn',
   data() {
     return {
+      show: false,
       wouinFactor: 0.5,
       timeoutRef: false,
       isWinning: false
     }
   },
   mounted() {
+    this.woinDiv = this.$refs.woinDiv
     this.left = this.$refs.left
     this.right = this.$refs.right
     this.cursorMid = this.$refs.cursorMid
     this.cursorMov = this.$refs.cursorMov
-    $nuxt.$on('player1Joystick', (x) => {
-      this.left.style.opacity = 0.8 + 0.2 * x
-      this.wouinFactor += x * 0.003
-      this.updateWouinBar()
-    })
-    $nuxt.$on('player2Joystick', (x) => {
-      this.right.style.opacity = 0.8 + 0.2 * -x
-      this.wouinFactor += x * 0.003
-      this.updateWouinBar()
+
+    $nuxt.$on('startTheWouin', () => {
+      this.initWouin()
     })
   },
   methods: {
+    initWouin() {
+      this.woinDiv.style.display ="flex"
+
+      $nuxt.$on('player1Joystick', (x) => {
+        this.left.style.opacity = 0.8 + 0.2 * x
+        this.wouinFactor += x * 0.003
+        this.updateWouinBar()
+      })
+
+      $nuxt.$on('player2Joystick', (x) => {
+        this.right.style.opacity = 0.8 + 0.2 * -x
+        this.wouinFactor += x * 0.003
+        this.updateWouinBar()
+      })
+    },
     updateWouinBar() {
       this.date = new Date()
       let t = this.date.getTime() * 0.002
@@ -60,6 +71,7 @@ export default {
       this.checkMiddle()
     },
     checkMiddle() {
+      console.log('test')
       if (this.timeoutRef) {
         if (this.wouinFactor * 100 <= 40 || this.wouinFactor * 100 >= 60) {
           this.isWinning = false
@@ -72,12 +84,18 @@ export default {
         this.timeoutRef = setTimeout(() => {
           if(this.isWinning) {
             $nuxt.$emit('win', "theWouin")
+            this.show = false
+            clearTimeout(this.timeoutRef);
+            this.destroy()
           } else {
             clearTimeout(this.timeoutRef);
             this.timeoutRef = false
           }
         }, 1000);
       }
+    },
+    destroy() {
+      this.$refs.wouin.parentNode.removeChild(this.$refs.wouin)
     }
   }
 }
@@ -86,13 +104,14 @@ export default {
 <style>
 .wouin {
   position: absolute;
+  top: 0;
   width: 100%;
   height: 100vh;
   z-index: 2;
   margin: auto;
   justify-content: center;
   align-items: center;
-  display: flex;
+  display: none;
 }
 
 #wouin-div {
@@ -110,7 +129,7 @@ export default {
 #wouin-div #div-l {
   height: 100%;
   width: 50%;
-  background: #EC5E40;
+  background: #ABEB36;
   border-radius: 50px 0 0 50px;
   padding: 0 5px;
 }
@@ -118,7 +137,7 @@ export default {
 #wouin-div #div-r {
   height: 100%;
   width: 50%;
-  background: #FAC96F;
+  background: #FF326F;
   border-radius: 0 50px 50px 0;
   padding: 0 5px;
 }

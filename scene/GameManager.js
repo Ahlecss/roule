@@ -10,7 +10,7 @@ export class GameManager {
 
         requestAnimationFrame(() => {
             this.init();
-        })
+        }, 1000)
     }
 
     init() {
@@ -40,14 +40,21 @@ export class GameManager {
     }
 
     theDrop() {
-        $nuxt.$emit('changeCurrentTitle', 'The Jump')
+        $nuxt.$emit('changeCurrentTitle', 'The Drop')
 
-        console.log('the jump')
-        setTimeout(() => {
-            this.setSpeed(0.2)
-        }, 1400)
-        this.world.board.skateJump()
-        this.camera.cameraJump()
+        // Start game
+        $nuxt.$emit('startTheDrop')
+
+        $nuxt.$on('win', (game) => {
+            if (game !== 'theDrop') return
+            console.log('the drop')
+            this.wonGame(game)
+            this.camera.endCameraDrop()
+            this.world.board.endSkateDrop()
+        })
+
+        this.world.board.skateDrop()
+        this.camera.cameraDrop()
         // this.skateJumping()
 
         // faire un flip de camera
@@ -64,9 +71,10 @@ export class GameManager {
     }
 
     theWouin() {
+        console.log('la')
         $nuxt.$emit('changeCurrentTitle', 'The Wouiiiinnn')
 
-        $nuxt.$emit('startTheWouin')
+        $nuxt.$emit('startTpheWouin')
 
         $nuxt.$on('win', (game) => {
             if (game !== 'theWouin') return
